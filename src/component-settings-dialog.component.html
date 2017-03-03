@@ -1,0 +1,23 @@
+<!--<h1 md-dialog-title> {{ component.getDirective() }} </h1>-->
+<md-dialog-content>
+  <form #settingsForm [formGroup]="formGroup" layout="column">
+    <div layout-padding layout="row">
+
+      <div flex="50" layout="column">
+        <!--<div layout="row" *ngFor="let prop of component.getInputs()">
+          <boolean-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="templateInputsData[prop].type === 'boolean'"></boolean-metadata>
+          <text-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="templateInputsData[prop].type === 'string' || templateInputsData[prop].type === 'number'"></text-metadata>
+          <combo-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="templateInputsData[prop].type === 'combo'"></combo-metadata>
+        </div>-->
+      </div>
+      <div flex="50" layout="column">
+        2
+      </div>
+    </div>
+  </form>
+</md-dialog-content>
+
+<md-dialog-actions>
+  <button md-raised-button (click)="save()">Save</button>
+  <button md-raised-button (click)="cancel()">Cancel</button>
+</md-dialog-actions>

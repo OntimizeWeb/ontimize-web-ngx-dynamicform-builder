@@ -1,0 +1,12 @@
+<div [class]="element">
+    <div class="container" [class.closed]="closed" [class.flat]="flat" [draggable]="draggable" [class.draggable]="draggable">
+        <div class="content">
+            <ng-content select=".contained"></ng-content>
+        </div>
+    </div>
+    <div class="framer">
+        <div class="content">
+            <ng-content select=".framed"></ng-content>
+        </div>
+    </div>
+</div>

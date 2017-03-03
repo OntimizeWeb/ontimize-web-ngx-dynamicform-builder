@@ -1,0 +1,27 @@
+:host {
+    display: block;
+    columns: 3 24em;
+    .grid-item {
+        display: inline-block;
+        flex: 1 1 auto;
+        width: 100%;
+    }
+}
+
+:host.column {
+    display: flex;
+    flex-direction: column;
+}
+
+:host.column-reverse {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+:host.row {
+    display: flex;
+    flex-direction: row;
+    .grid-item {
+        width: initial;
+    }
+}

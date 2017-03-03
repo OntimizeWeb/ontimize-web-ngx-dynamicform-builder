@@ -1,0 +1,18 @@
+md-input-container {
+  &.ng-invalid.ng-touched .md-input-wrapper {
+    .md-hint,
+    .md-input-placeholder.md-focused {
+      color: #f44336;
+    }
+    .md-input-underline {
+      border-top-color: #f44336;
+      .md-input-ripple {
+       background-color: #f44336;
+      }
+    }
+  }
+}
+
+md-select {
+  margin: 16px 0;
+}

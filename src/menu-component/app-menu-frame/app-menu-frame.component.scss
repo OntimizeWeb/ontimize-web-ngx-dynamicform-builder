@@ -1,0 +1,277 @@
+// @import '../../../../app.component.scss';
+:host {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    // @include fullsize;
+}
+
+:host>div>.container {
+    position: relative;
+    flex: 0 0 auto;
+    z-index: 2;
+}
+
+:host>div>.container.flat {
+    box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset !important;
+}
+
+:host>div>.framer {
+    position: relative;
+    flex: 1 1 auto;
+    z-index: 1;
+}
+
+:host>div>.framer>.content {
+    position: absolute;
+    // @include fullsize;
+}
+
+:host>div>.container {
+    max-width: 100%;
+    max-height: 200%;
+}
+
+:host>div>.container.closed {
+    min-width: 0;
+    min-height: 0;
+}
+
+:host>div>.container,
+:host>div>.framer {
+    overflow: auto;
+    // @include animated;
+    box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
+}
+
+:host>div>.container.draggable {
+    transition: all 350ms ease-in-out, top 1ms, left 1ms;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: move;
+}
+:host>div>.container.draggable.fit-top {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+:host>div>.container.draggable.fit-right {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+:host>div>.container.draggable.fit-bottom {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+:host>div>.container.draggable.fit-left {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+
+/**
+ * popup
+ */
+
+:host>.popup {
+    // @include fullsize;
+}
+
+:host>.popup>.container {
+    position: absolute;
+    z-index: 3;
+    box-shadow: 0px 3px 8px -3px black, 0em 0em 0em 0em black inset !important;
+}
+:host>.popup>.container.draggable {
+	user-select: none;
+}
+
+:host>.popup>.container.closed {
+    max-width: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+:host>.popup>.framer {
+    min-width: 100%;
+    min-height: 100%;
+	padding: 0 !important;
+}
+
+
+/**
+ * sidebar
+ */
+
+:host>.sidebar {
+    display: flex;
+    flex-direction: row;
+    // @include fullsize;
+}
+
+:host>.sidebar>.container {
+    box-shadow: 0.16em 0.16em 0.54em -0.16em black, 0em 0em 0em 0em black inset !important;
+}
+
+:host>.sidebar>.container.closed {
+    max-width: 12px;
+    overflow: hidden;
+    box-shadow: 0em 0em 0em 0em black, -0.5em 0em 1.5em -0.5em black inset !important;
+}
+:host>.sidebar,
+:host>.sidebar>.container.closed:hover {
+    max-width: 100%;
+    overflow: auto;
+}
+
+
+/**
+ * toolbar
+ */
+
+:host>.toolbar {
+    display: flex;
+    flex-direction: column;
+    // @include fullsize;
+}
+
+:host>.toolbar>.container {
+    box-shadow: 0px 0.16em 0.54em -0.16em black, 0em 0em 0em 0em black inset !important;
+}
+
+:host>.toolbar>.container.closed {
+    max-height: 6px;
+    overflow: hidden;
+    box-shadow: 0em 0em 0em 0em black, 0px -0.16em 0.54em -0.16em black inset !important;
+}
+:host>.toolbar,
+:host>.toolbar>.container.closed:hover {
+    max-height: 100%;
+    overflow: auto;
+}
+
+
+/**
+ * right sidebar
+ */
+
+:host>.sidebar.right {
+    flex-direction: row-reverse;
+}
+
+:host>.sidebar.right>.container {
+    box-shadow: -0.16em 0.16em 0.54em -0.16em black, 0em 0em 0em 0em black inset !important;
+}
+
+:host>.sidebar.right>.container.closed {
+    box-shadow: 0em 0em 0em 0em black, 0.5em 0em 1.5em -0.5em black inset !important;
+}
+
+
+/**
+ * footer
+ */
+
+:host>.footer {
+    display: flex;
+    flex-direction: column-reverse;
+    // @include fullsize;
+}
+
+:host>.footer>.container {
+    box-shadow: 0px -0.16em 0.54em -0.16em black, 0em 0em 0em 0em black inset !important;
+    min-height: min-content;
+}
+
+:host>.footer>.framer {
+    min-height: min-content;
+}
+
+:host>.footer>.container.closed {
+    max-height: 0;
+    overflow: hidden;
+    box-shadow: 0em 0em 0em 0em black, -0.5em 0em 1.5em -0.5em black inset !important;
+}
+
+
+/**
+ * fab
+ */
+
+:host>.fab {
+    // @include fullsize;
+}
+
+:host>.fab>.container {
+    position: absolute;
+    top: initial !important;
+    bottom: 6px;
+    z-index: 3;
+    background-color: transparent;
+    box-shadow: 0px 0.16em 8px -0.16em black, 0em 0em 0em 0em black inset !important;
+}
+
+:host>.fab>.framer {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+:host>.fab>.container.closed {
+    max-width: 0;
+    max-height: 0;
+    overflow: hidden;
+}
+
+// :host>.fab /deep/ .grid-item:nth-child(1) .fab {
+//     height: 54px;
+//     width: 54px;
+//     font-size: 1rem;
+// }
+
+
+/**
+ * fullscreen
+ */
+
+:host>.fullscreen {
+    // @include fullsize;
+}
+
+:host>.fullscreen>.container {
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0.16em 0.54em -0.16em black, 0em 0em 0em 0em black inset !important;
+    white-space: nowrap;
+    text-align: center;
+}
+
+:host>.fullscreen>.container:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    /* adjust for white space between pseudo element and next sibling */
+    margin-right: -.25em;
+    /* stretch line height */
+    height: 100%;
+}
+
+:host>.fullscreen>.container>.content {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
+}
+
+:host>.fullscreen>.container.closed {
+    /*  max-width: 0;   */
+    max-height: 0;
+    overflow: hidden;
+}
+
+:host>.fullscreen>.framer {
+    min-width: 100%;
+    min-height: 100%;
+}

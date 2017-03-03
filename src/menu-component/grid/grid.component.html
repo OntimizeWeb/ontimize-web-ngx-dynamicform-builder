@@ -1,0 +1,5 @@
+<template ngFor let-contentTpl [ngForOf]="templates">
+    <div class="grid-item" *ngFor="let item of gridItems">
+        <template ngFor [ngForOf]="[item]" [ngForTemplate]="contentTpl"></template>
+    </div>
+</template>

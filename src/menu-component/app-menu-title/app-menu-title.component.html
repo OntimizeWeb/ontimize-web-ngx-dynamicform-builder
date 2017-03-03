@@ -1,0 +1,8 @@
+<div [ngClass]="['title', style]" title="{{ label }}">
+    <div class="title-label" layout="center">
+        <span class="title-label-text" flex>{{ label }}</span>
+    </div>
+    <button md-button>
+        <md-icon class="material-icons title-icon" [class.closed]="closed" border="0">expand_more</md-icon>
+    </button>
+</div>

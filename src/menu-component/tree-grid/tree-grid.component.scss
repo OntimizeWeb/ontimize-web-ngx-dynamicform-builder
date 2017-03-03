@@ -1,0 +1,43 @@
+// @import '../../../../app.component.scss';
+:host {
+    .grid-item {
+        display: inline-block;
+        flex: 1 1 auto;
+        width: 100%;
+    }
+}
+:host .grid-tree-child {
+    columns: 5 24em;
+    break-inside: avoid;
+}
+
+:host.column,
+:host.column .grid-tree-item {
+    display: flex;
+    flex-direction: column;
+    .grid-item {
+    }
+}
+
+:host.row,
+:host.row .grid-tree-item {
+    display: flex;
+    flex-direction: row;
+    .grid-item {
+        width: initial;
+    }
+}
+
+.grid-tree-child {
+    // @include animated;
+    background: rgba(0,0,0,0.1);
+    max-height: 480px;
+    overflow: auto;
+    box-shadow: 0.08em 0.16em 0.54em -0.16em black inset;
+}
+
+.grid-tree-child.closed {
+    max-height: 0;
+    overflow: hidden;
+    box-shadow: 0.3em 0.5em 1em -0.5em black inset;
+}

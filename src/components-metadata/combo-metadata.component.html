@@ -1,0 +1,18 @@
+<div flex layout="row" layout-align="space-between center"
+    layout-fill layout-padding [formGroup]="getFormGroup()">
+
+    <md-select flex="80" layout-fill
+        [placeholder]="data.label"
+        [ngModel]="getValue()"
+        (ngModelChange)="innerOnChange($event)"
+        [formControlName]="getPropertyName()">
+
+        <md-option *ngIf="!data.required">
+        </md-option>
+        <md-option *ngFor="let value of data.values" [value]="value">
+            {{ value }}
+        </md-option>
+    </md-select>
+
+    <md-icon flex="10" layout-fill *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons"> info </md-icon>
+</div>

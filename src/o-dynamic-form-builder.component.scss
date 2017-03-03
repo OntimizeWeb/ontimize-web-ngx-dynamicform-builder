@@ -1,0 +1,67 @@
+.container {
+  height: 100%;
+
+  .dropzone-container {
+    background: rgba(255,0,0,.05);
+    height: 90%;
+  }
+
+  .json-tree-container {
+    background: rgba(0,0,255,.05);
+    height: 90%;
+  }
+}
+
+
+//$color-primary: #E4333C; // From Imatia Web
+$color-primary: rgb(218,70,68); // From Imatia Emails
+//$color-primary: #009688;
+//$color-primary-dark: #B3282F;
+$color-primary-dark: $color-primary - #111;
+$color-accent: #111111;
+$text-color-primary: #111111;
+$text-color-accent: #eeeeee;
+$window-background: #cccccc;
+
+@mixin fullsize {
+    width: 100%;
+    height: 100%;
+}
+
+@mixin animated {
+    transition: 350ms;
+    transition-timing-function: ease-in-out;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba($color-primary + #c93, 0.2);
+}
+
+::-webkit-scrollbar-track {
+    background: rgba($text-color-primary, 0.3);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgba($text-color-primary, 0.3);
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+    border: none;
+}
+
+::-webkit-scrollbar-track:hover,
+::-webkit-scrollbar-track:active,
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
