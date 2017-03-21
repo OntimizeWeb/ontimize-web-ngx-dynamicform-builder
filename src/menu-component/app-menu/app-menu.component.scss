@@ -1,17 +1,17 @@
-// @import '../../../../app.component';
+@import '../../o-dynamic-form-builder.component.scss';
 
 
-// sg-frame /deep/ .container,
+// app-menu-frame /deep/ .container,
 // md-toolbar {
 //     background-color: $color-primary;
 //     color: $text-color-accent;
 // }
 
-// :host[id="HOME"] sg-frame /deep/ .container {
+// :host[id="HOME"] app-menu-frame /deep/ .container {
 //     background-color: $color-primary;
 //     box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
 // }
 
-// :host[id="SG_MANAGER"] sg-frame /deep/ .container {
+// :host[id="SG_MANAGER"] app-menu-frame /deep/ .container {
 //     background-color: $color-primary - #312;
 // }

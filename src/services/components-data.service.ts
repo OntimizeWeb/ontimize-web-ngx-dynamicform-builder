@@ -3,8 +3,9 @@ import {
 } from '@angular/core';
 
 import {
-  Http,
-  Headers
+  Http
+  // ,
+  // Headers
 } from '@angular/http';
 
 import 'rxjs/add/operator/map';
@@ -29,6 +30,8 @@ import {
 import {
   OComponentData
 } from '../ontimize-components-data/o-component-data.class';
+
+import { COMPONENTS_INPUTS_DATA } from '../assets/components-inputs.data';
 
 @Injectable()
 export class ComponentsDataService {
@@ -64,44 +67,32 @@ export class ComponentsDataService {
       res = new OComponentData();
     }
     return res;
-    // let component: OComponentData = this.getComponentDataInstance(directive);
-    // return component;
   }
 
-  // getComponentDataInstance(componentName: string) {
-  //   let existingInstance: OComponentData = this.instances[componentName];
-  //   if (!existingInstance) {
-  //     if (this.constructors.hasOwnProperty(componentName)) {
-  //       existingInstance = new this.constructors[componentName]();
-  //     } else {
-  //       existingInstance = new OComponentData();
-  //     }
-  //     this.instances[componentName] = existingInstance;
-  //   }
-  //   return existingInstance;
-  // }
-
   readComponentsInputsData(): any {
-    var headers: Headers = new Headers();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    return this.http
-      .get('assets/components-inputs-data.json', { headers: headers });
+    // var headers: Headers = new Headers();
+    // headers.append('Access-Control-Allow-Origin', '*');
+    // headers.append('Content-Type', 'application/json;charset=UTF-8');
+    // return this.http
+    //   .get('src/assets/components-inputs-data.json', { headers: headers })
+    //   .map((res: any) => res.json());
+    return COMPONENTS_INPUTS_DATA;
   }
 
   getComponentsInputsData() {
     var self = this;
     var p = new Promise<string>((resolve, reject) => {
       if (self.templateInputsData === null) {
-        self.readComponentsInputsData()
-          .subscribe(
-          menuData => {
-            self.setComponentInputsData(menuData.json());
-            resolve(self.templateInputsData);
-          },
-          err => {
-            reject(err);
-          });
+        // self.readComponentsInputsData()
+        //   .subscribe(
+        //   menuData => {
+        let menuData = self.readComponentsInputsData();
+        self.setComponentInputsData(menuData);
+        resolve(self.templateInputsData);
+        // },
+        // err => {
+        //   reject(err);
+        // });
       } else {
         resolve(self.templateInputsData);
       }

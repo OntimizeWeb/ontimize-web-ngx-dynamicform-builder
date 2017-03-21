@@ -46,10 +46,8 @@ export class TreeGridComponent {
   needsDT: boolean = false;
   needsDD: boolean = false;
 
-  constructor() {
-    console.log('treeGRID constructor');
-    //     console.log(this);
-  }
+  // constructor() {
+  // }
 
   ngAfterContentInit() {
     this.update();

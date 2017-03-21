@@ -2,6 +2,12 @@
   "groups": [
     {
       "icon": "",
+      "id": "LAYOUT",
+      "label": "Layout",
+      "parent": ""
+    },
+    {
+      "icon": "",
       "id": "INPUT_FIELDS",
       "label": "Input Fields",
       "parent": ""
@@ -22,12 +28,6 @@
       "icon": "",
       "id": "MEDIA",
       "label": "Media",
-      "parent": ""
-    },
-    {
-      "icon": "",
-      "id": "LAYOUT",
-      "label": "Layout",
       "parent": ""
     },
     {

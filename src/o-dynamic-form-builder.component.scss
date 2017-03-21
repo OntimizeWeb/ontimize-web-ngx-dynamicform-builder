@@ -13,10 +13,10 @@
 }
 
 
-//$color-primary: #E4333C; // From Imatia Web
+// $color-primary: #E4333C; // From Imatia Web
 $color-primary: rgb(218,70,68); // From Imatia Emails
-//$color-primary: #009688;
-//$color-primary-dark: #B3282F;
+// $color-primary: #009688;
+// $color-primary-dark: #B3282F;
 $color-primary-dark: $color-primary - #111;
 $color-accent: #111111;
 $text-color-primary: #111111;
@@ -64,4 +64,14 @@ $window-background: #cccccc;
 ::-webkit-scrollbar-track:active,
 ::-webkit-scrollbar-corner {
     background: transparent;
+}
+
+o-dynamic-form-builder {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+
+    padding: 0px;
 }

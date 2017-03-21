@@ -141,12 +141,15 @@ export class AppMenuComponent {
 
     // 	//this.appMenuService.loadMenu(this.menuName);
     // 	this.controller.load(this.id);
-    this.appMenuService.getMenu()
-      .subscribe(
-      menuData => this.setMenu(menuData.json()),
-      err => {
-        console.log(err);
-      });
+
+    this.setMenu(this.appMenuService.getMenu());
+
+    // this.appMenuService.getMenu()
+    //   .subscribe(
+    //   menuData => this.setMenu(menuData),
+    //   err => {
+    //     console.log(err);
+    //   });
     this.uiElement = 'sidebar';
   }
 }

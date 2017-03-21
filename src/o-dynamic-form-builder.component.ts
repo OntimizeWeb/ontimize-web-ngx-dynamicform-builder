@@ -1,5 +1,13 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  OnInit,
+  ViewEncapsulation,
+  EventEmitter
+} from '@angular/core';
 import { MdDialog } from '@angular/material';
+
+import { OFormComponent, Mode } from 'ontimize-web-ng2';
 
 import { ArrayList } from './utils/index';
 import { ComponentsDataService } from './services/index';
@@ -13,36 +21,87 @@ import { ComponentSettingsDialogComponent } from './component-settings-dialog.co
   styleUrls: ['o-dynamic-form-builder.component.css'],
   inputs: [
     'formDefinition: form-definition'
-  ]
+  ],
+  outputs: [
+    'onFormDefinitionUpdate'
+  ],
+  encapsulation: ViewEncapsulation.None
 })
-export class ODynamicFormBuilderComponent {
 
-  // formDefinition: DynamicFormDefinition = null;
+export class ODynamicFormBuilderComponent implements OnInit {
+  @ViewChild('oForm')
+  wrapperForm: OFormComponent;
+  // wrapperForm: DynamicFormBuilderFormComponent;
 
-
+  innerFormDefinition: Object = null;
   parsedDynamicFormJsonData: string;
 
-  dynamicFormJsonData: Object = {
-    'title': 'Simple Form',
-    'components': [
-
-    ]
-  };
-
   componentsArray: ArrayList<OComponentData> = new ArrayList<OComponentData>();
+
+  onFormDefinitionUpdate: EventEmitter<Object> = new EventEmitter<Object>();
 
   constructor(
     private dialog: MdDialog,
     private componentsDataService: ComponentsDataService
   ) {
+  }
 
+  ngOnInit() {
+    let setDefaultDef = !this.formDefinition;
+    if (setDefaultDef) {
+      this.innerFormDefinition = {
+        'title': '',
+        'components': []
+      };
+    }
+  }
+
+  onDynamicFormRendered() {
+    this.wrapperForm.setFormMode(Mode.INITIAL);
+  }
+
+  getComponentsFromJSON(componentsJSON, parent) {
+    for (var i = 0; i < componentsJSON.length; i++) {
+      let comp = Object.assign({}, componentsJSON[i]);
+      if (comp.hasOwnProperty('ontimize-directive')) {
+        let compData = this.componentsDataService.getOntimizeComponentData(comp['ontimize-directive']);
+
+        delete comp['ontimize-directive'];
+        compData.setConfiguredInputs(comp);
+
+        if (compData.isContainer() && comp.hasOwnProperty('children') && comp.children.lenght) {
+          this.getComponentsFromJSON(comp.children, compData.children);
+        }
+        parent.push(compData);
+      }
+    }
+  }
+
+  set formDefinition(val) {
+    if (typeof val === 'string') {
+      try {
+        let parsedJSON = JSON.parse(val);
+        if (parsedJSON.hasOwnProperty('components') && parsedJSON.components.length) {
+          this.getComponentsFromJSON(parsedJSON.components, this.componentsArray);
+        }
+        this.innerFormDefinition = parsedJSON;
+      } catch (e) {
+        console.error('set formDefinition error');
+      }
+    }
+  }
+
+  get formDefinition() {
+    return this.innerFormDefinition;
   }
 
   onUpdateComponents() {
     var componentsParsedArray = [];
     this.getComponentsJson(this.componentsArray, componentsParsedArray);
-    this.dynamicFormJsonData['components'] = componentsParsedArray;
+    this.innerFormDefinition['components'] = componentsParsedArray;
     this.parsedDynamicFormJsonData = JSON.stringify(componentsParsedArray, null, 4);
+
+    this.onFormDefinitionUpdate.emit(this.innerFormDefinition);
   }
 
   getComponentsJson(components: ArrayList<OComponentData>, parent: Array<any>) {

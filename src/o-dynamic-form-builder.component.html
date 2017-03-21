@@ -1,25 +1,19 @@
-<app-menu class="framed" id="FORM_BUILDER_MANAGER" ui-element="sidebar">
-  <div layout="row" layout-align="center center" class="container">
+<app-menu class="framed" id="FORM_BUILDER_MANAGER" ui-element="sidebar" layout-fill>
+  <div layout="row" layout-align="center center" class="container" layout-fill>
 
     <div layout="row" layout-fill layout-align="center center" flex="70">
-      <!--<div layout="row" layout-align="center" flex="80" class="md-whiteframe-z1 dropzone-container">
-      <drop-zone (components-change)="onUpdateComponents($event)" id="components-dropzone" layout-align="center" layout-padding
-        style="width:100%;"></drop-zone>
-    </div>-->
-      <div layout="row" layout-align="center" flex="80" class="md-whiteframe-z1 dropzone-container">
-        <o-form title="OForm component" show-header="false" flex="100" query-on-init="false">
-          <div layout="column">
-            <div style="text-align:center;">
-              <h1>DynamicForm with System JS.</h1>
-            </div>
 
-            <o-dynamic-form
-              query-on-init="false"
-              [form-definition]="dynamicFormJsonData"
+      <div layout="row" layout-align="center" flex="80" class="md-whiteframe-z1 dropzone-container">
+        <o-form #oForm show-header="false" flex="100" query-on-init="false">
+          <div layout="column">
+
+            <o-dynamic-form query-on-init="false"
+              [form-definition]="formDefinition"
               [edit-mode]="editToggle.checked"
               (onAddComponent)="onAddComponent($event)"
               (onEditComponentSettings)="onEditComponentSettings($event)"
-              (onDeleteComponent)="onDeleteComponent($event)">
+              (onDeleteComponent)="onDeleteComponent($event)"
+              (render)="onDynamicFormRendered()">
             </o-dynamic-form>
 
           </div>

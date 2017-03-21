@@ -1,10 +1,10 @@
-// @import '../../../../app.component.scss';
+@import '../../o-dynamic-form-builder.component.scss';
 :host {
     display: block;
     position: absolute;
     top: 0;
     left: 0;
-    // @include fullsize;
+    @include fullsize;
 }
 
 :host>div>.container {
@@ -25,7 +25,7 @@
 
 :host>div>.framer>.content {
     position: absolute;
-    // @include fullsize;
+    @include fullsize;
 }
 
 :host>div>.container {
@@ -41,7 +41,7 @@
 :host>div>.container,
 :host>div>.framer {
     overflow: auto;
-    // @include animated;
+    @include animated;
     box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
 }
 
@@ -74,7 +74,7 @@
  */
 
 :host>.popup {
-    // @include fullsize;
+    @include fullsize;
 }
 
 :host>.popup>.container {
@@ -106,7 +106,7 @@
 :host>.sidebar {
     display: flex;
     flex-direction: row;
-    // @include fullsize;
+    @include fullsize;
 }
 
 :host>.sidebar>.container {
@@ -132,7 +132,7 @@
 :host>.toolbar {
     display: flex;
     flex-direction: column;
-    // @include fullsize;
+    @include fullsize;
 }
 
 :host>.toolbar>.container {
@@ -175,7 +175,7 @@
 :host>.footer {
     display: flex;
     flex-direction: column-reverse;
-    // @include fullsize;
+    @include fullsize;
 }
 
 :host>.footer>.container {
@@ -199,7 +199,7 @@
  */
 
 :host>.fab {
-    // @include fullsize;
+    @include fullsize;
 }
 
 :host>.fab>.container {
@@ -232,9 +232,8 @@
 /**
  * fullscreen
  */
-
 :host>.fullscreen {
-    // @include fullsize;
+    @include fullsize;
 }
 
 :host>.fullscreen>.container {

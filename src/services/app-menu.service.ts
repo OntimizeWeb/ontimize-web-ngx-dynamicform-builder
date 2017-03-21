@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
-  Http,
-  Headers
+  Http
+  // ,Headers
 } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
+
+import { MENU_JSON_DATA } from '../assets/menu.data';
 
 @Injectable()
 export class AppMenuService {
@@ -13,10 +15,12 @@ export class AppMenuService {
   }
 
   getMenu(): any {
-    var headers: Headers = new Headers();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    return this.http
-      .get('assets/menu.json', { headers: headers });
+    return MENU_JSON_DATA;
+    //   var headers: Headers = new Headers();
+    //   headers.append('Access-Control-Allow-Origin', '*');
+    //   headers.append('Content-Type', 'application/json;charset=UTF-8');
+    //   return this.http
+    //     .get('src/assets/menu.json', { headers: headers })
+    //     .map((res: any) => res.json());
   }
 }

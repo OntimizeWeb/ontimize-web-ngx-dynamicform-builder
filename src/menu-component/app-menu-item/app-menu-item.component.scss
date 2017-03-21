@@ -1,4 +1,5 @@
-// @import '../../../../app.component.scss';
+@import '../../o-dynamic-form-builder.component.scss';
+
 :host {
     display: block;
     position: relative;
@@ -76,7 +77,7 @@ button {
       height: 40px;
       width: 40px;
       font-size: 0.8rem;
-    //   background: $color-primary;
+      background: $color-primary;
       border-radius: 48px;
       margin: 4px auto;
       box-shadow: 0px 0.16em 8px -0.16em black, 0em 0em 0em 0em black inset !important;
@@ -104,7 +105,9 @@ button {
       .item-label {
         display: inline-block;
         margin: 0 8px;
-        .item-label-text {}
+        .item-label-text {
+
+        }
       }
     }
 

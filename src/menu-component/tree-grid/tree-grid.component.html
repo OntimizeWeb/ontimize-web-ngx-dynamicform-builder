@@ -1,4 +1,4 @@
-<div *ngIf="needsDT" class="grid-item" (click)="toggleState()">
+<div *ngIf="needsDT && needsDD" class="grid-item" (click)="toggleState()">
     <template ngFor [ngForOf]="head" [ngForTemplate]="treeGrid.header"></template>
 </div>
 <div *ngIf="needsDD" class="grid-tree-item"
