@@ -117,7 +117,9 @@
     "del": "^2.2.0",
     "event-stream": "^3.3.2",
     "express": "~4.13.4",
-    "extend": "^3.0.0"
+    "extend": "^3.0.0",
+    "ontimize-web-ng2" : "1.2.0",
+    "ontimize-web-ng2-dynamicform" : "0.0.2"
   },
   "engines": {
     "node": ">=0.8.0"

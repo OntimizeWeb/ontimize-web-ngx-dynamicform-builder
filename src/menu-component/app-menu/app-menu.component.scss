@@ -7,6 +7,17 @@
 //     color: $text-color-accent;
 // }
 
+app-menu-frame .container,
+md-toolbar {
+    background-color: $color-primary;
+    color: $text-color-accent;
+}
+
+:host app-menu-frame .container {
+    background-color: $color-primary;
+    box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
+}
+
 // :host[id="HOME"] app-menu-frame /deep/ .container {
 //     background-color: $color-primary;
 //     box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
