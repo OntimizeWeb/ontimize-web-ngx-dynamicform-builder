@@ -1,13 +1,10 @@
 <app-menu class="framed" id="FORM_BUILDER_MANAGER" ui-element="sidebar" layout-fill>
-  <div layout="row" layout-align="center center" class="container" layout-fill>
-
-    <div layout="row" layout-fill layout-align="center center" flex="85">
-
-      <div layout="row" layout-align="center" flex="80" class="md-whiteframe-z1 dropzone-container">
+  <div layout="row" layout-align="center center" class="dynamicform-container" layout-fill>
+      <div layout="row" layout-align="center" flex="90" class="md-whiteframe-z1 dropzone-container">
         <o-form #oForm show-header="false" flex="100" query-on-init="false">
           <div layout="column">
-
-            <o-dynamic-form query-on-init="false"
+            <o-dynamic-form
+              query-on-init="false"
               [form-definition]="formDefinition"
               edit-mode="true"
               (onAddComponent)="onAddComponent($event)"
@@ -15,24 +12,8 @@
               (onDeleteComponent)="onDeleteComponent($event)"
               (render)="onDynamicFormRendered()">
             </o-dynamic-form>
-
           </div>
         </o-form>
       </div>
-    </div>
-    <!--<div layout="row" layout-fill layout-align="center center" flex="30">
-      <div layout="column" layout-align="center center" flex="80" class="md-whiteframe-z1 json-tree-container">
-
-        <md-slide-toggle #editToggle checked=true>
-          edit-mode
-        </md-slide-toggle>
-
-        <div style="white-space: pre-wrap;">
-          {{ parsedDynamicFormJsonData }}
-        </div>
-      </div>
-
-    </div>-->
-
   </div>
 </app-menu>
