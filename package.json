@@ -118,8 +118,8 @@
     "event-stream": "^3.3.2",
     "express": "~4.13.4",
     "extend": "^3.0.0",
-    "ontimize-web-ng2" : "1.2.0",
-    "ontimize-web-ng2-dynamicform" : "0.0.2"
+    "ontimize-web-ng2": "1.2.1",
+    "ontimize-web-ng2-dynamicform": "0.0.31"
   },
   "engines": {
     "node": ">=0.8.0"
