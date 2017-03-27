@@ -1,12 +1,15 @@
-<app-menu class="framed" id="FORM_BUILDER_MANAGER" ui-element="sidebar" layout-fill>
+<app-menu id="FORM_BUILDER_MANAGER" class="framed" ui-element="sidebar" layout-fill
+  [drag-enabled]="editionMode">
   <div layout="row" layout-align="center center" class="dynamicform-container" layout-fill>
       <div layout="row" layout-align="center" flex="90" class="md-whiteframe-z1 dropzone-container">
-        <o-form #oForm show-header="false" flex="100" query-on-init="false">
+        <o-form #wrapperForm show-header="false" flex="100" query-on-init="false">
           <div layout="column">
             <o-dynamic-form
+              #dynamicForm
               query-on-init="false"
+              register-in-parent-form="false"
               [form-definition]="formDefinition"
-              edit-mode="true"
+              [edit-mode]="editionMode"
               (onAddComponent)="onAddComponent($event)"
               (onEditComponentSettings)="onEditComponentSettings($event)"
               (onDeleteComponent)="onDeleteComponent($event)"

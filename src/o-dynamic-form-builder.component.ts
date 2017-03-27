@@ -3,11 +3,17 @@ import {
   ViewChild,
   OnInit,
   ViewEncapsulation,
-  EventEmitter
+  EventEmitter,
+  Optional,
+  Inject,
+  forwardRef
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
-
-import { OFormComponent, Mode } from 'ontimize-web-ng2';
+import {
+  OFormComponent,
+  Mode
+} from 'ontimize-web-ng2';
+import { ODynamicFormComponent } from 'ontimize-web-ng2-dynamicform';
 
 import { ArrayList } from './utils/index';
 import { ComponentsDataService } from './services/index';
@@ -29,30 +35,36 @@ import { ComponentSettingsDialogComponent } from './component-settings-dialog.co
 })
 
 export class ODynamicFormBuilderComponent implements OnInit {
-  @ViewChild('oForm')
+
+  @ViewChild('wrapperForm')
   wrapperForm: OFormComponent;
-  // wrapperForm: DynamicFormBuilderFormComponent;
+
+  @ViewChild('dynamicForm')
+  dynamicForm: ODynamicFormComponent;
 
   innerFormDefinition: Object = null;
-  parsedDynamicFormJsonData: string;
 
   componentsArray: ArrayList<OComponentData> = new ArrayList<OComponentData>();
-
   onFormDefinitionUpdate: EventEmitter<Object> = new EventEmitter<Object>();
+  private edition: boolean = true;
 
   constructor(
-    private dialog: MdDialog,
-    private componentsDataService: ComponentsDataService
+    protected dialog: MdDialog,
+    protected componentsDataService: ComponentsDataService,
+    @Optional() @Inject(forwardRef(() => OFormComponent)) protected parentForm: OFormComponent
   ) {
+
   }
 
   ngOnInit() {
     let setDefaultDef = !this.formDefinition;
     if (setDefaultDef) {
       this.innerFormDefinition = {
-        'title': '',
         'components': []
       };
+    }
+    if (this.parentForm) {
+      this.editionMode = this.parentForm.isInInsertMode() || this.parentForm.isInUpdateMode();
     }
   }
 
@@ -77,41 +89,52 @@ export class ODynamicFormBuilderComponent implements OnInit {
     }
   }
 
-  set formDefinition(val) {
-    if (typeof val === 'string') {
+  set formDefinition(definition) {
+    let definitionJSON: any = definition;
+
+    if (typeof definition === 'string') {
       try {
-        let parsedJSON = JSON.parse(val);
-        if (parsedJSON.hasOwnProperty('components') && parsedJSON.components.length) {
-          this.getComponentsFromJSON(parsedJSON.components, this.componentsArray);
-        }
-        this.innerFormDefinition = parsedJSON;
+        definitionJSON = JSON.parse(definition);
       } catch (e) {
         console.error('set formDefinition error');
       }
     }
+    this.componentsArray = new ArrayList<OComponentData>();
+    if (definitionJSON && definitionJSON.hasOwnProperty('components') && definitionJSON.components.length) {
+      this.getComponentsFromJSON(definitionJSON.components, this.componentsArray);
+    }
+    this.innerFormDefinition = definitionJSON;
   }
 
   get formDefinition() {
     return this.innerFormDefinition;
   }
 
+  definitionToString() {
+    return JSON.stringify(this.formDefinition);
+  }
+
+  set editionMode(val: boolean) {
+    this.edition = val;
+  }
+
+  get editionMode() {
+    return this.edition;
+  }
+
   onUpdateComponents() {
     var componentsParsedArray = [];
     this.getComponentsJson(this.componentsArray, componentsParsedArray);
     this.innerFormDefinition['components'] = componentsParsedArray;
-    this.parsedDynamicFormJsonData = JSON.stringify(componentsParsedArray, null, 4);
-
     this.onFormDefinitionUpdate.emit(this.innerFormDefinition);
   }
 
   getComponentsJson(components: ArrayList<OComponentData>, parent: Array<any>) {
     for (var i = 0; i < components.length; i++) {
       let comp = components[i];
-
       let compInputs = comp.getConfiguredInputs();
       let compObj = Object.assign({}, compInputs);
       compObj['ontimize-directive'] = comp.getDirective();
-
       if (comp.isContainer()) {
         compObj['children'] = [];
         this.getComponentsJson(comp.getChildren(), compObj['children']);
