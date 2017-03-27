@@ -15,7 +15,8 @@ import { AppMenuService } from '../../services/app-menu.service';
     'onlyIcons: only-icons',
     'flat: ui-flat',
     'gridCols: grid-columns',
-    'treeGridCols: tree-grid-columns'
+    'treeGridCols: tree-grid-columns',
+    'dragEnabled : drag-enabled'
   ],
   templateUrl: '/menu-component/app-menu/app-menu.component.html',
   styleUrls: ['/menu-component/app-menu/app-menu.component.css']
@@ -25,6 +26,7 @@ export class AppMenuComponent {
   id: string;
   flat: boolean = false;
   treeList: TreeListDefault = new TreeListDefault();
+  dragEnabled: boolean = true;
 
   constructor(private appMenuService: AppMenuService) {
   }

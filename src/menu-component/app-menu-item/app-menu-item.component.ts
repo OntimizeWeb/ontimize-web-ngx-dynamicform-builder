@@ -19,7 +19,8 @@ export const DEFAULT_INPUTS_APP_MENU_ITEM = [
   'style: app-style',
   'indent: app-indent',
   'onlyIcons: only-icons',
-  'id : app-id'
+  'id : app-id',
+  'componentDragEnabled : drag-enabled'
 ];
 
 export const DEFAULT_OUTPUTS_APP_MENU_ITEM = [
@@ -45,6 +46,7 @@ export class AppMenuItemComponent implements AppMenuItem {
   type: string;
   style: string;
   id: string;
+  componentDragEnabled: boolean = true;
 
   @HostBinding('class.nolabels')
   onlyIcons: boolean;
