@@ -7,13 +7,13 @@
 //     color: $text-color-accent;
 // }
 
-app-menu-frame .container,
+app-menu-frame .menu-frame-container,
 md-toolbar {
     background-color: $color-primary;
     color: $text-color-accent;
 }
 
-:host app-menu-frame .container {
+:host app-menu-frame .menu-frame-container {
     background-color: $color-primary;
     box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
 }

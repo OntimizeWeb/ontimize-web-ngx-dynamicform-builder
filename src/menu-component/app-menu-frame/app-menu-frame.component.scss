@@ -7,13 +7,13 @@
     @include fullsize;
 }
 
-:host>div>.container {
+:host>div>.menu-frame-container {
     position: relative;
     flex: 0 0 auto;
     z-index: 2;
 }
 
-:host>div>.container.flat {
+:host>div>.menu-frame-container.flat {
     box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset !important;
 }
 
@@ -28,30 +28,30 @@
     @include fullsize;
 }
 
-:host>div>.container {
+:host>div>.menu-frame-container {
     max-width: 100%;
     max-height: 200%;
 }
 
-:host>div>.container.closed {
+:host>div>.menu-frame-container.closed {
     min-width: 0;
     min-height: 0;
 }
 
-:host>div>.container,
+:host>div>.menu-frame-container,
 :host>div>.framer {
     overflow: auto;
     @include animated;
     box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
 }
 
-:host>div>.container.draggable {
+:host>div>.menu-frame-container.draggable {
     transition: all 350ms ease-in-out, top 1ms, left 1ms;
     padding: 12px;
     border-radius: 8px;
     cursor: move;
 }
-:host>div>.container.draggable.fit-top {
+:host>div>.menu-frame-container.draggable.fit-top {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
@@ -59,11 +59,11 @@
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
-:host>div>.container.draggable.fit-bottom {
+:host>div>.menu-frame-container.draggable.fit-bottom {
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 }
-:host>div>.container.draggable.fit-left {
+:host>div>.menu-frame-container.draggable.fit-left {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
@@ -77,16 +77,16 @@
     @include fullsize;
 }
 
-:host>.popup>.container {
+:host>.popup>.menu-frame-container {
     position: absolute;
     z-index: 3;
     box-shadow: 0px 3px 8px -3px black, 0em 0em 0em 0em black inset !important;
 }
-:host>.popup>.container.draggable {
+:host>.popup>.menu-frame-container.draggable {
 	user-select: none;
 }
 
-:host>.popup>.container.closed {
+:host>.popup>.menu-frame-container.closed {
     max-width: 0;
     max-height: 0;
     overflow: hidden;
@@ -109,17 +109,17 @@
     @include fullsize;
 }
 
-:host>.sidebar>.container {
+:host>.sidebar>.menu-frame-container {
     box-shadow: 0.16em 0.16em 0.54em -0.16em black, 0em 0em 0em 0em black inset !important;
 }
 
-:host>.sidebar>.container.closed {
+:host>.sidebar>.menu-frame-container.closed {
     max-width: 12px;
     overflow: hidden;
     box-shadow: 0em 0em 0em 0em black, -0.5em 0em 1.5em -0.5em black inset !important;
 }
 :host>.sidebar,
-:host>.sidebar>.container.closed:hover {
+:host>.sidebar>.menu-frame-container.closed:hover {
     max-width: 100%;
     overflow: auto;
 }
@@ -135,17 +135,17 @@
     @include fullsize;
 }
 
-:host>.toolbar>.container {
+:host>.toolbar>.menu-frame-container {
     box-shadow: 0px 0.16em 0.54em -0.16em black, 0em 0em 0em 0em black inset !important;
 }
 
-:host>.toolbar>.container.closed {
+:host>.toolbar>.menu-frame-container.closed {
     max-height: 6px;
     overflow: hidden;
     box-shadow: 0em 0em 0em 0em black, 0px -0.16em 0.54em -0.16em black inset !important;
 }
 :host>.toolbar,
-:host>.toolbar>.container.closed:hover {
+:host>.toolbar>.menu-frame-container.closed:hover {
     max-height: 100%;
     overflow: auto;
 }
@@ -159,11 +159,11 @@
     flex-direction: row-reverse;
 }
 
-:host>.sidebar.right>.container {
+:host>.sidebar.right>.menu-frame-container {
     box-shadow: -0.16em 0.16em 0.54em -0.16em black, 0em 0em 0em 0em black inset !important;
 }
 
-:host>.sidebar.right>.container.closed {
+:host>.sidebar.right>.menu-frame-container.closed {
     box-shadow: 0em 0em 0em 0em black, 0.5em 0em 1.5em -0.5em black inset !important;
 }
 
@@ -178,7 +178,7 @@
     @include fullsize;
 }
 
-:host>.footer>.container {
+:host>.footer>.menu-frame-container {
     box-shadow: 0px -0.16em 0.54em -0.16em black, 0em 0em 0em 0em black inset !important;
     min-height: min-content;
 }
@@ -187,7 +187,7 @@
     min-height: min-content;
 }
 
-:host>.footer>.container.closed {
+:host>.footer>.menu-frame-container.closed {
     max-height: 0;
     overflow: hidden;
     box-shadow: 0em 0em 0em 0em black, -0.5em 0em 1.5em -0.5em black inset !important;
@@ -202,7 +202,7 @@
     @include fullsize;
 }
 
-:host>.fab>.container {
+:host>.fab>.menu-frame-container {
     position: absolute;
     top: initial !important;
     bottom: 6px;
@@ -216,7 +216,7 @@
     min-height: 100%;
 }
 
-:host>.fab>.container.closed {
+:host>.fab>.menu-frame-container.closed {
     max-width: 0;
     max-height: 0;
     overflow: hidden;
@@ -236,7 +236,7 @@
     @include fullsize;
 }
 
-:host>.fullscreen>.container {
+:host>.fullscreen>.menu-frame-container {
     position: absolute;
     z-index: 3;
     width: 100%;
@@ -246,7 +246,7 @@
     text-align: center;
 }
 
-:host>.fullscreen>.container:before {
+:host>.fullscreen>.menu-frame-container:before {
     content: "";
     display: inline-block;
     vertical-align: middle;
@@ -257,14 +257,14 @@
     height: 100%;
 }
 
-:host>.fullscreen>.container>.content {
+:host>.fullscreen>.menu-frame-container>.content {
     position: relative;
     display: inline-block;
     vertical-align: middle;
     white-space: normal;
 }
 
-:host>.fullscreen>.container.closed {
+:host>.fullscreen>.menu-frame-container.closed {
     /*  max-width: 0;   */
     max-height: 0;
     overflow: hidden;

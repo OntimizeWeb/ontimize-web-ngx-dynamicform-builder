@@ -2,6 +2,7 @@
 /dist
 /out
 /src/**/*.css
+/typings
 
 # Node
 node_modules/*

@@ -1,5 +1,5 @@
 <button
-  dnd-draggable [dragEnabled]="true" [dragData]="getDraggableData()"
+  dnd-draggable [dragEnabled]="componentDragEnabled" [dragData]="getDraggableData()"
   [class.unclickable]="!route"
   [class.external]="externalLink"
   [class.only-label]="icon"

@@ -3,11 +3,22 @@ import {
   ViewChild,
   OnInit,
   ViewEncapsulation,
-  EventEmitter
+  EventEmitter,
+  Optional,
+  Inject,
+  forwardRef
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
-
-import { OFormComponent, Mode } from 'ontimize-web-ng2';
+import {
+  InputConverter,
+  OFormComponent,
+  Mode,
+  IComponent,
+  SQLTypes,
+  IFormDataTypeComponent,
+  IFormDataComponent
+} from 'ontimize-web-ng2';
+import { ODynamicFormComponent } from 'ontimize-web-ng2-dynamicform';
 
 import { ArrayList } from './utils/index';
 import { ComponentsDataService } from './services/index';
@@ -20,45 +31,115 @@ import { ComponentSettingsDialogComponent } from './component-settings-dialog.co
   templateUrl: 'o-dynamic-form-builder.component.html',
   styleUrls: ['o-dynamic-form-builder.component.css'],
   inputs: [
+    'oattr :attr',
+    'autoBinding: automatic-binding',
+
     'formDefinition: form-definition'
   ],
   outputs: [
+    'render',
     'onFormDefinitionUpdate'
   ],
   encapsulation: ViewEncapsulation.None
 })
 
-export class ODynamicFormBuilderComponent implements OnInit {
-  @ViewChild('oForm')
+export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDataTypeComponent, IFormDataComponent {
+
+  /* Inputs */
+  protected oattr: string;
+  @InputConverter()
+  autoBinding: boolean = true;
+
+  /* End of inputs */
+
+  protected _isReadOnly: boolean;
+
+  @ViewChild('wrapperForm')
   wrapperForm: OFormComponent;
-  // wrapperForm: DynamicFormBuilderFormComponent;
+
+  @ViewChild('dynamicForm')
+  dynamicForm: ODynamicFormComponent;
 
   innerFormDefinition: Object = null;
-  parsedDynamicFormJsonData: string;
 
   componentsArray: ArrayList<OComponentData> = new ArrayList<OComponentData>();
 
+  render: EventEmitter<any> = new EventEmitter();
   onFormDefinitionUpdate: EventEmitter<Object> = new EventEmitter<Object>();
 
   constructor(
-    private dialog: MdDialog,
-    private componentsDataService: ComponentsDataService
+    protected dialog: MdDialog,
+    protected componentsDataService: ComponentsDataService,
+    @Optional() @Inject(forwardRef(() => OFormComponent)) protected parentForm: OFormComponent
   ) {
+
   }
 
   ngOnInit() {
     let setDefaultDef = !this.formDefinition;
     if (setDefaultDef) {
       this.innerFormDefinition = {
-        'title': '',
         'components': []
       };
     }
+    if (this.parentForm) {
+      this.registerFormListeners();
+      this._isReadOnly = (this.parentForm.mode === Mode.INITIAL ? true : false);
+    } else {
+      this._isReadOnly = false;
+    }
+  }
+
+  registerFormListeners() {
+    if (this.parentForm) {
+      this.parentForm.registerFormComponent(this);
+      this.parentForm.registerDynamicFormComponent(this);
+      this.parentForm.registerSQLTypeFormComponent(this);
+    }
+  }
+
+  ngOnDestroy() {
+    this.unregisterFormListeners();
+  }
+
+  unregisterFormListeners() {
+    if (this.parentForm) {
+      this.parentForm.unregisterFormComponent(this);
+      this.parentForm.unregisterDynamicFormComponent(this);
+      this.parentForm.unregisterSQLTypeFormComponent(this);
+    }
+  }
+
+  setValue(val) {
+    this.formDefinition = val;
+  }
+
+  getAttribute(): string {
+    if (this.oattr) {
+      return this.oattr;
+    }
+    return undefined;
+  }
+
+  getSQLType(): number {
+    return SQLTypes.OTHER;
   }
 
   onDynamicFormRendered() {
     this.wrapperForm.setFormMode(Mode.INITIAL);
+    if (this.render) {
+      this.render.emit(true);
+    }
   }
+
+  set data(value: any) {
+    this.formDefinition = value;
+  }
+
+  isAutomaticBinding(): Boolean {
+    return this.autoBinding;
+  }
+
 
   getComponentsFromJSON(componentsJSON, parent) {
     for (var i = 0; i < componentsJSON.length; i++) {
@@ -77,41 +158,44 @@ export class ODynamicFormBuilderComponent implements OnInit {
     }
   }
 
-  set formDefinition(val) {
-    if (typeof val === 'string') {
+  set formDefinition(definition) {
+    let definitionJSON: any = definition;
+
+    if (typeof definition === 'string') {
       try {
-        let parsedJSON = JSON.parse(val);
-        if (parsedJSON.hasOwnProperty('components') && parsedJSON.components.length) {
-          this.getComponentsFromJSON(parsedJSON.components, this.componentsArray);
-        }
-        this.innerFormDefinition = parsedJSON;
+        definitionJSON = JSON.parse(definition);
       } catch (e) {
         console.error('set formDefinition error');
       }
     }
+    this.componentsArray = new ArrayList<OComponentData>();
+    if (definitionJSON && definitionJSON.hasOwnProperty('components') && definitionJSON.components.length) {
+      this.getComponentsFromJSON(definitionJSON.components, this.componentsArray);
+    }
+    this.innerFormDefinition = definitionJSON;
   }
 
   get formDefinition() {
     return this.innerFormDefinition;
   }
 
+  definitionToString() {
+    return JSON.stringify(this.formDefinition);
+  }
+
   onUpdateComponents() {
     var componentsParsedArray = [];
     this.getComponentsJson(this.componentsArray, componentsParsedArray);
     this.innerFormDefinition['components'] = componentsParsedArray;
-    this.parsedDynamicFormJsonData = JSON.stringify(componentsParsedArray, null, 4);
-
     this.onFormDefinitionUpdate.emit(this.innerFormDefinition);
   }
 
   getComponentsJson(components: ArrayList<OComponentData>, parent: Array<any>) {
     for (var i = 0; i < components.length; i++) {
       let comp = components[i];
-
       let compInputs = comp.getConfiguredInputs();
       let compObj = Object.assign({}, compInputs);
       compObj['ontimize-directive'] = comp.getDirective();
-
       if (comp.isContainer()) {
         compObj['children'] = [];
         this.getComponentsJson(comp.getChildren(), compObj['children']);
@@ -220,6 +304,12 @@ export class ODynamicFormBuilderComponent implements OnInit {
     return component;
   }
 
+  get isReadOnly(): boolean {
+    return this._isReadOnly;
+  }
 
+  set isReadOnly(value: boolean) {
+    this._isReadOnly = value;
+  }
 
 }
