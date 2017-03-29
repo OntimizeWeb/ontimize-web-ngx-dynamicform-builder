@@ -1,5 +1,5 @@
 <app-menu id="FORM_BUILDER_MANAGER" class="framed" ui-element="sidebar" layout-fill
-  [drag-enabled]="editionMode">
+  [drag-enabled]="!isReadOnly">
   <div layout="row" layout-align="center center" class="dynamicform-container" layout-fill>
       <div layout="row" layout-align="center" flex="90" class="md-whiteframe-z1 dropzone-container">
         <o-form #wrapperForm show-header="false" flex="100" query-on-init="false">
@@ -9,7 +9,7 @@
               query-on-init="false"
               register-in-parent-form="false"
               [form-definition]="formDefinition"
-              [edit-mode]="editionMode"
+              [edit-mode]="!isReadOnly"
               (onAddComponent)="onAddComponent($event)"
               (onEditComponentSettings)="onEditComponentSettings($event)"
               (onDeleteComponent)="onDeleteComponent($event)"

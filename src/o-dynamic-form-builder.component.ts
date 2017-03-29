@@ -10,8 +10,13 @@ import {
 } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import {
+  InputConverter,
   OFormComponent,
-  Mode
+  Mode,
+  IComponent,
+  SQLTypes,
+  IFormDataTypeComponent,
+  IFormDataComponent
 } from 'ontimize-web-ng2';
 import { ODynamicFormComponent } from 'ontimize-web-ng2-dynamicform';
 
@@ -26,15 +31,28 @@ import { ComponentSettingsDialogComponent } from './component-settings-dialog.co
   templateUrl: 'o-dynamic-form-builder.component.html',
   styleUrls: ['o-dynamic-form-builder.component.css'],
   inputs: [
+    'oattr :attr',
+    'autoBinding: automatic-binding',
+
     'formDefinition: form-definition'
   ],
   outputs: [
+    'render',
     'onFormDefinitionUpdate'
   ],
   encapsulation: ViewEncapsulation.None
 })
 
-export class ODynamicFormBuilderComponent implements OnInit {
+export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDataTypeComponent, IFormDataComponent {
+
+  /* Inputs */
+  protected oattr: string;
+  @InputConverter()
+  autoBinding: boolean = true;
+
+  /* End of inputs */
+
+  protected _isReadOnly: boolean;
 
   @ViewChild('wrapperForm')
   wrapperForm: OFormComponent;
@@ -45,8 +63,9 @@ export class ODynamicFormBuilderComponent implements OnInit {
   innerFormDefinition: Object = null;
 
   componentsArray: ArrayList<OComponentData> = new ArrayList<OComponentData>();
+
+  render: EventEmitter<any> = new EventEmitter();
   onFormDefinitionUpdate: EventEmitter<Object> = new EventEmitter<Object>();
-  private edition: boolean = true;
 
   constructor(
     protected dialog: MdDialog,
@@ -64,13 +83,63 @@ export class ODynamicFormBuilderComponent implements OnInit {
       };
     }
     if (this.parentForm) {
-      this.editionMode = this.parentForm.isInInsertMode() || this.parentForm.isInUpdateMode();
+      this.registerFormListeners();
+      this._isReadOnly = (this.parentForm.mode === Mode.INITIAL ? true : false);
+    } else {
+      this._isReadOnly = false;
     }
+  }
+
+  registerFormListeners() {
+    if (this.parentForm) {
+      this.parentForm.registerFormComponent(this);
+      this.parentForm.registerDynamicFormComponent(this);
+      this.parentForm.registerSQLTypeFormComponent(this);
+    }
+  }
+
+  ngOnDestroy() {
+    this.unregisterFormListeners();
+  }
+
+  unregisterFormListeners() {
+    if (this.parentForm) {
+      this.parentForm.unregisterFormComponent(this);
+      this.parentForm.unregisterDynamicFormComponent(this);
+      this.parentForm.unregisterSQLTypeFormComponent(this);
+    }
+  }
+
+  setValue(val) {
+    this.formDefinition = val;
+  }
+
+  getAttribute(): string {
+    if (this.oattr) {
+      return this.oattr;
+    }
+    return undefined;
+  }
+
+  getSQLType(): number {
+    return SQLTypes.OTHER;
   }
 
   onDynamicFormRendered() {
     this.wrapperForm.setFormMode(Mode.INITIAL);
+    if (this.render) {
+      this.render.emit(true);
+    }
   }
+
+  set data(value: any) {
+    this.formDefinition = value;
+  }
+
+  isAutomaticBinding(): Boolean {
+    return this.autoBinding;
+  }
+
 
   getComponentsFromJSON(componentsJSON, parent) {
     for (var i = 0; i < componentsJSON.length; i++) {
@@ -112,14 +181,6 @@ export class ODynamicFormBuilderComponent implements OnInit {
 
   definitionToString() {
     return JSON.stringify(this.formDefinition);
-  }
-
-  set editionMode(val: boolean) {
-    this.edition = val;
-  }
-
-  get editionMode() {
-    return this.edition;
   }
 
   onUpdateComponents() {
@@ -243,6 +304,12 @@ export class ODynamicFormBuilderComponent implements OnInit {
     return component;
   }
 
+  get isReadOnly(): boolean {
+    return this._isReadOnly;
+  }
 
+  set isReadOnly(value: boolean) {
+    this._isReadOnly = value;
+  }
 
 }
