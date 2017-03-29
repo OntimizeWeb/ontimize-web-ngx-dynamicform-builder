@@ -4,10 +4,13 @@
 * **Components menu**: disabling drag and drop when builder is not in edition mode.
 * **o-dynamic-form-builder**: disabling dragging when builder is not in edition mode.
 * **o-dynamic-form-builder**: adding '*definitionToString*' method.
+* **o-dynamic-form-builder**: adding '*render*' output.
+* **o-dynamic-form-builder**: adding '*attr*' and '*automatic-binding*' inputs.
+* **o-dynamic-form-builder**: implementing ontimize-web-ng2 '*IComponent*', '*IFormDataTypeComponent*' and '*IFormDataComponent*' interfaces.
 
 ### PEER-DEPENDENCY UPDATES ###
-* **Updated**:   ontimize-web-ng2@1.2.1
-* **Updated**:   ontimize-web-ng2-dynamicform@0.0.3
+* **Updated**: ontimize-web-ng2@1.2.1
+* **Updated**: ontimize-web-ng2-dynamicform@0.0.3
 
 ### BREAKING CHANGES
 
