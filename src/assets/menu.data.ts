@@ -106,12 +106,6 @@ export const MENU_JSON_DATA = {
     },
     {
       'icon': null,
-      'id': 'o-list-picker',
-      'label': 'o-list-picker',
-      'parent': 'INPUT_FIELDS'
-    },
-    {
-      'icon': null,
       'id': 'o-column',
       'label': 'Column',
       'parent': 'LAYOUT'
