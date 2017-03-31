@@ -1,4 +1,10 @@
-## 0.0.2
+## 0.0.3 (2017-03-31)
+
+### PEER-DEPENDENCY UPDATES ###
+* **Updated**: ontimize-web-ng2@1.2.2
+* **Updated**: ontimize-web-ng2-dynamicform@0.0.4
+
+## 0.0.2 (2017-03-29)
 
 ### Features
 * **Components menu**: disabling drag and drop when builder is not in edition mode.
