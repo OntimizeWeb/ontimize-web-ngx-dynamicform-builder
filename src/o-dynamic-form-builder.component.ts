@@ -16,7 +16,8 @@ import {
   IComponent,
   SQLTypes,
   IFormDataTypeComponent,
-  IFormDataComponent
+  IFormDataComponent,
+  OFormValue
 } from 'ontimize-web-ng2';
 import { ODynamicFormComponent } from 'ontimize-web-ng2-dynamicform';
 
@@ -133,7 +134,14 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   }
 
   set data(value: any) {
-    this.formDefinition = value;
+    let formDef = undefined;
+    if (value instanceof OFormValue) {
+      formDef = value.value;
+    }
+    if (!formDef) {
+      formDef = {};
+    }
+    this.formDefinition = formDef;
   }
 
   isAutomaticBinding(): Boolean {
@@ -186,7 +194,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   onUpdateComponents() {
     var componentsParsedArray = [];
     this.getComponentsJson(this.componentsArray, componentsParsedArray);
-    this.innerFormDefinition['components'] = componentsParsedArray;
+    this.formDefinition = { components: componentsParsedArray };
     this.onFormDefinitionUpdate.emit(this.innerFormDefinition);
   }
 
