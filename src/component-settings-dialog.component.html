@@ -2,22 +2,29 @@
 <md-dialog-content>
   <form #settingsForm [formGroup]="formGroup" layout="column">
     <div layout-padding layout="row">
-
       <div flex="50" layout="column">
-        <div layout="row" *ngFor="let prop of component.getInputs()">
-          <boolean-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="templateInputsData[prop].type === 'boolean'"></boolean-metadata>
-          <text-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="templateInputsData[prop].type === 'string' || templateInputsData[prop].type === 'number'"></text-metadata>
-          <combo-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="templateInputsData[prop].type === 'combo'"></combo-metadata>
-        </div>
+        <ng-container *ngFor="let prop of component.getInputs();  let i = index;">
+          <div layout="row" *ngIf="i % 2 === 0">
+            <boolean-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'boolean')"></boolean-metadata>
+            <text-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'text')"></text-metadata>
+            <combo-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'combo')"></combo-metadata>
+          </div>
+        </ng-container>
       </div>
       <div flex="50" layout="column">
-        2
+        <ng-container *ngFor="let prop of component.getInputs();  let i = index;">
+          <div layout="row" *ngIf="i % 2 === 1">
+            <boolean-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'boolean')"></boolean-metadata>
+            <text-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'text')"></text-metadata>
+            <combo-metadata layout-fill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'combo')"></combo-metadata>
+          </div>
+        </ng-container>
       </div>
     </div>
   </form>
 </md-dialog-content>
 
 <md-dialog-actions>
-  <button md-raised-button (click)="save()">Save</button>
-  <button md-raised-button (click)="cancel()">Cancel</button>
+  <button md-raised-button (click)="save()">{{ 'SAVE' | oTranslate }}</button>
+  <button md-raised-button (click)="cancel()">{{ 'CANCEL' | oTranslate }}</button>
 </md-dialog-actions>

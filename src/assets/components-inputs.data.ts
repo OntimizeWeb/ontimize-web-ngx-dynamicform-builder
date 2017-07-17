@@ -3,7 +3,7 @@ export const COMPONENTS_INPUTS_DATA = {
     'attr': {
       'type': 'string',
       'label': 'attr',
-      'tooltip': 'Component attr',
+      'tooltip': '',
       'default': null,
       'required': true
     },

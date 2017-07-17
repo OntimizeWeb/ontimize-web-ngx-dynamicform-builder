@@ -34,7 +34,6 @@ import { ComponentSettingsDialogComponent } from './component-settings-dialog.co
   inputs: [
     'oattr :attr',
     'autoBinding: automatic-binding',
-
     'formDefinition: form-definition'
   ],
   outputs: [
@@ -94,7 +93,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   registerFormListeners() {
     if (this.parentForm) {
       this.parentForm.registerFormComponent(this);
-      this.parentForm.registerDynamicFormComponent(this);
+      // this.parentForm.registerDynamicFormComponent(this);
       this.parentForm.registerSQLTypeFormComponent(this);
     }
   }
@@ -106,7 +105,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   unregisterFormListeners() {
     if (this.parentForm) {
       this.parentForm.unregisterFormComponent(this);
-      this.parentForm.unregisterDynamicFormComponent(this);
+      // this.parentForm.unregisterDynamicFormComponent(this);
       this.parentForm.unregisterSQLTypeFormComponent(this);
     }
   }
@@ -126,8 +125,13 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     return SQLTypes.OTHER;
   }
 
+  reloadWrapperFormMode() {
+    // re-setting wrapper form mode for setting mode to new components
+    this.wrapperForm.setFormMode(this.wrapperForm.mode);
+  }
+
   onDynamicFormRendered() {
-    this.wrapperForm.setFormMode(Mode.INITIAL);
+    this.reloadWrapperFormMode();
     if (this.render) {
       this.render.emit(true);
     }
