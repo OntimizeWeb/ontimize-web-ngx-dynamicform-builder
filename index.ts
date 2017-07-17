@@ -38,7 +38,7 @@ export const DYNAMIC_FORM_BUILDER_PROVIDERS = [
     ONTIMIZE_MODULES,
     CommonModule,
     DndModule.forRoot(),
-    DynamicFormModule.forRoot(),
+    DynamicFormModule.forRoot()
   ],
   declarations: [
     SHARED_DIRECTIVES,

@@ -28,8 +28,6 @@ import {
 
 
 // import { OFormModule } from 'ontimize-web-ng2';
-
-
 import { PropertyMetadataClass } from './components-metadata/property.metadata.class';
 import { ComponentsDataService } from './services/index';
 import { OComponentData } from './ontimize-components-data/o-component-data.class';
@@ -138,4 +136,11 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
     return inputData;
   }
 
+  comparePropertyType(prop, type) {
+    const propertyType = this.templateInputsData[prop].type;
+    if (type === 'text') {
+      return (propertyType === 'string' || propertyType === 'number');
+    }
+    return (propertyType === type);
+  }
 }
