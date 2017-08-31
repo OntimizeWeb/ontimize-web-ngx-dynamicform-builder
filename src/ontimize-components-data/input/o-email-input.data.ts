@@ -1,4 +1,4 @@
-import { DEFAULT_INPUTS_O_EMAIL_INPUT } from 'ontimize-web-ng2/ontimize';
+import { DEFAULT_INPUTS_O_EMAIL_INPUT } from 'ontimize-web-ng2';
 import { OComponentData } from '../o-component-data.class';
 
 export class OEmailInputData extends OComponentData {
@@ -14,4 +14,5 @@ export class OEmailInputData extends OComponentData {
   getInputsProperties(): Array<any> {
     return DEFAULT_INPUTS_O_EMAIL_INPUT;
   }
+
 }

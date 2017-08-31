@@ -17,6 +17,7 @@ export const DEFAULT_INPUTS_METADATA = [
 ];
 
 export class PropertyMetadataClass {
+
   public static DEFAULT_INPUTS_METADATA = DEFAULT_INPUTS_METADATA;
 
   property: string;
@@ -27,9 +28,7 @@ export class PropertyMetadataClass {
   constructor(
     @Inject(forwardRef(() => ComponentSettingsDialogComponent))
     protected settingsDialog: ComponentSettingsDialogComponent
-  ) {
-
-  }
+  ) { }
 
   initialize() {
     if (this.settingsDialog) {
@@ -103,7 +102,7 @@ export class PropertyMetadataClass {
 
   innerOnChange(value: any) {
     this.value = { value: value };
-
     // this.fControl.setValue({ value: value });
   }
+
 }

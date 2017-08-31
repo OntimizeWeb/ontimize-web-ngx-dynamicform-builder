@@ -103,19 +103,18 @@ export const MENU_JSON_DATA = {
       'id': 'o-date-input',
       'label': 'o-date',
       'parent': 'INPUT_FIELDS'
+    },
+    {
+      'icon': null,
+      'id': 'o-column',
+      'label': 'Column',
+      'parent': 'LAYOUT'
+    },
+    {
+      'icon': null,
+      'id': 'o-row',
+      'label': 'Row',
+      'parent': 'LAYOUT'
     }
-    // ,
-    // {
-    //   'icon': null,
-    //   'id': 'o-column',
-    //   'label': 'Column',
-    //   'parent': 'LAYOUT'
-    // },
-    // {
-    //   'icon': null,
-    //   'id': 'o-row',
-    //   'label': 'Row',
-    //   'parent': 'LAYOUT'
-    // }
   ]
 };

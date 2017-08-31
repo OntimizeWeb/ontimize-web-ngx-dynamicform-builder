@@ -1,13 +1,13 @@
-<div flex layout="row" layout-align="space-between center" layout-fill layout-padding [formGroup]="getFormGroup()">
-    <md-input-container flex="80" layout-fill>
+<div fxFlex fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill layout-padding [formGroup]="getFormGroup()">
+    <md-input-container fxFlex="80" fxFlexFill>
        <input
-            md-input
+            mdInput
             class="md-input"
             [attr.type]="data.type === 'number' ? 'number' : 'text'"
             [attr.step]="data.type === 'number' ? 1 : undefined"
             [attr.min]="data.type === 'number' ? -1000 : undefined"
             [attr.max]="data.type === 'number' ? 1000 : undefined"
-            layout-fill
+            fxFlexFill
             [placeholder]="data.label"
             [ngModel]="getValue()"
             (ngModelChange)="innerOnChange($event)"
@@ -20,6 +20,6 @@
             </md-hint>
     </md-input-container>
 
-    <md-icon flex="10" layout-fill *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons"> info </md-icon>
+    <md-icon fxFlex="10" fxFlexFill *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons"> info </md-icon>
 
 </div>

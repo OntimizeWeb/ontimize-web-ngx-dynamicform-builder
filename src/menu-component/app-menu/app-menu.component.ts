@@ -5,7 +5,6 @@ import { AppMenuService } from '../../services/app-menu.service';
 // import { Observable } from 'rxjs/Observable';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-menu',
   inputs: [
     'id',
@@ -18,8 +17,8 @@ import { AppMenuService } from '../../services/app-menu.service';
     'treeGridCols: tree-grid-columns',
     'dragEnabled : drag-enabled'
   ],
-  templateUrl: '/menu-component/app-menu/app-menu.component.html',
-  styleUrls: ['/menu-component/app-menu/app-menu.component.css']
+  template: require('./app-menu.component.html'),
+  styles: [require('./app-menu.component.scss')]
 })
 
 export class AppMenuComponent {

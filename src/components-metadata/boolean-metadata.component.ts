@@ -16,23 +16,17 @@ export const DEFAULT_INPUTS_BOOLEAN_METADATA = [
 ];
 
 @Component({
-  moduleId: module.id,
   selector: 'boolean-metadata',
-  templateUrl: 'components-metadata/boolean-metadata.component.html',
-  styleUrls: ['components-metadata/property.metadata.class.css'],
+  template: require('./boolean-metadata.component.html'),
+  styles: [require('./property.metadata.class.scss')],
   inputs: [
     ...DEFAULT_INPUTS_BOOLEAN_METADATA
   ],
-  outputs: [
-
-  ],
   encapsulation: ViewEncapsulation.None
 })
-
 export class BooleanMetadataComponent extends PropertyMetadataClass implements OnInit, OnDestroy {
 
   public static DEFAULT_INPUTS_BOOLEAN_METADATA = DEFAULT_INPUTS_BOOLEAN_METADATA;
-
 
   onChange: EventEmitter<Object> = new EventEmitter<Object>();
 

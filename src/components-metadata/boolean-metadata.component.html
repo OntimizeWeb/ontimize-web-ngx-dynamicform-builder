@@ -1,10 +1,10 @@
-<div flex layout="row" layout-align="space-between center" layout-fill layout-padding [formGroup]="getFormGroup()">
-    <md-slide-toggle flex="80" layout-fill
+<div fxFlex fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill layout-padding [formGroup]="getFormGroup()">
+    <md-slide-toggle fxFlex="80" fxFlexFill
         [checked]="checked"
         [ngModel]="getValue()"
         (ngModelChange)="innerOnChange($event)"
         [formControlName]="getPropertyName()">
         {{ data.label }}
     </md-slide-toggle>
-    <md-icon flex="10" layout-fill *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons"> info </md-icon>
+    <md-icon fxFlex="10" fxFlexFill *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons"> info </md-icon>
 </div>

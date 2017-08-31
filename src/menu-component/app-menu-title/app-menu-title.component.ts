@@ -2,7 +2,6 @@ import { Component, HostBinding } from '@angular/core';
 import { AppMenuTitle } from './app-menu-title.class';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-menu-title',
   inputs: [
     'label: app-label',
@@ -10,8 +9,8 @@ import { AppMenuTitle } from './app-menu-title.class';
     'onlyIcons: only-icons',
     'closed: title-closed'
   ],
-  templateUrl: '/menu-component/app-menu-title/app-menu-title.component.html',
-  styleUrls: ['/menu-component/app-menu-title/app-menu-title.component.css']
+  template: require('./app-menu-title.component.html'),
+  styles: [require('./app-menu-title.component.scss')]
 })
 export class AppMenuTitleComponent extends AppMenuTitle {
   @HostBinding('class.nolabels')

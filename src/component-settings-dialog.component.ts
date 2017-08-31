@@ -1,46 +1,25 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
-
-  // Inject,
-  // Injector,
-  // forwardRef,
-  // ElementRef,
-  // EventEmitter,
-  // Optional,
-  // ViewChild,
-  // NgModule,
-  // ModuleWithProviders,
-  // ViewEncapsulation
+  OnDestroy
 } from '@angular/core';
 
-
-import {
-  // MdDialog,
-  MdDialogRef
-} from '@angular/material';
+import { MdDialogRef } from '@angular/material';
 
 import {
   FormGroup,
   FormControl
 } from '@angular/forms';
 
-
-// import { OFormModule } from 'ontimize-web-ng2';
 import { PropertyMetadataClass } from './components-metadata/property.metadata.class';
-import { ComponentsDataService } from './services/index';
 import { OComponentData } from './ontimize-components-data/o-component-data.class';
 
 @Component({
-  moduleId: module.id,
   selector: 'component-settings-dialog',
-  inputs: [
-  ],
-  templateUrl: 'component-settings-dialog.component.html',
-  styleUrls: ['component-settings-dialog.component.css']
+  inputs: [],
+  template: require('./component-settings-dialog.component.html'),
+  styles: [require('./component-settings-dialog.component.scss')]
 })
-
 export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
 
   component: OComponentData;
@@ -49,10 +28,8 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
   formDataCache: Object;
 
   constructor(
-    public dialogRef: MdDialogRef<ComponentSettingsDialogComponent>,
-    private componentsDataService: ComponentsDataService
-  ) {
-  }
+    public dialogRef: MdDialogRef<ComponentSettingsDialogComponent>
+  ) { }
 
   ngOnInit() {
     this.formGroup = new FormGroup({});
@@ -65,7 +42,6 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
         }
         (<any>Object).assign(self.formDataCache, value);
       });
-
   }
 
   ngOnDestroy() {
@@ -101,7 +77,7 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
 
   save() {
     if (!this.formGroup.valid) {
-      console.error('ERROR MESSAGES.FORM_VALIDATION_ERROR');
+      console.error('ERROR_MESSAGES.FORM_VALIDATION_ERROR');
       return;
     }
 
@@ -143,4 +119,5 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
     }
     return (propertyType === type);
   }
+
 }

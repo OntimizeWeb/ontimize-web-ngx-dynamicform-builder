@@ -1,10 +1,6 @@
 @import '../../o-dynamic-form-builder.component.scss';
 :host {
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    @include fullsize;
 }
 
 :host>div>.menu-frame-container {
@@ -25,7 +21,6 @@
 
 :host>div>.framer>.content {
     position: absolute;
-    @include fullsize;
 }
 
 :host>div>.menu-frame-container {

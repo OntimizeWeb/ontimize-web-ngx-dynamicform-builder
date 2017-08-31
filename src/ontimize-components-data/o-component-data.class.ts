@@ -5,9 +5,7 @@ export class OComponentData {
   configuredInputs: any = {};
   children: ArrayList<OComponentData>;
 
-  constructor(
-
-  ) {
+  constructor() {
     if (this.isContainer()) {
       this.children = new ArrayList<OComponentData>();
     }
@@ -58,4 +56,5 @@ export class OComponentData {
   getChildren(): ArrayList<OComponentData> {
     return this.children;
   }
+
 }
