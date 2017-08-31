@@ -2,12 +2,6 @@ import {
   Injectable
 } from '@angular/core';
 
-import {
-  Http
-  // ,
-  // Headers
-} from '@angular/http';
-
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
 
@@ -56,9 +50,6 @@ export class ComponentsDataService {
 
   templateInputsData = null;
 
-  constructor(protected http: Http) {
-  }
-
   getOntimizeComponentData(componentName): OComponentData {
     let res;
     if (this.constructors.hasOwnProperty(componentName)) {
@@ -70,12 +61,6 @@ export class ComponentsDataService {
   }
 
   readComponentsInputsData(): any {
-    // var headers: Headers = new Headers();
-    // headers.append('Access-Control-Allow-Origin', '*');
-    // headers.append('Content-Type', 'application/json;charset=UTF-8');
-    // return this.http
-    //   .get('src/assets/components-inputs-data.json', { headers: headers })
-    //   .map((res: any) => res.json());
     return COMPONENTS_INPUTS_DATA;
   }
 

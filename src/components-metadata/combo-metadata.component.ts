@@ -16,23 +16,17 @@ export const DEFAULT_INPUTS_COMBO_METADATA = [
 ];
 
 @Component({
-  moduleId: module.id,
   selector: 'combo-metadata',
-  templateUrl: 'components-metadata/combo-metadata.component.html',
-  styleUrls: ['components-metadata/property.metadata.class.css'],
+  template: require('./combo-metadata.component.html'),
+  styles: [require('./property.metadata.class.scss')],
   inputs: [
     ...DEFAULT_INPUTS_COMBO_METADATA
   ],
-  outputs: [
-
-  ],
   encapsulation: ViewEncapsulation.None
 })
-
 export class ComboMetadataComponent extends PropertyMetadataClass implements OnInit, OnDestroy {
 
   public static DEFAULT_INPUTS_COMBO_METADATA = DEFAULT_INPUTS_COMBO_METADATA;
-
 
   onChange: EventEmitter<Object> = new EventEmitter<Object>();
 

@@ -1,15 +1,12 @@
 <button
   dnd-draggable [dragEnabled]="componentDragEnabled" [dragData]="getDraggableData()"
-  [class.unclickable]="!route"
-  [class.external]="externalLink"
   [class.only-label]="icon"
   class="item {{ style }}"
-  (click)="onSelectAppMenuItem($event, route)"
   title="{{ label }}">
   <md-icon *ngIf="icon" class="material-icons item-icon" border="0" [style.paddingLeft]="indent">
     {{icon}}
   </md-icon>
-  <div class="item-label" layout="center">
+  <div class="item-label" fxLayout="center">
     <span class="item-label-text">{{ label }}</span>
   </div>
 </button>

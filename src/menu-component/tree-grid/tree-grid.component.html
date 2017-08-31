@@ -1,5 +1,5 @@
 <div *ngIf="needsDT && needsDD" class="grid-item" (click)="toggleState()">
-    <template ngFor [ngForOf]="head" [ngForTemplate]="treeGrid.header"></template>
+    <ng-template ngFor [ngForOf]="head" [ngForTemplate]="treeGrid.header"></ng-template>
 </div>
 <div *ngIf="needsDD" class="grid-tree-item"
     [class.grid-tree-child]="needsDT"

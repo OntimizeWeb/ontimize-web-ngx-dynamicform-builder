@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Http } from '@angular/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { DndModule } from 'ng2-dnd';
 import { DynamicFormModule } from 'ontimize-web-ng2-dynamicform';
 
-import { ONTIMIZE_MODULES } from 'ontimize-web-ng2/ontimize';
+import { OntimizeWebModule } from 'ontimize-web-ng2';
 
 import {
   SHARED_DIRECTIVES,
@@ -19,26 +21,34 @@ import { ComponentSettingsDialogComponent } from './src/component-settings-dialo
 
 export { ComponentSettingsDialogComponent } from './src/component-settings-dialog.component';
 
+export function getAppMenuServiceProvider() {
+  return new AppMenuService();
+}
+
+export function getComponentsDataServiceProvider() {
+  return new ComponentsDataService();
+}
 
 export const DYNAMIC_FORM_BUILDER_PROVIDERS = [
   {
     provide: AppMenuService,
-    useFactory: (http) => new AppMenuService(http),
-    deps: [Http]
+    useFactory: getAppMenuServiceProvider
   },
   {
     provide: ComponentsDataService,
-    useFactory: (http) => new ComponentsDataService(http),
-    deps: [Http]
+    useFactory: getComponentsDataServiceProvider
   }
 ];
 
 @NgModule({
   imports: [
-    ONTIMIZE_MODULES,
+    OntimizeWebModule,
+    MaterialModule,
+    FlexLayoutModule,
     CommonModule,
+    ReactiveFormsModule,
     DndModule.forRoot(),
-    DynamicFormModule.forRoot()
+    DynamicFormModule
   ],
   declarations: [
     SHARED_DIRECTIVES,
@@ -54,6 +64,4 @@ export const DYNAMIC_FORM_BUILDER_PROVIDERS = [
     ...DYNAMIC_FORM_BUILDER_PROVIDERS
   ]
 })
-
-export class DynamicFormBuilderModule {
-}
+export class DynamicFormBuilderModule { }

@@ -11,7 +11,6 @@ import { TreeListDefault } from './tree-list.class';
 import { Type } from '../../utils/index';
 
 @Component({
-  moduleId: module.id,
   selector: 'tree-grid',
   inputs: [
     'treeGrid: tree-grid',
@@ -20,8 +19,8 @@ import { Type } from '../../utils/index';
     'treeGridCols: tree-grid-columns',
     'id: node-id'
   ],
-  templateUrl: '/menu-component/tree-grid/tree-grid.component.html',
-  styleUrls: ['/menu-component/tree-grid/tree-grid.component.css']
+  template: require('./tree-grid.component.html'),
+  styles: [require('./tree-grid.component.scss')]
 })
 
 export class TreeGridComponent {

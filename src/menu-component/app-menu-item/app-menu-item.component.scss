@@ -16,6 +16,10 @@ button {
     color: inherit;
 }
 
+button.dnd-drag-start {
+  border: 2px dashed #000;
+}
+
 .item {
     width: 100%;
     padding: 0 8px;
@@ -227,27 +231,3 @@ button {
 :host.nolabels.only-label .item {
     height: initial;
 }
-
-.unclickable {
-    cursor: no-drop;
-    opacity: 0.38;
-}
-.external {
-    cursor: alias;
-    color: deepskyblue;
-}
-/*
-.external:after {
-    content: '↗';
-    display: block;
-    float: right;
-    background: crimson;
-    color: white;
-    text-align: center;
-    font-size: 0.6rem;
-    width: 1rem;
-    line-height: 1rem;
-    border-radius: 50%;
-    box-shadow: 0px 0.16em 8px -0.16em black;
-}
-*/

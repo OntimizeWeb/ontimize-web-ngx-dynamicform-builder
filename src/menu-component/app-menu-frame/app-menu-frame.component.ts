@@ -1,7 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 
 @Component({
-  moduleId: module.id,
   selector: 'app-menu-frame',
   inputs: [
     'element: ui-element',
@@ -10,8 +9,8 @@ import { Component, ElementRef } from '@angular/core';
     'x: ui-x',
     'y: ui-y'
   ],
-  templateUrl: '/menu-component/app-menu-frame/app-menu-frame.component.html',
-  styleUrls: ['/menu-component/app-menu-frame/app-menu-frame.component.css']
+  template: require('./app-menu-frame.component.html'),
+  styles: [require('./app-menu-frame.component.scss')]
 })
 
 export class AppMenuFrameComponent {

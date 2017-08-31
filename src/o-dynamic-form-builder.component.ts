@@ -27,10 +27,9 @@ import { OComponentData } from './ontimize-components-data/index';
 import { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
 
 @Component({
-  moduleId: module.id,
   selector: 'o-dynamic-form-builder',
-  templateUrl: 'o-dynamic-form-builder.component.html',
-  styleUrls: ['o-dynamic-form-builder.component.css'],
+  template: require('./o-dynamic-form-builder.component.html'),
+  styles: [require('./o-dynamic-form-builder.component.scss')],
   inputs: [
     'oattr :attr',
     'autoBinding: automatic-binding',
@@ -49,7 +48,6 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   protected oattr: string;
   @InputConverter()
   autoBinding: boolean = true;
-
   /* End of inputs */
 
   protected _isReadOnly: boolean;
@@ -71,9 +69,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     protected dialog: MdDialog,
     protected componentsDataService: ComponentsDataService,
     @Optional() @Inject(forwardRef(() => OFormComponent)) protected parentForm: OFormComponent
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     let setDefaultDef = !this.formDefinition;
@@ -143,7 +139,9 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
       formDef = value.value;
     }
     if (!formDef) {
-      formDef = {};
+      formDef = {
+        'components': []
+      };
     }
     this.formDefinition = formDef;
   }
@@ -151,7 +149,6 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   isAutomaticBinding(): Boolean {
     return this.autoBinding;
   }
-
 
   getComponentsFromJSON(componentsJSON, parent) {
     for (var i = 0; i < componentsJSON.length; i++) {
@@ -162,7 +159,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
         delete comp['ontimize-directive'];
         compData.setConfiguredInputs(comp);
 
-        if (compData.isContainer() && comp.hasOwnProperty('children') && comp.children.lenght) {
+        if (compData.isContainer() && comp.hasOwnProperty('children') && comp.children.length) {
           this.getComponentsFromJSON(comp.children, compData.children);
         }
         parent.push(compData);
@@ -228,25 +225,17 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     dialogRef.afterClosed().subscribe(newComponent => {
       if (newComponent !== false && newComponent instanceof OComponentData) {
         let emptyArgs = !Object.keys(args || {}).length;
-
         if (emptyArgs) {
-
           self.componentsArray.unshift(newComponent);
-
         } else if (args.hasOwnProperty('previousSibling')) {
-
-          let siblingIdx = self.componentsArray.indexOf(args.previousSibling);
-          self.componentsArray.splice(siblingIdx + 1, 0, newComponent);
-
+          self._insertElement(args.previousSibling.getComponentAttr(), self.componentsArray, newComponent);
         } else if (args.hasOwnProperty('parent')) {
-
           args.parent.addChild(newComponent);
         }
 
         // else if (args.hasOwnProperty('edit'))
 
         self.onUpdateComponents();
-
       }
     });
   }
@@ -300,19 +289,15 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     if (!component) {
       return;
     }
-    let arrayArg: Array<OComponentData> = new Array<OComponentData>();
-    arrayArg.push(component);
-    this.componentsArray.removeAll(arrayArg);
+    this._removeElement(component.getComponentAttr(), this.componentsArray);
     this.onUpdateComponents();
   }
 
-  getOComponentData(fieldComponent): OComponentData {
+  getOComponentData(fieldComponent) {
     if (!fieldComponent) {
       return undefined;
     }
-    var component: OComponentData = this.componentsArray.find((element: OComponentData, index, arr): boolean => {
-      return (element.getComponentAttr() === fieldComponent.getComponentAttr());
-    });
+    var component = this._searchElement(fieldComponent.getComponentAttr(), this.componentsArray);
     return component;
   }
 
@@ -322,6 +307,43 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
 
   set isReadOnly(value: boolean) {
     this._isReadOnly = value;
+  }
+
+  private _searchElement(id, array) {
+    let r;
+    for (let i = 0; i < array.length; i++) {
+      if (id === array[i].getComponentAttr()) {
+        return array[i];
+      }
+      if (array[i].children && array[i].children.length > 0) {
+        if ((r = this._searchElement(id, array[i].children)) !== null) {
+          return r;
+        }
+      }
+    }
+    return null;
+  }
+
+  private _insertElement(id, array, newComponent) {
+    for (let i = 0; i < array.length; i++) {
+      if (id === array[i].getComponentAttr()) {
+        array.splice(i + 1, 0, newComponent);
+      }
+      if (array[i].children) {
+        this._insertElement(id, array[i].children, newComponent);
+      }
+    }
+  }
+
+  private _removeElement(id, array) {
+    for (let i = 0; i < array.length; i++) {
+      if (id === array[i].getComponentAttr()) {
+        array.splice(i, 1);
+      }
+      if (array[i] && array[i].children) {
+        this._removeElement(id, array[i].children);
+      }
+    }
   }
 
 }

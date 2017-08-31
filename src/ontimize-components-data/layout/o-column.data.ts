@@ -1,4 +1,4 @@
-import { DEFAULT_INPUTS_O_COLUMN } from 'ontimize-web-ng2/ontimize';
+import { DEFAULT_INPUTS_O_COLUMN } from 'ontimize-web-ng2';
 import { OComponentData } from '../o-component-data.class';
 
 export class OColumnData extends OComponentData {
@@ -18,4 +18,5 @@ export class OColumnData extends OComponentData {
   isContainer(): Boolean {
     return true;
   }
+
 }

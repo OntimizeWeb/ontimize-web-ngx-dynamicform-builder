@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 
 @Component({
-  moduleId: module.id,
   selector: 'grid',
   inputs: [
     'gridItems: grid-items',
@@ -16,8 +15,8 @@ import {
     'gridCols: grid-columns',
     'iContentTpls: grid-templates'
   ],
-  templateUrl: '/menu-component/grid/grid.component.html',
-  styleUrls: ['/menu-component/grid/grid.component.css']
+  template: require('./grid.component.html'),
+  styles: [require('./grid.component.scss')]
 })
 export class GridComponent {
   @ContentChildren(TemplateRef)

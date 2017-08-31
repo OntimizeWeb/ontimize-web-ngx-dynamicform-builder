@@ -20,10 +20,9 @@ export const DEFAULT_OUTPUTS_TEXT_METADATA = [
 ];
 
 @Component({
-  moduleId: module.id,
   selector: 'text-metadata',
-  templateUrl: 'components-metadata/text-metadata.component.html',
-  styleUrls: ['components-metadata/property.metadata.class.css'],
+  template: require('./text-metadata.component.html'),
+  styles: [require('./property.metadata.class.scss')],
   inputs: [
     ...DEFAULT_INPUTS_TEXT_METADATA
   ],
@@ -32,7 +31,6 @@ export const DEFAULT_OUTPUTS_TEXT_METADATA = [
   ],
   encapsulation: ViewEncapsulation.None
 })
-
 export class TextMetadataComponent extends PropertyMetadataClass implements OnInit, OnDestroy {
 
   public static DEFAULT_INPUTS_TEXT_METADATA = DEFAULT_INPUTS_TEXT_METADATA;

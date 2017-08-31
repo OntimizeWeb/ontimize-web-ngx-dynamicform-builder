@@ -1,29 +1,30 @@
-<app-menu-frame layout-fill [ui-element]="uiElement" [ui-closed]="closed" [ui-flat]="flat">
-    <tree-grid class="contained"
-        [tree-grid]="treeList"
-        [grid-type]="gridType"
-        [grid-columns]="gridCols"
-        [tree-grid-columns]="treeGridCols">
+<app-menu-frame fxFlexFill [ui-element]="uiElement" [ui-closed]="closed" [ui-flat]="flat">
+  <tree-grid class="contained"
+    [tree-grid]="treeList"
+    [grid-type]="gridType"
+    [grid-columns]="gridCols"
+    [tree-grid-columns]="treeGridCols">
 
-        <app-menu-title template="let app"
-            [app-label]="app.label"
-            [app-style]="appStyle"
-            [only-icons]="onlyIcons"
-            [title-closed]="app.closed">
-		</app-menu-title>
+    <ng-template let-app>
+      <app-menu-title
+        [app-label]="app.label"
+        [app-style]="appStyle"
+        [only-icons]="onlyIcons"
+        [title-closed]="app.closed">
+      </app-menu-title>
+    </ng-template>
 
-        <app-menu-item template="let app"
-            [app-icon]="app.icon"
-            [app-label]="app.label"
-            [app-route]="app.route"
-            [app-id]="app.id"
-            [app-style]="appStyle"
-            [only-icons]="onlyIcons"
-            [drag-enabled]="dragEnabled"
-            app-indent="6px">
-		</app-menu-item>
-    </tree-grid>
-    <ng-content class="framed"></ng-content>
+    <ng-template let-app>
+      <app-menu-item
+        [app-icon]="app.icon"
+        [app-label]="app.label"
+        [app-id]="app.id"
+        [app-style]="appStyle"
+        [only-icons]="onlyIcons"
+        [drag-enabled]="dragEnabled"
+        app-indent="6px">
+      </app-menu-item>
+    </ng-template>
+  </tree-grid>
+  <ng-content class="framed"></ng-content>
 </app-menu-frame>
-
-

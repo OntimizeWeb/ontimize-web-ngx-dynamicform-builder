@@ -1,9 +1,9 @@
-<app-menu id="FORM_BUILDER_MANAGER" class="framed" ui-element="sidebar" layout-fill
+<app-menu id="FORM_BUILDER_MANAGER" class="framed" ui-element="sidebar" fxFlex
   [drag-enabled]="!isReadOnly">
-  <div layout="row" layout-align="center center" class="dynamicform-container" layout-fill>
-      <div layout="row" layout-align="center" flex="90" class="md-whiteframe-z1 dropzone-container">
-        <o-form #wrapperForm show-header="false" flex="100" query-on-init="false">
-          <div layout="column">
+  <div fxLayout="row" fxLayoutAlign="center center" class="dynamicform-container" fxFlexFill>
+      <div fxLayout="row" fxLayoutAlign="center" fxFlex="90" class="mat-elevation-z1 dropzone-container">
+        <o-form #wrapperForm show-header="false" fxFlex="100" query-on-init="false">
+          <div fxLayout="column">
             <o-dynamic-form
               #dynamicForm
               query-on-init="false"
