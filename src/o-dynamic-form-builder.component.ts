@@ -12,7 +12,6 @@ import { MdDialog } from '@angular/material';
 import {
   InputConverter,
   OFormComponent,
-  Mode,
   IComponent,
   SQLTypes,
   IFormDataTypeComponent,
@@ -80,7 +79,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
     if (this.parentForm) {
       this.registerFormListeners();
-      this._isReadOnly = (this.parentForm.mode === Mode.INITIAL ? true : false);
+      this._isReadOnly = this.parentForm.isInInitialMode();
     } else {
       this._isReadOnly = false;
     }
