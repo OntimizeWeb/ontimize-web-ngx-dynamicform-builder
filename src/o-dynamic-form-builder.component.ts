@@ -256,31 +256,17 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
       dialogArgs['parent'] = parent;
     }
 
-    var self = this;
-    this.componentsDataService.getComponentsInputsData().then(
-      function (templateInputsData) {
-        self.openSettingsDialog(component, templateInputsData, dialogArgs);
-      },
-      function (reason) {
-        console.error('Something went wrong', reason);
-      });
+    var templateInputsData = this.componentsDataService.getComponentsInputsData();
+    this.openSettingsDialog(component, templateInputsData, dialogArgs);
   }
-  // : BaseComponent
+
   onEditComponentSettings(args) {
     var component: OComponentData = this.getOComponentData(args.component);
     if (!component) {
       return;
     }
-    var self = this;
-    this.componentsDataService.getComponentsInputsData().then(
-      function (templateInputsData) {
-        self.openSettingsDialog(component, templateInputsData, {
-          edit: true
-        });
-      },
-      function (reason) {
-        console.error('Something went wrong', reason);
-      });
+    var templateInputsData = this.componentsDataService.getComponentsInputsData();
+    this.openSettingsDialog(component, templateInputsData, { edit: true });
   }
 
   onDeleteComponent(args) {

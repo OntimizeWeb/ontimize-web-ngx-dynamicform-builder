@@ -18,7 +18,7 @@ import {
   OTextareaInputData,
 
   OColumnData,
-  ORowData,
+  ORowData
 } from '../ontimize-components-data/index';
 
 import {
@@ -65,24 +65,10 @@ export class ComponentsDataService {
   }
 
   getComponentsInputsData() {
-    var self = this;
-    var p = new Promise<string>((resolve, reject) => {
-      if (self.templateInputsData === null) {
-        // self.readComponentsInputsData()
-        //   .subscribe(
-        //   menuData => {
-        let menuData = self.readComponentsInputsData();
-        self.setComponentInputsData(menuData);
-        resolve(self.templateInputsData);
-        // },
-        // err => {
-        //   reject(err);
-        // });
-      } else {
-        resolve(self.templateInputsData);
-      }
-    });
-    return p;
+    if (this.templateInputsData === null) {
+      this.setComponentInputsData(this.readComponentsInputsData());
+    }
+    return this.templateInputsData;
   }
 
   setComponentInputsData(inputsData) {
