@@ -30,7 +30,15 @@ export class OComponentData {
   }
 
   getTemplateInputsData() {
-    return {};
+    return {
+      'attr': {
+        'type': 'string',
+        'label': 'attr',
+        'tooltip': '',
+        'default': null,
+        'required': true
+      }
+    };
   }
 
   isContainer(): Boolean {
