@@ -1,7 +1,7 @@
 import { DEFAULT_INPUTS_O_ROW } from 'ontimize-web-ng2';
-import { OComponentData } from '../o-component-data.class';
+import { OComponentDataLayout } from './o-component-data-layout.class';
 
-export class ORowData extends OComponentData {
+export class ORowData extends OComponentDataLayout {
 
   constructor() {
     super();

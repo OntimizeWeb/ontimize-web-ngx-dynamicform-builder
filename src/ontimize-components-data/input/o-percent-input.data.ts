@@ -1,7 +1,7 @@
 import { DEFAULT_INPUTS_O_PERCENT_INPUT } from 'ontimize-web-ng2';
-import { OComponentData } from '../o-component-data.class';
+import { ORealInputData } from './o-real-input.data';
 
-export class OPercentInputData extends OComponentData {
+export class OPercentInputData extends ORealInputData {
 
   constructor() {
     super();

@@ -1,3 +1,4 @@
+export { OComponenetDataInput } from './input/o-component-data-input.class';
 export { OCurrencyInputData } from './input/o-currency-input.data';
 export { ODateInputData } from './input/o-date-input.data';
 export { OEmailInputData } from './input/o-email-input.data';
@@ -9,6 +10,7 @@ export { ORealInputData } from './input/o-real-input.data';
 export { OTextInputData } from './input/o-text-input.data';
 export { OTextareaInputData } from './input/o-textarea-input.data';
 
+export { OComponentDataLayout } from './layout/o-component-data-layout.class';
 export { OColumnData } from './layout/o-column.data';
 export { ORowData } from './layout/o-row.data';
 

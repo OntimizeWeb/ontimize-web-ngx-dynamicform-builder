@@ -1,7 +1,7 @@
 import { DEFAULT_INPUTS_O_NIF_INPUT } from 'ontimize-web-ng2';
-import { OComponentData } from '../o-component-data.class';
+import { OTextInputData } from './o-text-input.data';
 
-export class ONifInputData extends OComponentData {
+export class ONifInputData extends OTextInputData {
 
   constructor() {
     super();

@@ -212,13 +212,13 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
   }
 
-  openSettingsDialog(component: OComponentData, templateInputsData, args?: any) {
+  openSettingsDialog(component: OComponentData, args?: any) {
     var self = this;
     let dialogRef = this.dialog.open(ComponentSettingsDialogComponent, {
       width: '60%',
       disableClose: true
     });
-    dialogRef.componentInstance.setTemplateInputsData(templateInputsData);
+    dialogRef.componentInstance.setTemplateInputsData(component.getTemplateInputsData());
     dialogRef.componentInstance.setComponent(component);
 
     dialogRef.afterClosed().subscribe(newComponent => {
@@ -256,8 +256,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
       dialogArgs['parent'] = parent;
     }
 
-    var templateInputsData = this.componentsDataService.getComponentsInputsData();
-    this.openSettingsDialog(component, templateInputsData, dialogArgs);
+    this.openSettingsDialog(component, dialogArgs);
   }
 
   onEditComponentSettings(args) {
@@ -265,8 +264,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     if (!component) {
       return;
     }
-    var templateInputsData = this.componentsDataService.getComponentsInputsData();
-    this.openSettingsDialog(component, templateInputsData, { edit: true });
+    this.openSettingsDialog(component, { edit: true });
   }
 
   onDeleteComponent(args) {

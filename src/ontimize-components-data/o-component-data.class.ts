@@ -29,6 +29,10 @@ export class OComponentData {
     return parsedProperties;
   }
 
+  getTemplateInputsData() {
+    return {};
+  }
+
   isContainer(): Boolean {
     return false;
   }
