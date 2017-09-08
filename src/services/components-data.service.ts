@@ -12,7 +12,8 @@ import {
   OTextInputData,
   OTextareaInputData,
   OColumnData,
-  ORowData
+  ORowData,
+  OComboData
 } from '../ontimize-components-data/index';
 
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
@@ -32,7 +33,8 @@ export class ComponentsDataService {
     'o-text-input': OTextInputData,
     'o-textarea-input': OTextareaInputData,
     'o-column': OColumnData,
-    'o-row': ORowData
+    'o-row': ORowData,
+    'o-combo': OComboData
   };
 
   getOntimizeComponentData(componentName): OComponentData {

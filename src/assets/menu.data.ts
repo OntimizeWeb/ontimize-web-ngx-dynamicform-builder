@@ -14,6 +14,12 @@ export const MENU_JSON_DATA = {
     },
     {
       'icon': '',
+      'id': 'SERVICE_FIELDS',
+      'label': 'Service fields',
+      'parent': ''
+    },
+    {
+      'icon': '',
       'id': 'BUTTONS',
       'label': 'Buttons',
       'parent': ''
@@ -115,6 +121,12 @@ export const MENU_JSON_DATA = {
       'id': 'o-row',
       'label': 'Row',
       'parent': 'LAYOUT'
+    },
+    {
+      'icon': null,
+      'id': 'o-combo',
+      'label': 'o-combo',
+      'parent': 'SERVICE_FIELDS'
     }
   ]
 };
