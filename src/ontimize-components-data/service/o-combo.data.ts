@@ -21,8 +21,15 @@ export class OComboData extends OComponentDataService {
       'type': 'boolean',
       'label': 'translate',
       'tooltip': '',
-      'default': null,
+      'default': false,
       'required': false
+    };
+    templateInputsData['null-selection'] = {
+      'type': 'boolean',
+      'label': 'null-selection',
+      'tooltip': '',
+      'default': true,
+      'required': true
     };
     return templateInputsData;
   }

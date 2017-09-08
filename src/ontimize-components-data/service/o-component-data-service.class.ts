@@ -67,13 +67,6 @@ export class OComponentDataService extends OComponenetDataInput {
       'default': null,
       'required': false
     };
-    templateInputsData['null-selection'] = {
-      'type': 'boolean',
-      'label': 'null-selection',
-      'tooltip': '',
-      'default': true,
-      'required': true
-    };
     templateInputsData['query-on-init'] = {
       'type': 'boolean',
       'label': 'query-on-init',
