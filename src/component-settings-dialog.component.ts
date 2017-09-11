@@ -76,6 +76,8 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
   }
 
   save() {
+    Object.keys(this.formGroup.controls).forEach(control => this.formGroup.controls[control].markAsTouched());
+
     if (!this.formGroup.valid) {
       console.error('ERROR_MESSAGES.FORM_VALIDATION_ERROR');
       return;
