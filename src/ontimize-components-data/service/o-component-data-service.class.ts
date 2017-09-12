@@ -30,7 +30,7 @@ export class OComponentDataService extends OComponenetDataInput {
       'label': 'columns',
       'tooltip': '',
       'default': null,
-      'required': false
+      'required': true
     };
     templateInputsData['value-column'] = {
       'type': 'string',

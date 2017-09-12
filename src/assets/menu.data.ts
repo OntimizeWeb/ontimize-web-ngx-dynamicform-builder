@@ -127,6 +127,12 @@ export const MENU_JSON_DATA = {
       'id': 'o-combo',
       'label': 'o-combo',
       'parent': 'SERVICE_FIELDS'
+    },
+    {
+      'icon': null,
+      'id': 'o-list-picker',
+      'label': 'o-list-picker',
+      'parent': 'SERVICE_FIELDS'
     }
   ]
 };

@@ -41,7 +41,8 @@ export class OComponenetDataInput extends OComponentData {
       'required': false
     };
     templateInputsData['data'] = {
-      'type': 'string',
+      // TODO: look for a proper type mismatch solution, this works when static-data keys are numeric, it fails with strings
+      'type': 'json',
       'label': 'data',
       'tooltip': '',
       'default': null,
