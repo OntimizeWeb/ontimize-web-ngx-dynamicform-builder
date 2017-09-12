@@ -15,8 +15,4 @@ export class OColumnData extends OComponentDataLayout {
     return DEFAULT_INPUTS_O_COLUMN;
   }
 
-  isContainer(): Boolean {
-    return true;
-  }
-
 }

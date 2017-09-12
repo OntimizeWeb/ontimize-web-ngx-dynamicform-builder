@@ -2,6 +2,10 @@ import { OComponentData } from '../o-component-data.class';
 
 export class OComponentDataLayout extends OComponentData {
 
+  isContainer(): Boolean {
+    return true;
+  }
+
   getTemplateInputsData() {
     var templateInputsData = super.getTemplateInputsData();
     templateInputsData['title-label'] = {

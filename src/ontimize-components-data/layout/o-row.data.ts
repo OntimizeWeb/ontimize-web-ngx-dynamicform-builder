@@ -15,8 +15,4 @@ export class ORowData extends OComponentDataLayout {
     return DEFAULT_INPUTS_O_ROW;
   }
 
-  isContainer(): Boolean {
-    return true;
-  }
-
 }
