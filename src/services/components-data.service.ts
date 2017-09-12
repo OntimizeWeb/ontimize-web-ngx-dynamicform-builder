@@ -14,7 +14,8 @@ import {
   OColumnData,
   ORowData,
   OComboData,
-  OListPickerData
+  OListPickerData,
+  OCheckboxData
 } from '../ontimize-components-data/index';
 
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
@@ -36,7 +37,8 @@ export class ComponentsDataService {
     'o-column': OColumnData,
     'o-row': ORowData,
     'o-combo': OComboData,
-    'o-list-picker': OListPickerData
+    'o-list-picker': OListPickerData,
+    'o-checkbox': OCheckboxData
   };
 
   getOntimizeComponentData(componentName): OComponentData {

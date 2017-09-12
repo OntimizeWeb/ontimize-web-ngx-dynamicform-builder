@@ -133,6 +133,12 @@ export const MENU_JSON_DATA = {
       'id': 'o-list-picker',
       'label': 'o-list-picker',
       'parent': 'SERVICE_FIELDS'
+    },
+    {
+      'icon': null,
+      'id': 'o-checkbox',
+      'label': 'o-checkbox',
+      'parent': 'INPUT_FIELDS'
     }
   ]
 };

@@ -18,4 +18,6 @@ export { OComponentDataService } from './service/o-component-data-service.class'
 export { OComboData } from './service/o-combo.data';
 export { OListPickerData } from './service/o-list-picker.data';
 
+export { OCheckboxData } from './checkbox/o-checkbox.data';
+
 export { OComponentData } from './o-component-data.class';
