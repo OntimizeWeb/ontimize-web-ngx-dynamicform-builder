@@ -16,11 +16,33 @@ export class OComponentDataLayout extends OComponentData {
       'required': false
     };
     templateInputsData['layout-align'] = {
-      'type': 'string',
+      'type': 'combo',
       'label': 'layout-align',
       'tooltip': '',
       'default': 'start start',
-      'required': false
+      'required': false,
+      'values': [
+        'start start',
+        'start center',
+        'start end',
+        'start stretch',
+        'center start',
+        'center center',
+        'center end',
+        'center stretch',
+        'end start',
+        'end center',
+        'end end',
+        'end stretch',
+        'space-around start',
+        'space-around center',
+        'space-around end',
+        'space-around stretch',
+        'space-between start',
+        'space-between center',
+        'space-between end',
+        'space-between stretch'
+      ]
     };
     templateInputsData['layout-fill'] = {
       'type': 'boolean',
