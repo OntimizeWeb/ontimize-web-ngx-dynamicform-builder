@@ -11,6 +11,7 @@
               [form-definition]="formDefinition"
               [edit-mode]="!isReadOnly"
               (onAddComponent)="onAddComponent($event)"
+              (onMoveComponent)="onMoveComponent($event)"
               (onEditComponentSettings)="onEditComponentSettings($event)"
               (onDeleteComponent)="onDeleteComponent($event)"
               (render)="onDynamicFormRendered()">

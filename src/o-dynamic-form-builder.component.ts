@@ -18,7 +18,7 @@ import {
   IFormDataComponent,
   OFormValue
 } from 'ontimize-web-ng2';
-import { ODynamicFormComponent } from 'ontimize-web-ng2-dynamicform';
+import { /*BaseComponent,*/ ODynamicFormComponent } from 'ontimize-web-ng2-dynamicform';
 
 import { ArrayList } from './utils/index';
 import { ComponentsDataService } from './services/index';
@@ -259,6 +259,27 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this.openSettingsDialog(component, dialogArgs);
   }
 
+  onMoveComponent(args) {
+    let component/*: BaseComponent*/ = args.component;
+    // Delete old component
+    this.onDeleteComponent(args);
+    // Create a copy of the deleted component
+    let newComponent: OComponentData = this.cloneComponent(component);
+    // Add the new copy of the component to dynamic form
+    if (args.hasOwnProperty('previousSibling')) {
+      this._insertElement(args.previousSibling.getComponentAttr(), this.componentsArray, newComponent);
+    } else if (args.hasOwnProperty('parent')) {
+      let parent: OComponentData = this._searchElement(args.parent.getComponentAttr(), this.componentsArray);
+      if (parent) {
+        parent.addChild(newComponent);
+      }
+    } else {
+      this.componentsArray.unshift(newComponent);
+    }
+
+    this.onUpdateComponents();
+  }
+
   onEditComponentSettings(args) {
     var component: OComponentData = this.getOComponentData(args.component);
     if (!component) {
@@ -282,6 +303,10 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
     var component = this._searchElement(fieldComponent.getComponentAttr(), this.componentsArray);
     return component;
+  }
+
+  cloneComponent(component): OComponentData {
+    return this._cloneComponentData(component.settings);
   }
 
   get isReadOnly(): boolean {
@@ -327,6 +352,18 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
         this._removeElement(id, array[i].children);
       }
     }
+  }
+
+  private _cloneComponentData(settings): OComponentData {
+    let newComponent: OComponentData = this.componentsDataService.getOntimizeComponentData(settings['ontimize-directive']);
+    delete settings['ontimize-directive'];
+    newComponent.setConfiguredInputs(settings);
+    if (settings.children) {
+      settings.children.forEach(child => {
+        newComponent.addChild(this._cloneComponentData(child));
+      });
+    }
+    return newComponent;
   }
 
 }
