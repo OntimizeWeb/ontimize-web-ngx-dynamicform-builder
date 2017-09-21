@@ -1,7 +1,7 @@
 import { DEFAULT_INPUTS_O_COMBO } from 'ontimize-web-ng2';
-import { OComponentDataService } from './o-component-data-service.class';
+import { OComponentFormDataService } from './o-component-form-data-service.class';
 
-export class OComboData extends OComponentDataService {
+export class OComboData extends OComponentFormDataService {
 
   constructor() {
     super();

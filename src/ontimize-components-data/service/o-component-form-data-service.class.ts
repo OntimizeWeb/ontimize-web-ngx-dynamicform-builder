@@ -1,6 +1,6 @@
 import { OComponenetDataInput } from '../input/o-component-data-input.class';
 
-export class OComponentDataService extends OComponenetDataInput {
+export class OComponentFormDataService extends OComponenetDataInput {
 
   getTemplateInputsData() {
     var templateInputsData = super.getTemplateInputsData();
