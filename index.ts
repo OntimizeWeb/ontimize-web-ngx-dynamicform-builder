@@ -4,9 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DndModule } from 'ng2-dnd';
-import { DynamicFormModule } from 'ontimize-web-ng2-dynamicform';
+import { ODataTableModule } from 'ontimize-web-ngx-datatable';
+import { DynamicFormModule } from 'ontimize-web-ngx-dynamicform';
 
-import { OntimizeWebModule } from 'ontimize-web-ng2';
+import { OntimizeWebModule } from 'ontimize-web-ngx';
 
 import {
   SHARED_DIRECTIVES,
@@ -48,6 +49,7 @@ export const DYNAMIC_FORM_BUILDER_PROVIDERS = [
     CommonModule,
     ReactiveFormsModule,
     DndModule.forRoot(),
+    ODataTableModule,
     DynamicFormModule
   ],
   declarations: [

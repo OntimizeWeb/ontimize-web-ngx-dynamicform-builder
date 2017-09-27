@@ -1,9 +1,4 @@
-import {
-  Injectable
-} from '@angular/core';
-
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/share';
+import { Injectable } from '@angular/core';
 
 import {
   OCurrencyInputData,
@@ -16,16 +11,15 @@ import {
   ORealInputData,
   OTextInputData,
   OTextareaInputData,
-
   OColumnData,
   ORowData,
+  OComboData,
+  OListPickerData,
+  OCheckboxData,
+  ODataTableData
 } from '../ontimize-components-data/index';
 
-import {
-  OComponentData
-} from '../ontimize-components-data/o-component-data.class';
-
-import { COMPONENTS_INPUTS_DATA } from '../assets/components-inputs.data';
+import { OComponentData } from '../ontimize-components-data/o-component-data.class';
 
 @Injectable()
 export class ComponentsDataService {
@@ -41,60 +35,19 @@ export class ComponentsDataService {
     'o-real-input': ORealInputData,
     'o-text-input': OTextInputData,
     'o-textarea-input': OTextareaInputData,
-
     'o-column': OColumnData,
-    'o-row': ORowData
+    'o-row': ORowData,
+    'o-combo': OComboData,
+    'o-list-picker': OListPickerData,
+    'o-checkbox': OCheckboxData,
+    'o-datatable': ODataTableData
   };
 
-  instances = {};
-
-  templateInputsData = null;
-
   getOntimizeComponentData(componentName): OComponentData {
-    let res;
     if (this.constructors.hasOwnProperty(componentName)) {
-      res = new this.constructors[componentName]();
-    } else {
-      res = new OComponentData();
+      return new this.constructors[componentName]();
     }
-    return res;
-  }
-
-  readComponentsInputsData(): any {
-    return COMPONENTS_INPUTS_DATA;
-  }
-
-  getComponentsInputsData() {
-    var self = this;
-    var p = new Promise<string>((resolve, reject) => {
-      if (self.templateInputsData === null) {
-        // self.readComponentsInputsData()
-        //   .subscribe(
-        //   menuData => {
-        let menuData = self.readComponentsInputsData();
-        self.setComponentInputsData(menuData);
-        resolve(self.templateInputsData);
-        // },
-        // err => {
-        //   reject(err);
-        // });
-      } else {
-        resolve(self.templateInputsData);
-      }
-    });
-    return p;
-  }
-
-  setComponentInputsData(inputsData) {
-    let inputNames = Object.keys(inputsData.inputs);
-    for (var i = 0; i < inputNames.length; i++) {
-      let input = inputNames[i];
-      if (inputsData.inputs[input].type === 'combo' &&
-        inputsData['select-values'][input] !== undefined) {
-        inputsData.inputs[input].values = inputsData['select-values'][input].values;
-      }
-    }
-    this.templateInputsData = inputsData.inputs;
+    return new OComponentData();
   }
 
 }

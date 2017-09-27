@@ -76,6 +76,8 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
   }
 
   save() {
+    Object.keys(this.formGroup.controls).forEach(control => this.formGroup.controls[control].markAsTouched());
+
     if (!this.formGroup.valid) {
       console.error('ERROR_MESSAGES.FORM_VALIDATION_ERROR');
       return;
@@ -92,6 +94,10 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
           if (propertyValue !== undefined && typeof propertyValue !== 'string') {
             configuredInputs[item] = propertyValue.toString();
           }
+          // TODO: buscar la forma de parsear los datos en otro sitio
+          if (self.templateInputsData[item].type === 'json') {
+            configuredInputs[item] = JSON.parse(propertyValue);
+          }
         }
       });
     }
@@ -106,6 +112,10 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
   getInputData(inputName) {
     let inputData = this.templateInputsData[inputName];
     let configuredValue = this.component.getConfiguredInputValue(inputName);
+    // TODO: buscar la forma de parsear los datos en otro sitio
+    if (inputData.type === 'json') {
+      configuredValue = JSON.stringify(configuredValue);
+    }
     if (configuredValue !== undefined) {
       inputData.default = configuredValue;
     }
@@ -115,7 +125,7 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
   comparePropertyType(prop, type) {
     const propertyType = this.templateInputsData[prop].type;
     if (type === 'text') {
-      return (propertyType === 'string' || propertyType === 'number');
+      return (propertyType === 'string' || propertyType === 'number' || propertyType === 'json');
     }
     return (propertyType === type);
   }

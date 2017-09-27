@@ -29,6 +29,18 @@ export class OComponentData {
     return parsedProperties;
   }
 
+  getTemplateInputsData() {
+    return {
+      'attr': {
+        'type': 'string',
+        'label': 'attr',
+        'tooltip': '',
+        'default': null,
+        'required': true
+      }
+    };
+  }
+
   isContainer(): Boolean {
     return false;
   }
