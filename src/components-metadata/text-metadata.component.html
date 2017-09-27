@@ -1,5 +1,5 @@
 <div fxLayout="row" layout-padding [formGroup]="getFormGroup()">
-  <md-input-container fxFlex>
+  <md-form-field fxFlex>
     <input mdInput class="md-input" [attr.type]="data.type === 'number' ? 'number' : 'text'" [attr.step]="data.type === 'number' ? 1 : undefined"
       [attr.min]="data.type === 'number' ? -1000 : undefined" [attr.max]="data.type === 'number' ? 1000 : undefined" [placeholder]="data.label"
       [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()">
@@ -8,7 +8,7 @@
       <span *ngIf="fControl.errors?.minlength">FORM_VALIDATION.MIN_LENGTH: {{ fControl.errors?.minlength.requiredLength }}</span>
       <span *ngIf="fControl.errors?.maxlength">FORM_VALIDATION.MAX_LENGTH: {{ fControl.errors?.maxlength.requiredLength }}</span>
     </md-hint>
-  </md-input-container>
+  </md-form-field>
   <md-icon fxFlex="10" *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons">
     info </md-icon>
 </div>
