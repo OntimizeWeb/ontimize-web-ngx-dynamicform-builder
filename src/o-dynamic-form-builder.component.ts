@@ -17,8 +17,8 @@ import {
   IFormDataTypeComponent,
   IFormDataComponent,
   OFormValue
-} from 'ontimize-web-ng2';
-import { /*BaseComponent,*/ ODynamicFormComponent } from 'ontimize-web-ng2-dynamicform';
+} from 'ontimize-web-ngx';
+import { /*BaseComponent,*/ ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
 
 import { ArrayList } from './utils/index';
 import { ComponentsDataService } from './services/index';

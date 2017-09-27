@@ -1,4 +1,4 @@
-import { DEFAULT_INPUTS_O_INTEGER_INPUT } from 'ontimize-web-ng2';
+import { DEFAULT_INPUTS_O_INTEGER_INPUT } from 'ontimize-web-ngx';
 import { OTextInputData } from './o-text-input.data';
 
 export class OIntegerInputData extends OTextInputData {

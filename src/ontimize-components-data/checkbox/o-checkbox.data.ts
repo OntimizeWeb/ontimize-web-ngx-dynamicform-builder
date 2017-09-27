@@ -1,4 +1,4 @@
-import { DEFAULT_INPUTS_O_CHECKBOX } from 'ontimize-web-ng2';
+import { DEFAULT_INPUTS_O_CHECKBOX } from 'ontimize-web-ngx';
 import { OComponenetDataInput } from '../input/o-component-data-input.class';
 
 export class OCheckboxData extends OComponenetDataInput {

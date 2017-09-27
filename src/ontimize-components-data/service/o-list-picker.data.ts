@@ -1,4 +1,4 @@
-import { DEFAULT_INPUTS_O_LIST_PICKER } from 'ontimize-web-ng2';
+import { DEFAULT_INPUTS_O_LIST_PICKER } from 'ontimize-web-ngx';
 import { OComponentFormDataService } from './o-component-form-data-service.class';
 
 export class OListPickerData extends OComponentFormDataService {

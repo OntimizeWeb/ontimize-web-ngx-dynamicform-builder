@@ -20,6 +20,6 @@ export { OListPickerData } from './service/o-list-picker.data';
 
 export { OCheckboxData } from './checkbox/o-checkbox.data';
 
-export { OTableData } from './data/o-table.data';
+export { ODataTableData } from './data/o-datatable.data';
 
 export { OComponentData } from './o-component-data.class';

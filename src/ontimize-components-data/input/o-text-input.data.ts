@@ -1,4 +1,4 @@
-import { DEFAULT_INPUTS_O_TEXT_INPUT } from 'ontimize-web-ng2';
+import { DEFAULT_INPUTS_O_TEXT_INPUT } from 'ontimize-web-ngx';
 import { OComponenetDataInput } from './o-component-data-input.class';
 
 export class OTextInputData extends OComponenetDataInput {

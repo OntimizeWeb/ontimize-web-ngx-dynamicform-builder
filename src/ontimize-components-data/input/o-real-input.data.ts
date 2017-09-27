@@ -1,4 +1,4 @@
-import { DEFAULT_INPUTS_O_REAL_INPUT } from 'ontimize-web-ng2';
+import { DEFAULT_INPUTS_O_REAL_INPUT } from 'ontimize-web-ngx';
 import { OIntegerInputData } from './o-integer-input.data';
 
 export class ORealInputData extends OIntegerInputData {

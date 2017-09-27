@@ -142,8 +142,8 @@ export const MENU_JSON_DATA = {
     },
     {
       'icon': null,
-      'id': 'o-table',
-      'label': 'o-table',
+      'id': 'o-datatable',
+      'label': 'o-datatable',
       'parent': 'DATA'
     }
   ]

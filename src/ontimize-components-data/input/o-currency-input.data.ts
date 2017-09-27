@@ -1,4 +1,4 @@
-import { DEFAULT_INPUTS_O_CURRENCY_INPUT } from 'ontimize-web-ng2';
+import { DEFAULT_INPUTS_O_CURRENCY_INPUT } from 'ontimize-web-ngx';
 import { ORealInputData } from './o-real-input.data';
 
 export class OCurrencyInputData extends ORealInputData {
