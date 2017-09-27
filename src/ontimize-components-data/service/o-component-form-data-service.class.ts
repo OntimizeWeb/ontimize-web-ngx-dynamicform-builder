@@ -39,6 +39,13 @@ export class OComponentFormDataService extends OComponenetDataInput {
       'default': null,
       'required': true
     };
+    templateInputsData['value-column-type'] = {
+      'type': 'string',
+      'label': 'value-column-type',
+      'tooltip': '',
+      'default': 'int',
+      'required': true
+    };
     templateInputsData['parent-keys'] = {
       'type': 'string',
       'label': 'parent-keys',
