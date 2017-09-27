@@ -15,8 +15,8 @@ import {
     'gridCols: grid-columns',
     'iContentTpls: grid-templates'
   ],
-  template: require('./grid.component.html'),
-  styles: [require('./grid.component.scss')]
+  templateUrl: './grid.component.html',
+  styleUrls: ['./grid.component.scss']
 })
 export class GridComponent {
   @ContentChildren(TemplateRef)

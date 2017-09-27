@@ -21,8 +21,8 @@ export const DEFAULT_OUTPUTS_TEXT_METADATA = [
 
 @Component({
   selector: 'text-metadata',
-  template: require('./text-metadata.component.html'),
-  styles: [require('./property.metadata.class.scss')],
+  templateUrl: './text-metadata.component.html',
+  styleUrls: ['./property.metadata.class.scss'],
   inputs: [
     ...DEFAULT_INPUTS_TEXT_METADATA
   ],

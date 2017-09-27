@@ -17,8 +17,8 @@ import { AppMenuService } from '../../services/app-menu.service';
     'treeGridCols: tree-grid-columns',
     'dragEnabled : drag-enabled'
   ],
-  template: require('./app-menu.component.html'),
-  styles: [require('./app-menu.component.scss')]
+  templateUrl: './app-menu.component.html',
+  styleUrls: ['./app-menu.component.scss']
 })
 
 export class AppMenuComponent {

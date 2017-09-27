@@ -25,8 +25,8 @@ export const DEFAULT_OUTPUTS_APP_MENU_ITEM = [
   selector: 'app-menu-item',
   inputs: DEFAULT_INPUTS_APP_MENU_ITEM,
   outputs: DEFAULT_OUTPUTS_APP_MENU_ITEM,
-  template: require('./app-menu-item.component.html'),
-  styles: [require('./app-menu-item.component.scss')]
+  templateUrl: './app-menu-item.component.html',
+  styleUrls: ['./app-menu-item.component.scss']
 })
 export class AppMenuItemComponent implements AppMenuItem {
 

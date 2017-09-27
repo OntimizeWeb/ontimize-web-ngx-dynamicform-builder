@@ -27,8 +27,8 @@ import { ComponentSettingsDialogComponent } from './component-settings-dialog.co
 
 @Component({
   selector: 'o-dynamic-form-builder',
-  template: require('./o-dynamic-form-builder.component.html'),
-  styles: [require('./o-dynamic-form-builder.component.scss')],
+  templateUrl: './o-dynamic-form-builder.component.html',
+  styleUrls: ['./o-dynamic-form-builder.component.scss'],
   inputs: [
     'oattr :attr',
     'autoBinding: automatic-binding',

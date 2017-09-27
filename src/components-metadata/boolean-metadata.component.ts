@@ -17,8 +17,8 @@ export const DEFAULT_INPUTS_BOOLEAN_METADATA = [
 
 @Component({
   selector: 'boolean-metadata',
-  template: require('./boolean-metadata.component.html'),
-  styles: [require('./property.metadata.class.scss')],
+  templateUrl: './boolean-metadata.component.html',
+  styleUrls: ['./property.metadata.class.scss'],
   inputs: [
     ...DEFAULT_INPUTS_BOOLEAN_METADATA
   ],

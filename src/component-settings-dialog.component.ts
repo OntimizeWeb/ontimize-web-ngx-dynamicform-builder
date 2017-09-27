@@ -17,8 +17,8 @@ import { OComponentData } from './ontimize-components-data/o-component-data.clas
 @Component({
   selector: 'component-settings-dialog',
   inputs: [],
-  template: require('./component-settings-dialog.component.html'),
-  styles: [require('./component-settings-dialog.component.scss')]
+  templateUrl: './component-settings-dialog.component.html',
+  styleUrls: ['./component-settings-dialog.component.scss']
 })
 export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
 

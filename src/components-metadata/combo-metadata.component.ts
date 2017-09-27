@@ -17,8 +17,8 @@ export const DEFAULT_INPUTS_COMBO_METADATA = [
 
 @Component({
   selector: 'combo-metadata',
-  template: require('./combo-metadata.component.html'),
-  styles: [require('./property.metadata.class.scss')],
+  templateUrl: './combo-metadata.component.html',
+  styleUrls: ['./property.metadata.class.scss'],
   inputs: [
     ...DEFAULT_INPUTS_COMBO_METADATA
   ],
