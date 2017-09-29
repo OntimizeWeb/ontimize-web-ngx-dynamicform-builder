@@ -1,4 +1,4 @@
-import { ArrayList } from '../utils/index';
+import { ArrayList } from '../utils';
 
 export class OComponentData {
 

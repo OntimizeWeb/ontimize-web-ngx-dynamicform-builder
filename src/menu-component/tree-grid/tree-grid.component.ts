@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { TreeListDefault } from './tree-list.class';
-import { Type } from '../../utils/index';
+import { Type } from '../../utils';
 
 @Component({
   selector: 'tree-grid',

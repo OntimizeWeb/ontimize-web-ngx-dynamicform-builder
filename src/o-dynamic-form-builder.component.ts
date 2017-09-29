@@ -18,9 +18,9 @@ import {
   IFormDataComponent,
   OFormValue
 } from 'ontimize-web-ngx';
-import { /*BaseComponent,*/ ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
+import { ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
 
-import { ArrayList } from './utils/index';
+import { ArrayList } from './utils';
 import { ComponentsDataService } from './services/index';
 import { OComponentData } from './ontimize-components-data/index';
 import { ComponentSettingsDialogComponent } from './component-settings-dialog.component';

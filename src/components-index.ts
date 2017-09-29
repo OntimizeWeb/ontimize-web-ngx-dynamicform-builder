@@ -5,20 +5,24 @@ import {
   AppMenuItemComponent,
   TreeGridComponent,
   GridComponent
-} from './menu-component/index';
+} from './menu-component';
 
 import {
   TextMetadataComponent,
   BooleanMetadataComponent,
   ComboMetadataComponent
-} from './components-metadata/index';
+} from './components-metadata';
 
-export {
-  AppMenuService,
-  ComponentsDataService
-} from './services/index';
+import { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
+import { ODynamicFormBuilderComponent } from './o-dynamic-form-builder.component';
 
-export const SHARED_DIRECTIVES: any = [
+export { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
+export { ODynamicFormBuilderComponent } from './o-dynamic-form-builder.component';
+export * from './menu-component';
+export * from './components-metadata';
+
+
+export const O_DYNAMICFORM_BUILDER_COMPONENTS: any = [
   AppMenuFrameComponent,
   AppMenuComponent,
   AppMenuTitleComponent,
@@ -27,5 +31,7 @@ export const SHARED_DIRECTIVES: any = [
   GridComponent,
   TextMetadataComponent,
   BooleanMetadataComponent,
-  ComboMetadataComponent
+  ComboMetadataComponent,
+  ComponentSettingsDialogComponent,
+  ODynamicFormBuilderComponent
 ];
