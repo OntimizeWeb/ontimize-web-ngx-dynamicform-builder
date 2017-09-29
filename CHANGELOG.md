@@ -1,3 +1,20 @@
+## 2.0.0
+
+### BREAKING CHANGES
+* **DynamicFormBuilderModule**: '*ontimize-web-ng2-dynamicform-builder*' is now called '*ontimize-web-ngx-dynamicform-builder*'.
+
+### Features
+* **ontimize-web-ngx-dynamicform-builder**: '*DynamicFormBuilderModule*' is now AoT compatible.
+
+### PEER-DEPENDENCY UPDATES ###
+* **Added**:   ontimize-web-ngx@^2.4.1
+* **Added**:   ontimize-web-ngx@^4.17.4
+* **Added**:   ontimize-web-ngx@^5.4.2
+* **Added**:   ontimize-web-ngx@^0.8.12
+
+### Features
+* **styles**: exporting '*o-dynamic-form-builder-theme*'.
+
 ## 0.0.3 (2017-03-31)
 
 ### PEER-DEPENDENCY UPDATES ###
