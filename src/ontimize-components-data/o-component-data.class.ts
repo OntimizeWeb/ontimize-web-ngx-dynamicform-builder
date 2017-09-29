@@ -1,4 +1,4 @@
-import { ArrayList } from '../utils/index';
+import { ArrayList } from '../utils';
 
 export class OComponentData {
 
@@ -27,6 +27,18 @@ export class OComponentData {
       parsedProperties.push(splitted[splitted.length - 1].trim());
     }
     return parsedProperties;
+  }
+
+  getTemplateInputsData() {
+    return {
+      'attr': {
+        'type': 'string',
+        'label': 'attr',
+        'tooltip': '',
+        'default': null,
+        'required': true
+      }
+    };
   }
 
   isContainer(): Boolean {

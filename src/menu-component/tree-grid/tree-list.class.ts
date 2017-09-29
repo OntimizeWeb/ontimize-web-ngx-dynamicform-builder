@@ -1,5 +1,5 @@
 import { TemplateRef, QueryList, EventEmitter } from '@angular/core';
-import { HashMap } from '../../utils/index';
+import { HashMap } from '../../utils';
 
 export class TreeListDefault {
     update: EventEmitter<boolean> = new EventEmitter<boolean>();

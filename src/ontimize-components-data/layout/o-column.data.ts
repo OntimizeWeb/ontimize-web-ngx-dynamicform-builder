@@ -1,7 +1,7 @@
-import { DEFAULT_INPUTS_O_COLUMN } from 'ontimize-web-ng2';
-import { OComponentData } from '../o-component-data.class';
+import { DEFAULT_INPUTS_O_COLUMN } from 'ontimize-web-ngx';
+import { OComponentDataLayout } from './o-component-data-layout.class';
 
-export class OColumnData extends OComponentData {
+export class OColumnData extends OComponentDataLayout {
 
   constructor() {
     super();
@@ -13,10 +13,6 @@ export class OColumnData extends OComponentData {
 
   getInputsProperties(): Array<any> {
     return DEFAULT_INPUTS_O_COLUMN;
-  }
-
-  isContainer(): Boolean {
-    return true;
   }
 
 }

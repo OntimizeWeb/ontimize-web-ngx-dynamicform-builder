@@ -17,18 +17,18 @@ import {
   IFormDataTypeComponent,
   IFormDataComponent,
   OFormValue
-} from 'ontimize-web-ng2';
-import { ODynamicFormComponent } from 'ontimize-web-ng2-dynamicform';
+} from 'ontimize-web-ngx';
+import { ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
 
-import { ArrayList } from './utils/index';
+import { ArrayList } from './utils';
 import { ComponentsDataService } from './services/index';
 import { OComponentData } from './ontimize-components-data/index';
 import { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
 
 @Component({
   selector: 'o-dynamic-form-builder',
-  template: require('./o-dynamic-form-builder.component.html'),
-  styles: [require('./o-dynamic-form-builder.component.scss')],
+  templateUrl: './o-dynamic-form-builder.component.html',
+  styleUrls: ['./o-dynamic-form-builder.component.scss'],
   inputs: [
     'oattr :attr',
     'autoBinding: automatic-binding',
@@ -212,13 +212,13 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
   }
 
-  openSettingsDialog(component: OComponentData, templateInputsData, args?: any) {
+  openSettingsDialog(component: OComponentData, args?: any) {
     var self = this;
     let dialogRef = this.dialog.open(ComponentSettingsDialogComponent, {
       width: '60%',
       disableClose: true
     });
-    dialogRef.componentInstance.setTemplateInputsData(templateInputsData);
+    dialogRef.componentInstance.setTemplateInputsData(component.getTemplateInputsData());
     dialogRef.componentInstance.setComponent(component);
 
     dialogRef.afterClosed().subscribe(newComponent => {
@@ -256,31 +256,36 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
       dialogArgs['parent'] = parent;
     }
 
-    var self = this;
-    this.componentsDataService.getComponentsInputsData().then(
-      function (templateInputsData) {
-        self.openSettingsDialog(component, templateInputsData, dialogArgs);
-      },
-      function (reason) {
-        console.error('Something went wrong', reason);
-      });
+    this.openSettingsDialog(component, dialogArgs);
   }
-  // : BaseComponent
+
+  onMoveComponent(args) {
+    let component/*: BaseComponent*/ = args.component;
+    // Delete old component
+    this.onDeleteComponent(args);
+    // Create a copy of the deleted component
+    let newComponent: OComponentData = this.cloneComponent(component);
+    // Add the new copy of the component to dynamic form
+    if (args.hasOwnProperty('previousSibling')) {
+      this._insertElement(args.previousSibling.getComponentAttr(), this.componentsArray, newComponent);
+    } else if (args.hasOwnProperty('parent')) {
+      let parent: OComponentData = this._searchElement(args.parent.getComponentAttr(), this.componentsArray);
+      if (parent) {
+        parent.addChild(newComponent);
+      }
+    } else {
+      this.componentsArray.unshift(newComponent);
+    }
+
+    this.onUpdateComponents();
+  }
+
   onEditComponentSettings(args) {
     var component: OComponentData = this.getOComponentData(args.component);
     if (!component) {
       return;
     }
-    var self = this;
-    this.componentsDataService.getComponentsInputsData().then(
-      function (templateInputsData) {
-        self.openSettingsDialog(component, templateInputsData, {
-          edit: true
-        });
-      },
-      function (reason) {
-        console.error('Something went wrong', reason);
-      });
+    this.openSettingsDialog(component, { edit: true });
   }
 
   onDeleteComponent(args) {
@@ -298,6 +303,10 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
     var component = this._searchElement(fieldComponent.getComponentAttr(), this.componentsArray);
     return component;
+  }
+
+  cloneComponent(component): OComponentData {
+    return this._cloneComponentData(component.settings);
   }
 
   get isReadOnly(): boolean {
@@ -343,6 +352,18 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
         this._removeElement(id, array[i].children);
       }
     }
+  }
+
+  private _cloneComponentData(settings): OComponentData {
+    let newComponent: OComponentData = this.componentsDataService.getOntimizeComponentData(settings['ontimize-directive']);
+    delete settings['ontimize-directive'];
+    newComponent.setConfiguredInputs(settings);
+    if (settings.children) {
+      settings.children.forEach(child => {
+        newComponent.addChild(this._cloneComponentData(child));
+      });
+    }
+    return newComponent;
   }
 
 }

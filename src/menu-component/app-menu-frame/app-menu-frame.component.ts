@@ -9,8 +9,8 @@ import { Component, ElementRef } from '@angular/core';
     'x: ui-x',
     'y: ui-y'
   ],
-  template: require('./app-menu-frame.component.html'),
-  styles: [require('./app-menu-frame.component.scss')]
+  templateUrl: './app-menu-frame.component.html',
+  styleUrls: ['./app-menu-frame.component.scss']
 })
 
 export class AppMenuFrameComponent {

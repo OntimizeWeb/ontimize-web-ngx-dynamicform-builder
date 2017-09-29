@@ -1,18 +1,11 @@
-<div fxFlex fxLayout="row" fxLayoutAlign="space-between center"
-    fxFlexFill layout-padding [formGroup]="getFormGroup()">
-
-    <md-select fxFlex="80" fxFlexFill
-        [placeholder]="data.label"
-        [ngModel]="getValue()"
-        (ngModelChange)="innerOnChange($event)"
-        [formControlName]="getPropertyName()">
-
-        <md-option *ngIf="!data.required">
-        </md-option>
-        <md-option *ngFor="let value of data.values" [value]="value">
-            {{ value }}
-        </md-option>
-    </md-select>
-
-    <md-icon fxFlex="10" fxFlexFill *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons"> info </md-icon>
+<div fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill layout-padding [formGroup]="getFormGroup()">
+  <md-select fxFlex [placeholder]="data.label" [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()">
+    <md-option *ngIf="!data.required">
+    </md-option>
+    <md-option *ngFor="let value of data.values" [value]="value">
+      {{ value }}
+    </md-option>
+  </md-select>
+  <md-icon fxFlex="10" fxFlexFill *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons">
+    info </md-icon>
 </div>

@@ -1,7 +1,7 @@
-import { DEFAULT_INPUTS_O_EMAIL_INPUT } from 'ontimize-web-ng2';
-import { OComponentData } from '../o-component-data.class';
+import { DEFAULT_INPUTS_O_EMAIL_INPUT } from 'ontimize-web-ngx';
+import { OTextInputData } from './o-text-input.data';
 
-export class OEmailInputData extends OComponentData {
+export class OEmailInputData extends OTextInputData {
 
   constructor() {
     super();

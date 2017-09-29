@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { TreeListDefault } from './tree-list.class';
-import { Type } from '../../utils/index';
+import { Type } from '../../utils';
 
 @Component({
   selector: 'tree-grid',
@@ -19,8 +19,8 @@ import { Type } from '../../utils/index';
     'treeGridCols: tree-grid-columns',
     'id: node-id'
   ],
-  template: require('./tree-grid.component.html'),
-  styles: [require('./tree-grid.component.scss')]
+  templateUrl: './tree-grid.component.html',
+  styleUrls: ['./tree-grid.component.scss']
 })
 
 export class TreeGridComponent {

@@ -9,8 +9,8 @@ import { AppMenuTitle } from './app-menu-title.class';
     'onlyIcons: only-icons',
     'closed: title-closed'
   ],
-  template: require('./app-menu-title.component.html'),
-  styles: [require('./app-menu-title.component.scss')]
+  templateUrl: './app-menu-title.component.html',
+  styleUrls: ['./app-menu-title.component.scss']
 })
 export class AppMenuTitleComponent extends AppMenuTitle {
   @HostBinding('class.nolabels')
