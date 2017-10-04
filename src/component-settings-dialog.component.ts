@@ -123,7 +123,7 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
   }
 
   comparePropertyType(prop, type) {
-    const propertyType = this.templateInputsData[prop].type;
+    const propertyType = this.templateInputsData.hasOwnProperty(prop) ? this.templateInputsData[prop].type : undefined;
     if (type === 'text') {
       return (propertyType === 'string' || propertyType === 'number' || propertyType === 'json');
     }
