@@ -2,6 +2,7 @@
 
 ### Bug Fixes
 * **templates**: updating components templates for adapting to AoT requirements.
+* **o-date-input**: fixing '*o-date-input*' build bugs ([#14](https://github.com/OntimizeWeb/ontimize-web-ng2-dynamicform-builder/issues/14)) ([cdaa0b0](https://github.com/OntimizeWeb/ontimize-web-ng2-dynamicform-builder/commit/cdaa0b0))
 
 ## 2.0.0
 
