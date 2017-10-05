@@ -31,6 +31,57 @@ export class ODateInputData extends OTextInputData {
       'default': null,
       'required': false
     };
+
+    templateInputsData['touch-ui'] = {
+      'type': 'boolean',
+      'label': 'touch-ui',
+      'tooltip': '',
+      'default': false,
+      'required': false
+    };
+
+    // // possible values 'month' | 'year' //TODO ENUM
+    // templateInputsData['start-view'] = {
+    //   'type': 'string',
+    //   'label': 'start-view',
+    //   'tooltip': '',
+    //   'default': 'month',
+    //   'required': false
+    // };
+
+    //  //TODO type date
+    // templateInputsData['min'] = {
+    //   'type': 'string',
+    //   'label': 'min',
+    //   'tooltip': '',
+    //   'default': null,
+    //   'required': false
+    // };
+
+    // templateInputsData['max'] = {
+    //   'type': 'string',
+    //   'label': 'max',
+    //   'tooltip': '',
+    //   'default': null,
+    //   'required': false
+    // };
+
+    // templateInputsData['start-at'] = {
+    //   'type': 'string',
+    //   'label': 'start-at',
+    //   'tooltip': '',
+    //   'default': null,
+    //   'required': false
+    // };
+
+    // // type DateFilterFunction = (date: Date) => boolean; // todo type function
+    // templateInputsData['filter-date'] = {
+    //   'type': 'string',
+    //   'label': 'filter-date',
+    //   'tooltip': '',
+    //   'default': null,
+    //   'required': false
+    // };
     return templateInputsData;
   }
 

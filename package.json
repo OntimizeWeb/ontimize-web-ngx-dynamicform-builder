@@ -1,6 +1,6 @@
 {
   "name": "ontimize-web-ngx-dynamicform-builder",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Dynamic form builder",
   "scripts": {
     "rimraf": "rimraf",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "jquery": "^3.0.0",
-    "ontimize-web-ngx-dynamicform": "2.0.0",
+    "ontimize-web-ngx-dynamicform": "2.0.1",
     "ontimize-web-ngx": "2.0.0",
     "ontimize-web-ngx-datatable": "1.0.3",
     "@angular/animations": "4.3.6",

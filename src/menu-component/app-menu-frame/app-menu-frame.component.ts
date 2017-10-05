@@ -34,13 +34,21 @@ export class AppMenuFrameComponent {
   ngOnChanges() {
     switch (this.element) {
       case 'popup':
-        this.draggable = true;
+        this.isDraggable = true;
         this.fixPosition();
         break;
       default:
-        this.draggable = false;
+        this.isDraggable = false;
         break;
     }
+  }
+
+  get isDraggable(): boolean {
+    return this.draggable;
+  }
+
+  set isDraggable(val: boolean) {
+    this.draggable = val;
   }
 
   setPosition(x: number, y: number) {
