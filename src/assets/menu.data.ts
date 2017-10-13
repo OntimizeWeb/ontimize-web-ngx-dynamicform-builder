@@ -145,6 +145,36 @@ export const MENU_JSON_DATA = {
       'id': 'o-datatable',
       'label': 'o-datatable',
       'parent': 'DATA'
+    },
+    {
+      'icon': null,
+      'id': 'o-list',
+      'label': 'o-list',
+      'parent': 'DATA'
+    },
+    {
+      'icon': null,
+      'id': 'o-list-item-text',
+      'label': 'o-list-item-text',
+      'parent': 'DATA'
+    },
+    {
+      'icon': null,
+      'id': 'o-list-item-avatar',
+      'label': 'o-list-item-avatar',
+      'parent': 'DATA'
+    },
+    {
+      'icon': null,
+      'id': 'o-list-item-card',
+      'label': 'o-list-item-card',
+      'parent': 'DATA'
+    },
+    {
+      'icon': null,
+      'id': 'o-list-item-card-image',
+      'label': 'o-list-item-card-image',
+      'parent': 'DATA'
     }
   ]
 };

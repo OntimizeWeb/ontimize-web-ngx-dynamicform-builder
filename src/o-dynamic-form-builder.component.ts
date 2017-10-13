@@ -25,6 +25,8 @@ import { ComponentsDataService } from './services/index';
 import { OComponentData } from './ontimize-components-data/index';
 import { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
 
+import { OListData } from './ontimize-components-data/data/o-list.data';
+
 @Component({
   selector: 'o-dynamic-form-builder',
   templateUrl: './o-dynamic-form-builder.component.html',
@@ -219,6 +221,11 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
       disableClose: true
     });
     dialogRef.componentInstance.setTemplateInputsData(component.getTemplateInputsData());
+    if (component instanceof OListData) {
+      component.getChildren().forEach(child => {
+        dialogRef.componentInstance.setChildrenTemplateInputsData(child.getDirective(), child.getTemplateInputsData());
+      });
+    }
     dialogRef.componentInstance.setComponent(component);
 
     dialogRef.afterClosed().subscribe(newComponent => {

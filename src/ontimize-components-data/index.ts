@@ -21,5 +21,10 @@ export { OListPickerData } from './service/o-list-picker.data';
 export { OCheckboxData } from './checkbox/o-checkbox.data';
 
 export { ODataTableData } from './data/o-datatable.data';
+export { OListData } from './data/o-list.data';
+export { OListItemTextData } from './data/o-list-item-text.data';
+export { OListItemAvatarData } from './data/o-list-item-avatar.data';
+export { OListItemCardData } from './data/o-list-item-card.data';
+export { OListItemCardImageData } from './data/o-list-item-card-image.data';
 
 export { OComponentData } from './o-component-data.class';

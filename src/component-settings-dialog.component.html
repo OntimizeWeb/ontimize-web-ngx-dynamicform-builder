@@ -1,17 +1,54 @@
-<h1 md-dialog-title> {{ component.getDirective() }} </h1>
+<span md-dialog-title> {{ component.getDirective() }} </span>
 <md-dialog-content>
-  <form #settingsForm [formGroup]="formGroup" fxLayout="column">
-    <md-grid-list cols="2" rowHeight="5:1" gutterSize="16">
-      <md-grid-tile *ngFor="let prop of component.getInputs()" fxLayoutAlign="start center">
-        <boolean-metadata fxFlexFill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'boolean')"></boolean-metadata>
-        <text-metadata fxFlexFill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'text')"></text-metadata>
-        <combo-metadata fxFlexFill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'combo')"></combo-metadata>
-      </md-grid-tile>
-    </md-grid-list>
-  </form>
+  <md-tab-group #settingsTabGroup [dynamicHeight]="false">
+
+    <md-tab label="{{ 'COMPONENT_ATTRIBUTES' | oTranslate }}">
+      <form #generalForm [formGroup]="getFormGroup(GENERAL_FORM_KEY)" fxLayout="column">
+        <md-grid-list cols="2" rowHeight="5:1" gutterSize="16">
+          <md-grid-tile *ngFor="let prop of component.getInputs()" fxLayoutAlign="start center">
+            <boolean-metadata fxFlexFill [parent]="getFormGroup(GENERAL_FORM_KEY)" [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'boolean')"></boolean-metadata>
+            <text-metadata fxFlexFill [parent]="getFormGroup(GENERAL_FORM_KEY)" [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'text')"></text-metadata>
+            <combo-metadata fxFlexFill [parent]="getFormGroup(GENERAL_FORM_KEY)" [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'combo')"></combo-metadata>
+          </md-grid-tile>
+        </md-grid-list>
+      </form>
+    </md-tab>
+
+    <md-tab *ngIf="component.getDirective()==='o-list' && component.getChildren().length>0" label="{{ 'INNER_COMPONENTS' | oTranslate }}">
+      <md-accordion *ngIf="settingsTabGroup.selectedIndex===1">
+        <ng-container *ngFor="let child of component.getChildren(); let i = index;">
+          <form [formGroup]="getFormGroup(child.getDirective())" fxLayout="column">
+            <md-expansion-panel [expanded]="component.getDirective()==='o-list'" layout-padding>
+              <md-expansion-panel-header>
+                <md-panel-title fxLayoutAlign="start center">
+                  {{ child.getDirective() }}
+                </md-panel-title>
+              </md-expansion-panel-header>
+              <md-grid-list cols="2" rowHeight="5:1" gutterSize="16">
+                <md-grid-tile *ngFor="let childProp of child.getInputs()" fxLayoutAlign="start center">
+                  <boolean-metadata fxFlexFill [parent]="getFormGroup(child.getDirective())" [property]="childProp" [data]="getInputData(childProp, child.getDirective())"
+                    *ngIf="comparePropertyType(childProp, 'boolean', child.getDirective())"></boolean-metadata>
+                  <text-metadata fxFlexFill [parent]="getFormGroup(child.getDirective())" [property]="childProp" [data]="getInputData(childProp, child.getDirective())"
+                    *ngIf="comparePropertyType(childProp, 'text', child.getDirective())"></text-metadata>
+                  <combo-metadata fxFlexFill [parent]="getFormGroup(child.getDirective())" [property]="childProp" [data]="getInputData(childProp, child.getDirective())"
+                    *ngIf="comparePropertyType(childProp, 'combo', child.getDirective())"></combo-metadata>
+                </md-grid-tile>
+              </md-grid-list>
+              <div fxLayout="row" fxLayoutAlign="end center">
+                <button md-fab (click)="deleteInnerComponent(i)">
+                  <md-icon>delete</md-icon>
+                </button>
+              </div>
+            </md-expansion-panel>
+          </form>
+        </ng-container>
+      </md-accordion>
+    </md-tab>
+
+  </md-tab-group>
 </md-dialog-content>
 
-<md-dialog-actions>
-  <button md-raised-button (click)="save()">{{ 'SAVE' | oTranslate }}</button>
+<md-dialog-actions fxLayoutAlign="end center">
   <button md-raised-button (click)="cancel()">{{ 'CANCEL' | oTranslate }}</button>
+  <button md-raised-button (click)="save()">{{ 'SAVE' | oTranslate }}</button>
 </md-dialog-actions>

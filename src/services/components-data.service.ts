@@ -16,7 +16,12 @@ import {
   OComboData,
   OListPickerData,
   OCheckboxData,
-  ODataTableData
+  ODataTableData,
+  OListData,
+  OListItemTextData,
+  OListItemAvatarData,
+  OListItemCardData,
+  OListItemCardImageData
 } from '../ontimize-components-data/index';
 
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
@@ -40,7 +45,12 @@ export class ComponentsDataService {
     'o-combo': OComboData,
     'o-list-picker': OListPickerData,
     'o-checkbox': OCheckboxData,
-    'o-datatable': ODataTableData
+    'o-datatable': ODataTableData,
+    'o-list': OListData,
+    'o-list-item-text': OListItemTextData,
+    'o-list-item-avatar': OListItemAvatarData,
+    'o-list-item-card': OListItemCardData,
+    'o-list-item-card-image': OListItemCardImageData
   };
 
   getOntimizeComponentData(componentName): OComponentData {

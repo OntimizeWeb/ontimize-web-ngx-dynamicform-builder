@@ -1,7 +1,5 @@
 import {
   Component,
-  Inject,
-  forwardRef,
   OnInit,
   OnDestroy,
   EventEmitter,
@@ -9,7 +7,6 @@ import {
 } from '@angular/core';
 
 import { PropertyMetadataClass } from './property.metadata.class';
-import { ComponentSettingsDialogComponent } from '../component-settings-dialog.component';
 
 export const DEFAULT_INPUTS_TEXT_METADATA = [
   ...PropertyMetadataClass.DEFAULT_INPUTS_METADATA
@@ -37,11 +34,6 @@ export class TextMetadataComponent extends PropertyMetadataClass implements OnIn
   public static DEFAULT_OUTPUTS_TEXT_METADATA = DEFAULT_OUTPUTS_TEXT_METADATA;
 
   onChange: EventEmitter<Object> = new EventEmitter<Object>();
-
-  constructor( @Inject(forwardRef(() => ComponentSettingsDialogComponent))
-  settingsDialog: ComponentSettingsDialogComponent) {
-    super(settingsDialog);
-  }
 
   parseValue(arg) {
     if (arg !== undefined && arg !== null && this.data.type === 'number' && typeof arg !== 'number') {

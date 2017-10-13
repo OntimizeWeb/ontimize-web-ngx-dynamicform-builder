@@ -1,3 +1,11 @@
 md-dialog-content {
+  max-height: 75vh;
+
+  md-tab-group {
     max-height: 75vh;
+
+    /deep/ .mat-tab-body-wrapper {
+      height: 100%;
+    }
+  }
 }
