@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MdExpansionModule } from '@angular/material';
 import { DndModule } from 'ng2-dnd';
 
 import { OntimizeWebModule } from 'ontimize-web-ngx';
@@ -14,6 +15,7 @@ export * from './src/services';
 
 @NgModule({
   imports: [
+    MdExpansionModule,
     OntimizeWebModule,
     CommonModule,
     DndModule.forRoot(),
