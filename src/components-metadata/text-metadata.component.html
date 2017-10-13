@@ -4,9 +4,9 @@
       [attr.min]="data.type === 'number' ? -1000 : undefined" [attr.max]="data.type === 'number' ? 1000 : undefined" [placeholder]="data.label"
       [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()">
     <md-hint *ngIf="fControl.touched && fControl.errors">
-      <span *ngIf="fControl.errors?.required">FORM_VALIDATION.REQUIRED</span>
-      <span *ngIf="fControl.errors?.minlength">FORM_VALIDATION.MIN_LENGTH: {{ fControl.errors?.minlength.requiredLength }}</span>
-      <span *ngIf="fControl.errors?.maxlength">FORM_VALIDATION.MAX_LENGTH: {{ fControl.errors?.maxlength.requiredLength }}</span>
+      <span *ngIf="fControl.errors?.required">{{ 'FORM_VALIDATION.REQUIRED' | oTranslate }}</span>
+      <span *ngIf="fControl.errors?.minlength">{{ 'FORM_VALIDATION.MIN_LENGTH' | oTranslate }}: {{ fControl.errors?.minlength.requiredLength }}</span>
+      <span *ngIf="fControl.errors?.maxlength">{{ 'FORM_VALIDATION.MAX_LENGTH' | oTranslate }}: {{ fControl.errors?.maxlength.requiredLength }}</span>
     </md-hint>
   </md-form-field>
   <md-icon fxFlex="10" *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons">
