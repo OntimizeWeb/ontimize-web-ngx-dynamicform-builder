@@ -38,13 +38,13 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
 
   protected _isReadOnly: boolean;
 
-  @ViewChild('wrapperForm')
-  wrapperForm: OFormComponent;
+  @ViewChild('innerForm')
+  innerForm: OFormComponent;
 
   @ViewChild('dynamicForm')
   dynamicForm: ODynamicFormComponent;
 
-  innerFormDefinition: Object = null;
+  innerFormDefinition: any = null;
 
   componentsArray: ArrayList<OComponentData> = new ArrayList<OComponentData>();
 
@@ -107,13 +107,13 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     return SQLTypes.OTHER;
   }
 
-  reloadWrapperFormMode() {
+  reloadInnerFormMode() {
     // re-setting wrapper form mode for setting mode to new components
-    this.wrapperForm.setFormMode(this.wrapperForm.mode);
+    this.innerForm.setFormMode(this.innerForm.mode);
   }
 
   onDynamicFormRendered() {
-    this.reloadWrapperFormMode();
+    this.reloadInnerFormMode();
     if (this.render) {
       this.render.emit(true);
     }

@@ -15,6 +15,7 @@ import {
 
 import { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
 import { ODynamicFormBuilderComponent } from './o-dynamic-form-builder.component';
+import { ExtendedFormComponent } from './extended-form/extended-form.component';
 
 export { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
 export { ODynamicFormBuilderComponent } from './o-dynamic-form-builder.component';
@@ -33,5 +34,6 @@ export const O_DYNAMICFORM_BUILDER_COMPONENTS: any = [
   BooleanMetadataComponent,
   ComboMetadataComponent,
   ComponentSettingsDialogComponent,
-  ODynamicFormBuilderComponent
+  ODynamicFormBuilderComponent,
+  ExtendedFormComponent
 ];

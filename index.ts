@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DndModule } from 'ng2-dnd';
 
@@ -25,6 +25,7 @@ export * from './src/services';
   entryComponents: [
     ComponentSettingsDialogComponent
   ],
-  providers: O_DYNAMICFORM_BUILDER_PROVIDERS
+  providers: O_DYNAMICFORM_BUILDER_PROVIDERS,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DynamicFormBuilderModule { }
