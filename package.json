@@ -12,7 +12,8 @@
     "webpack:dev": "npm run init-common &&&& webpack --config config/webpack.dev.js --progress && npm run end-common",
     "webpack:prod": "npm run init-common && && webpack --config config/webpack.prod.js --progress && npm run end-common",
     "aot:compile": "node_modules/.bin/ngc -p tsconfig.aot.json",
-    "aot": "npm run init-common && npm run aot:compile && npm run end-common"
+    "aot": "npm run init-common && npm run aot:compile && npm run end-common",
+    "pack": "npm run aot && cd dist && npm pack && cd .."
   },
   "repository": {
     "type": "git",
@@ -44,9 +45,9 @@
   },
   "devDependencies": {
     "jquery": "^3.0.0",
-    "ontimize-web-ngx-dynamicform": "2.0.1",
-    "ontimize-web-ngx": "2.0.0",
-    "ontimize-web-ngx-datatable": "1.0.3",
+    "ontimize-web-ngx-dynamicform": "file:C:\\workspace\\github\\DYNAMICFORM\\ontimize-web-ng2-dynamicform\\dist\\ontimize-web-ngx-dynamicform-2.0.2.tgz",
+    "ontimize-web-ngx": "file:C:\\workspace\\github\\ontimize-web-ng2-VERSIONS\\2.1.0-rc.4\\ontimize-web-ngx\\dist\\ontimize-web-ngx-2.1.0-rc.4.tgz",
+    "ontimize-web-ngx-datatable": "1.0.6",
     "@angular/animations": "4.3.6",
     "@angular/cdk": "2.0.0-beta.10",
     "@angular/common": "4.3.6",
