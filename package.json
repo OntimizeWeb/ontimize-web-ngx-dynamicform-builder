@@ -45,9 +45,9 @@
   },
   "devDependencies": {
     "jquery": "^3.0.0",
-    "ontimize-web-ngx-dynamicform": "file:C:\\workspace\\github\\DYNAMICFORM\\ontimize-web-ng2-dynamicform\\dist\\ontimize-web-ngx-dynamicform-2.0.2.tgz",
-    "ontimize-web-ngx": "file:C:\\workspace\\github\\ontimize-web-ng2-VERSIONS\\2.1.0-rc.4\\ontimize-web-ngx\\dist\\ontimize-web-ngx-2.1.0-rc.4.tgz",
-    "ontimize-web-ngx-datatable": "1.0.6",
+    "ontimize-web-ngx-dynamicform": "2.0.2",
+    "ontimize-web-ngx": "2.1.0",
+    "ontimize-web-ngx-datatable": "1.0.7",
     "@angular/animations": "4.3.6",
     "@angular/cdk": "2.0.0-beta.10",
     "@angular/common": "4.3.6",

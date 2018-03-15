@@ -1,4 +1,8 @@
-## 2.0.2 (2018-01-18)
+## 2.0.2
+
+### Features
+* **o-dynamic-form-builder:** adding '*automatic-registering*' input.
+
 ### PEER-DEPENDENCY UPDATES ###
 * **Updated**:   ontimize-web-ngx-dynamicform@2.0.2
 * **Updated**:   ontimize-web-ngx@2.1.0-rc.3
