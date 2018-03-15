@@ -2,7 +2,8 @@
   [drag-enabled]="!isReadOnly">
   <div fxLayout="row" fxLayoutAlign="center center" class="dynamicform-container" fxFlexFill>
       <div fxLayout="row" fxLayoutAlign="center" fxFlex="90" class="mat-elevation-z1 dropzone-container">
-        <o-form #wrapperForm show-header="false" fxFlex="100" query-on-init="false">
+        <extended-form #innerForm show-header="false" fxFlex="100" query-on-init="false">
+
           <div fxLayout="column">
             <o-dynamic-form
               #dynamicForm
@@ -17,7 +18,7 @@
               (render)="onDynamicFormRendered()">
             </o-dynamic-form>
           </div>
-        </o-form>
+        </extended-form>
       </div>
   </div>
 </app-menu>

@@ -54,6 +54,13 @@ export class OComponenetDataInput extends OComponentData {
       'default': true,
       'required': false
     };
+    templateInputsData['automatic-registering'] = {
+      'type': 'boolean',
+      'label': 'automatic-registering',
+      'tooltip': '',
+      'default': true,
+      'required': false
+    };
     templateInputsData['enabled'] = {
       'type': 'boolean',
       'label': 'enabled',

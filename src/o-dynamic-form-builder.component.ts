@@ -1,23 +1,7 @@
-import {
-  Component,
-  ViewChild,
-  OnInit,
-  ViewEncapsulation,
-  EventEmitter,
-  Optional,
-  Inject,
-  forwardRef
-} from '@angular/core';
+import { Component, ViewChild, OnInit, ViewEncapsulation, EventEmitter, Optional, Inject, forwardRef } from '@angular/core';
 import { MdDialog } from '@angular/material';
-import {
-  InputConverter,
-  OFormComponent,
-  IComponent,
-  SQLTypes,
-  IFormDataTypeComponent,
-  IFormDataComponent,
-  OFormValue
-} from 'ontimize-web-ngx';
+import { FormControl } from '@angular/forms';
+import { InputConverter, OFormComponent, IComponent, SQLTypes, IFormDataTypeComponent, IFormDataComponent, OFormValue } from 'ontimize-web-ngx';
 import { ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
 
 import { ArrayList } from './utils';
@@ -32,6 +16,7 @@ import { ComponentSettingsDialogComponent } from './component-settings-dialog.co
   inputs: [
     'oattr :attr',
     'autoBinding: automatic-binding',
+    'autoRegistering: automatic-registering',
     'formDefinition: form-definition'
   ],
   outputs: [
@@ -47,17 +32,19 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   protected oattr: string;
   @InputConverter()
   autoBinding: boolean = true;
+  @InputConverter()
+  autoRegistering: boolean = true;
   /* End of inputs */
 
   protected _isReadOnly: boolean;
 
-  @ViewChild('wrapperForm')
-  wrapperForm: OFormComponent;
+  @ViewChild('innerForm')
+  innerForm: OFormComponent;
 
   @ViewChild('dynamicForm')
   dynamicForm: ODynamicFormComponent;
 
-  innerFormDefinition: Object = null;
+  innerFormDefinition: any = null;
 
   componentsArray: ArrayList<OComponentData> = new ArrayList<OComponentData>();
 
@@ -120,13 +107,13 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     return SQLTypes.OTHER;
   }
 
-  reloadWrapperFormMode() {
+  reloadInnerFormMode() {
     // re-setting wrapper form mode for setting mode to new components
-    this.wrapperForm.setFormMode(this.wrapperForm.mode);
+    this.innerForm.setFormMode(this.innerForm.mode);
   }
 
   onDynamicFormRendered() {
-    this.reloadWrapperFormMode();
+    this.reloadInnerFormMode();
     if (this.render) {
       this.render.emit(true);
     }
@@ -147,6 +134,10 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
 
   isAutomaticBinding(): Boolean {
     return this.autoBinding;
+  }
+
+  isAutomaticRegistering(): Boolean {
+    return this.autoRegistering;
   }
 
   getComponentsFromJSON(componentsJSON, parent) {
@@ -315,6 +306,18 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
 
   set isReadOnly(value: boolean) {
     this._isReadOnly = value;
+  }
+
+  getControl(): FormControl {
+    return undefined;
+  }
+
+  getFormControl(): FormControl {
+    return undefined;
+  }
+
+  hasError(error: string): boolean {
+    return false;
   }
 
   private _searchElement(id, array) {
