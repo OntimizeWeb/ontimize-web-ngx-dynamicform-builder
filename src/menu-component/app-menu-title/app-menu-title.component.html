@@ -1,8 +1,8 @@
 <div [ngClass]="['title', style]" title="{{ label }}">
-    <div class="title-label" fxLayout="center">
-        <span class="title-label-text" fxFlex>{{ label }}</span>
-    </div>
-    <button md-button>
-        <md-icon class="material-icons title-icon" [class.closed]="closed" border="0">expand_more</md-icon>
-    </button>
+  <div class="title-label" fxLayout="center">
+    <span class="title-label-text" fxFlex>{{ label }}</span>
+  </div>
+  <button mat-button>
+    <mat-icon class="material-icons title-icon" [class.closed]="closed" border="0">expand_more</mat-icon>
+  </button>
 </div>

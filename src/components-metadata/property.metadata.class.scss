@@ -1,18 +1,18 @@
-md-form-field {
-  &.ng-invalid.ng-touched .md-input-wrapper {
-    .md-hint,
-    .md-input-placeholder.md-focused {
+mat-form-field {
+  &.ng-invalid.ng-touched .mat-input-wrapper {
+    .mat-hint,
+    .mat-input-placeholder.mat-focused {
       color: #f44336;
     }
-    .md-input-underline {
+    .mat-input-underline {
       border-top-color: #f44336;
-      .md-input-ripple {
+      .mat-input-ripple {
        background-color: #f44336;
       }
     }
   }
 }
 
-md-select {
+mat-select {
   margin: 16px 0;
 }

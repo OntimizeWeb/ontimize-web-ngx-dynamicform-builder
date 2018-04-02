@@ -1,11 +1,11 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill layout-padding [formGroup]="getFormGroup()">
-  <md-select fxFlex [placeholder]="data.label" [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()">
-    <md-option *ngIf="!data.required">
-    </md-option>
-    <md-option *ngFor="let value of data.values" [value]="value">
+  <mat-select fxFlex [placeholder]="data.label" [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()">
+    <mat-option *ngIf="!data.required">
+    </mat-option>
+    <mat-option *ngFor="let value of data.values" [value]="value">
       {{ value }}
-    </md-option>
-  </md-select>
-  <md-icon fxFlex="10" fxFlexFill *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons">
-    info </md-icon>
+    </mat-option>
+  </mat-select>
+  <mat-icon fxFlex="10" fxFlexFill *ngIf="data.tooltip" [matTooltip]="data.tooltip" matTooltipPosition="right" class="material-icons">
+    info </mat-icon>
 </div>

@@ -9,7 +9,7 @@
   $foreground: map-get($theme, foreground);
 
   .main-sidenav {
-    md-sidenav {
+    mat-sidenav {
       background-color: mat-color($primary);
       color: mat-color($primary, default-contrast);
     }

@@ -1,14 +1,7 @@
 @import '../../o-dynamic-form-builder.component.scss';
 
-
-// app-menu-frame /deep/ .container,
-// md-toolbar {
-//     background-color: $color-primary;
-//     color: $text-color-accent;
-// }
-
 app-menu-frame .menu-frame-container,
-md-toolbar {
+mat-toolbar {
     background-color: $color-primary;
     color: $text-color-accent;
 }
