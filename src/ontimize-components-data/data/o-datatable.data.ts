@@ -1,4 +1,4 @@
-import { /*DEFAULT_INPUTS_O_DATATABLE*/ } from 'ontimize-web-ngx-datatable';
+// import { /*DEFAULT_INPUTS_O_DATATABLE*/ } from 'ontimize-web-ngx-datatable';
 import { OComponentDataService } from './o-component-data-service.class';
 
 export class ODataTableData extends OComponentDataService {

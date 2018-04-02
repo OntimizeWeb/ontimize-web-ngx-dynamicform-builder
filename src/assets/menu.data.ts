@@ -139,12 +139,13 @@ export const MENU_JSON_DATA = {
       'id': 'o-checkbox',
       'label': 'o-checkbox',
       'parent': 'INPUT_FIELDS'
-    },
-    {
-      'icon': null,
-      'id': 'o-datatable',
-      'label': 'o-datatable',
-      'parent': 'DATA'
     }
+    // ,
+    // {
+    //   'icon': null,
+    //   'id': 'o-datatable',
+    //   'label': 'o-datatable',
+    //   'parent': 'DATA'
+    // }
   ]
 };

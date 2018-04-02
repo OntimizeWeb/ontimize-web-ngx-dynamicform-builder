@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DndModule } from 'ng2-dnd';
 
 import { OntimizeWebModule } from 'ontimize-web-ngx';
-import { ODataTableModule } from 'ontimize-web-ngx-datatable';
+// import { ODataTableModule } from 'ontimize-web-ngx-datatable';
 import { DynamicFormModule } from 'ontimize-web-ngx-dynamicform';
 
 import { O_DYNAMICFORM_BUILDER_COMPONENTS, ComponentSettingsDialogComponent } from './src/components-index';
@@ -17,7 +17,7 @@ export * from './src/services';
     OntimizeWebModule,
     CommonModule,
     DndModule.forRoot(),
-    ODataTableModule,
+    // ODataTableModule,
     DynamicFormModule
   ],
   declarations: O_DYNAMICFORM_BUILDER_COMPONENTS,
