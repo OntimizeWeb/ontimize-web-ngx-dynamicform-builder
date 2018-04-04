@@ -4,7 +4,6 @@ export class OComponentDataService extends OComponentData {
 
   getTemplateInputsData() {
     var templateInputsData = super.getTemplateInputsData();
-    // TODO: remove 'title' property for 'o-datatable' component
     templateInputsData['title'] = {
       'type': 'string',
       'label': 'title',
