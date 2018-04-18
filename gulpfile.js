@@ -12,7 +12,7 @@ const SCSS_CONF = {
   DIST: './dist'
 };
 
-gulp.task('dynamicformbuilder.styles', (callback) => {
+gulp.task('styles', (callback) => {
   return gulp.src(SCSS_CONF.SRC)
     .pipe(cssimport({}))
     .pipe(gulp.dest(SCSS_CONF.DIST));
