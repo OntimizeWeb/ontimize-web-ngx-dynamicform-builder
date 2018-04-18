@@ -5,8 +5,8 @@ import { InputConverter, OFormComponent, IComponent, SQLTypes, IFormDataTypeComp
 import { ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
 
 import { ArrayList } from './utils';
-import { ComponentsDataService } from './services/index';
-import { OComponentData } from './ontimize-components-data/index';
+import { ComponentsDataService } from './services';
+import { OComponentData } from './ontimize-components-data';
 import { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
 
 @Component({

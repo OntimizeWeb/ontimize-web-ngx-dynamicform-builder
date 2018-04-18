@@ -17,7 +17,7 @@ import {
   OListPickerData,
   OCheckboxData,
   ODataTableData
-} from '../ontimize-components-data/index';
+} from '../ontimize-components-data';
 
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
 

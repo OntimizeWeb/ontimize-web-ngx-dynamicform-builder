@@ -1,8 +1,4 @@
-import {
-  Component,
-  HostBinding
-} from '@angular/core';
-
+import { Component, HostBinding } from '@angular/core';
 import { AppMenuItem } from './app-menu-item.model';
 import { OComponentData } from '../../ontimize-components-data/o-component-data.class';
 import { ComponentsDataService } from '../../services/components-data.service';
