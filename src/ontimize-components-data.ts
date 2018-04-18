@@ -20,6 +20,6 @@ export { OListPickerData } from './ontimize-components-data/service/o-list-picke
 
 export { OCheckboxData } from './ontimize-components-data/checkbox/o-checkbox.data';
 
-export { ODataTableData } from './ontimize-components-data/data/o-datatable.data';
+export { OTableData } from './ontimize-components-data/data/o-table.data';
 
 export { OComponentData } from './ontimize-components-data/o-component-data.class';
