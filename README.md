@@ -1,13 +1,14 @@
 # Ontimize Web Dynamicform Builder
 
-Ontimize Web Dynamicform Builder is a web form builder using the [Ontimize Web Dynamic Form](https://github.com/OntimizeWeb/ontimize-web-ngx-dynamicform){:target="_blank"}.
+Ontimize Web Dynamicform Builder is a web form builder using the [Ontimize Web Dynamic Form](https://github.com/OntimizeWeb/ontimize-web-ngx-dynamicform).
 
 * [Github repository](#github)
 * [Installation](#installation)
 * [Usage](#usage)
+* [Example](#example)
 
 ## Github
-Ontimize Web Dynamic Form Builder module is stored in [github](https://github.com/OntimizeWeb/ontimize-web-ngx-dynamicform-builder){:target="_blank"} where you can also see/add todos, bugs or feature requests in the [issues](https://github.com/OntimizeWeb/ontimize-web-ngx-dynamicform-builder/issues){:target="_blank"} section.
+Ontimize Web Dynamic Form Builder module is stored in [github](https://github.com/OntimizeWeb/ontimize-web-ngx-dynamicform-builder) where you can also see/add todos, bugs or feature requests in the [issues](https://github.com/OntimizeWeb/ontimize-web-ngx-dynamicform-builder/issues) section.
 
 
 ## Installation
@@ -52,3 +53,6 @@ import { DynamicFormBuilderModule } from 'ontimize-web-ngx-dynamicform-builder';
 export class ExampleModule { }
 ```
 
+## Example
+
+Run live demo <a href="https://ontimizeweb.github.io/ontimize-web-ngx-dynamicform-example/" target="_blank" title="live demo"> here</a>.

@@ -3,9 +3,8 @@
   "version": "3.0.0-rc.0",
   "description": "Dynamic form builder",
   "scripts": {
-    "build": "o-ngx-lib-builder build --package ontimize-web-ngx-dynamicform --ng-library ng.ontimizeWebDynamicform",
-    "xxx": "rimraf node_modules/ontimize-web-ngx* && npm install",
-    "pack": "npm run build && cd dist && npm pack && cd .."
+    "pack": "npm run build && cd dist && npm pack && cd ..",
+    "build": "o-ngx-lib-builder build --package ontimize-web-ngx-dynamicform-builder --ng-library ng.ontimizeWebDynamicformBuilder"
   },
   "repository": {
     "type": "git",
@@ -24,20 +23,23 @@
   ],
   "license": "Apache-2.0",
   "readmeFilename": "README.md",
+  "main": "./bundles/ontimize-web-ngx-dynamicform-builder.js",
+  "metadata": "./index.metadata.json",
+  "module": "./index.js",
+  "es2015": "./esm2015/ontimize-web-ngx-dynamicform-builder.js",
+  "typings": "./index.d.ts",
   "bugs": {
     "url": "https://github.com/OntimizeWeb/ontimize-web-ngx-dynamicform-builder/issues"
   },
-  "main": "index.js",
-  "typings": "index.d.ts",
   "peerDependencies": {
     "core-js": "2.5.3",
     "rxjs": "5.5.6",
     "zone.js": "0.8.20"
   },
   "devDependencies": {
-    "ontimize-web-ngx-dynamicform": "file:C:\\workspace\\github\\DYNAMICFORM\\ontimize-web-ng2-dynamicform\\dist\\ontimize-web-ngx-dynamicform-3.0.0-rc.0.tgz",
-    "ontimize-web-ngx": "file:C:\\workspace\\github\\ontimize-web-ng2-VERSIONS\\3.0.0-rc.0\\ontimize-web-ngx\\dist\\ontimize-web-ngx-3.0.0-rc.0.tgz",
-    "ontimize-web-ngx-library-tools": "file:C:\\workspace\\github\\TOOLS\\ontimize-web-ngx-library-tools\\ontimize-web-ngx-library-tools-1.0.0.tgz",
+    "ontimize-web-ngx-dynamicform": "3.0.0-rc.0",
+    "ontimize-web-ngx": "3.0.0-rc.0",
+    "ontimize-web-ngx-library-tools": "1.0.0",
     "@angular/flex-layout": "5.0.0-beta.13",
     "@angular/material": "5.2.4",
     "@angular/material-moment-adapter": "5.2.4",
