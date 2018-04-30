@@ -16,8 +16,8 @@ import {
   OComboData,
   OListPickerData,
   OCheckboxData,
-  ODataTableData
-} from '../ontimize-components-data/index';
+  OTableData
+} from '../ontimize-components-data';
 
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
 
@@ -40,7 +40,7 @@ export class ComponentsDataService {
     'o-combo': OComboData,
     'o-list-picker': OListPickerData,
     'o-checkbox': OCheckboxData,
-    'o-datatable': ODataTableData
+    'o-table': OTableData
   };
 
   getOntimizeComponentData(componentName): OComponentData {

@@ -1,17 +1,17 @@
-<h1 md-dialog-title> {{ component.getDirective() }} </h1>
-<md-dialog-content>
+<h1 mat-dialog-title> {{ component.getDirective() }} </h1>
+<mat-dialog-content>
   <form #settingsForm [formGroup]="formGroup" fxLayout="column">
-    <md-grid-list cols="2" rowHeight="5:1" gutterSize="16">
-      <md-grid-tile *ngFor="let prop of component.getInputs()" fxLayoutAlign="start center">
+    <mat-grid-list cols="2" rowHeight="5:1" gutterSize="16">
+      <mat-grid-tile *ngFor="let prop of component.getInputs()" fxLayoutAlign="start center">
         <boolean-metadata fxFlexFill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'boolean')"></boolean-metadata>
         <text-metadata fxFlexFill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'text')"></text-metadata>
         <combo-metadata fxFlexFill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'combo')"></combo-metadata>
-      </md-grid-tile>
-    </md-grid-list>
+      </mat-grid-tile>
+    </mat-grid-list>
   </form>
-</md-dialog-content>
+</mat-dialog-content>
 
-<md-dialog-actions>
-  <button md-raised-button (click)="save()">{{ 'SAVE' | oTranslate }}</button>
-  <button md-raised-button (click)="cancel()">{{ 'CANCEL' | oTranslate }}</button>
-</md-dialog-actions>
+<mat-dialog-actions>
+  <button mat-raised-button (click)="save()">{{ 'SAVE' | oTranslate }}</button>
+  <button mat-raised-button (click)="cancel()">{{ 'CANCEL' | oTranslate }}</button>
+</mat-dialog-actions>

@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill layout-padding [formGroup]="getFormGroup()">
-  <md-slide-toggle fxFlex fxLayoutAlign="start center" [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()">
+  <mat-slide-toggle fxFlex fxLayoutAlign="start center" [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()">
     {{ data.label }}
-  </md-slide-toggle>
-  <md-icon fxFlex="10" fxFlexFill *ngIf="data.tooltip" [mdTooltip]="data.tooltip" mdTooltipPosition="right" class="material-icons">
-    info </md-icon>
+  </mat-slide-toggle>
+  <mat-icon fxFlex="10" fxFlexFill *ngIf="data.tooltip" [matTooltip]="data.tooltip" matTooltipPosition="right" class="material-icons">
+    info </mat-icon>
 </div>

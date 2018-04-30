@@ -1,16 +1,6 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-
-import { MdDialogRef } from '@angular/material';
-
-import {
-  FormGroup,
-  FormControl
-} from '@angular/forms';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+import { FormGroup, FormControl } from '@angular/forms';
 import { PropertyMetadataClass } from './components-metadata/property.metadata.class';
 import { OComponentData } from './ontimize-components-data/o-component-data.class';
 
@@ -28,7 +18,7 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
   formDataCache: Object;
 
   constructor(
-    public dialogRef: MdDialogRef<ComponentSettingsDialogComponent>
+    public dialogRef: MatDialogRef<ComponentSettingsDialogComponent>
   ) { }
 
   ngOnInit() {
