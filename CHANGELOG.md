@@ -1,3 +1,7 @@
+## 3.0.0-rc.1 (2018-07-02)
+### Bug Fixes
+* **ontimize-web-ngx**: fixing bugs for updating to '*ontimize-web-ngx@3.0.0-rc.1*' and '*ontimize-web-ngx-dynamicform@3.0.0-rc.1*'
+
 ## 2.0.2
 
 ### Features
