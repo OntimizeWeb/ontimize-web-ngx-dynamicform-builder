@@ -132,11 +132,11 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this.formDefinition = formDef;
   }
 
-  isAutomaticBinding(): Boolean {
+  isAutomaticBinding(): boolean {
     return this.autoBinding;
   }
 
-  isAutomaticRegistering(): Boolean {
+  isAutomaticRegistering(): boolean {
     return this.autoRegistering;
   }
 
