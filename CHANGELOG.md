@@ -1,4 +1,4 @@
-## 3.0.0 (2018-10-04)
+## 3.1.0 (2018-10-04)
 ### Bug Fixes
 * **ontimize-web-ngx**: fixing bugs for updating to '*ontimize-web-ngx@3.1.0*' and '*ontimize-web-ngx-dynamicform@3.1.0*'
 
