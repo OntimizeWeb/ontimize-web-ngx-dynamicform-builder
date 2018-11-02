@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, ViewEncapsulation, EventEmitter, Optional, Inject, forwardRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FormControl } from '@angular/forms';
-import { InputConverter, OFormComponent, IComponent, SQLTypes, IFormDataTypeComponent, IFormDataComponent, OFormValue } from 'ontimize-web-ngx';
+import { InputConverter, OFormComponent, IComponent, SQLTypes, IFormDataTypeComponent, IFormDataComponent, OFormValue, OValueChangeEvent } from 'ontimize-web-ngx';
 import { ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
 
 import { ArrayList } from './utils';
@@ -51,6 +51,9 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   render: EventEmitter<any> = new EventEmitter();
   onFormDefinitionUpdate: EventEmitter<Object> = new EventEmitter<Object>();
 
+  onChange: EventEmitter<Object>;
+  onValueChange: EventEmitter<OValueChangeEvent>;
+
   constructor(
     protected dialog: MatDialog,
     protected componentsDataService: ComponentsDataService,
@@ -90,6 +93,14 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
       // this.parentForm.unregisterDynamicFormComponent(this);
       this.parentForm.unregisterSQLTypeFormComponent(this);
     }
+  }
+
+  getValue() {
+    // TO-DO
+  }
+
+  clearValue() {
+    // TO-DO
   }
 
   setValue(val) {

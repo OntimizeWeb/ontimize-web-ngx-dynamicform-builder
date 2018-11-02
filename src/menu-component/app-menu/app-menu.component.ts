@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AppMenuItem } from '../app-menu-item/app-menu-item.model';
 import { TreeListDefault } from '../tree-grid/tree-list.class';
 import { AppMenuService } from '../../services/app-menu.service';
-// import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-menu',
