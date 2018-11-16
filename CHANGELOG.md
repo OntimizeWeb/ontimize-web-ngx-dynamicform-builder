@@ -1,3 +1,8 @@
+## 4.0.0-rc.0 (2018-11-16)
+### Features
+* **ontimize-web-ngx**: updating code for using '*ontimize-web-ngx@4.0.0-rc.0*'
+* **ontimize-web-ngx-dynamicform**: updating code for using '*ontimize-web-ngx-dynamicform@4.0.0-rc.0*'
+
 ## 3.1.0 (2018-10-04)
 ### Bug Fixes
 * **ontimize-web-ngx**: fixing bugs for updating to '*ontimize-web-ngx@3.1.0*' and '*ontimize-web-ngx-dynamicform@3.1.0*'
