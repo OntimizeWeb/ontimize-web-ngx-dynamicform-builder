@@ -1,14 +1,7 @@
-import {
-  Inject,
-  forwardRef
-} from '@angular/core';
-
-import {
-  FormControl,
-  Validators
-} from '@angular/forms';
-
+import { forwardRef, Inject } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { ValidatorFn } from '@angular/forms/src/directives/validators';
+
 import { ComponentSettingsDialogComponent } from '../component-settings-dialog.component';
 
 export const DEFAULT_INPUTS_METADATA = [
@@ -20,64 +13,64 @@ export class PropertyMetadataClass {
 
   public static DEFAULT_INPUTS_METADATA = DEFAULT_INPUTS_METADATA;
 
-  property: string;
-  data: any;
-  fControl: FormControl;
-  value: any;
+  public property: string;
+  public data: any;
+  public fControl: FormControl;
+  public value: any;
 
   constructor(
     @Inject(forwardRef(() => ComponentSettingsDialogComponent))
     protected settingsDialog: ComponentSettingsDialogComponent
   ) { }
 
-  initialize() {
+  public initialize(): void {
     if (this.settingsDialog) {
       this.registerFormListeners();
     }
   }
 
-  registerFormListeners() {
+  public registerFormListeners(): void {
     if (this.settingsDialog) {
       this.settingsDialog.registerFormControlComponent(this);
     }
   }
 
-  destroy() {
+  public destroy(): void {
     this.unregisterFormListeners();
   }
 
-  unregisterFormListeners() {
+  public unregisterFormListeners(): void {
     if (this.settingsDialog) {
       this.settingsDialog.unregisterFormControlComponent(this);
     }
   }
 
-  getFormGroup(): any {
+  public getFormGroup(): any {
     return this.settingsDialog.formGroup;
   }
 
-  getPropertyName(): string {
+  public getPropertyName(): string {
     if (this.property) {
       return this.property;
     }
     return undefined;
   }
 
-  getValue(): any {
+  public getValue(): any {
     if (this.value) {
       return this.value.value;
     }
     return this.parseValue(this.data.default);
   }
 
-  parseValue(arg) {
+  public parseValue(arg: any): any {
     return arg;
   }
 
-  getFormControl(): FormControl {
+  public getFormControl(): FormControl {
     if (!this.fControl) {
-      let validators: ValidatorFn[] = this.resolveValidators();
-      let cfg = {
+      const validators: ValidatorFn[] = this.resolveValidators();
+      const cfg = {
         value: (this.data && this.data.default) ? this.data.default : undefined
       };
       this.fControl = new FormControl(cfg, validators);
@@ -85,22 +78,22 @@ export class PropertyMetadataClass {
     return this.fControl;
   }
 
-  resolveValidators(): ValidatorFn[] {
-    let validators: ValidatorFn[] = [];
+  public resolveValidators(): ValidatorFn[] {
+    const validators: ValidatorFn[] = [];
     if (this.data.required) {
       validators.push(Validators.required);
     }
     return validators;
   }
 
-  get isValid() {
+  get isValid(): boolean {
     if (this.fControl) {
       return this.fControl.valid;
     }
     return false;
   }
 
-  innerOnChange(value: any) {
+  public innerOnChange(value: any): void {
     this.value = { value: value };
     // this.fControl.setValue({ value: value });
   }

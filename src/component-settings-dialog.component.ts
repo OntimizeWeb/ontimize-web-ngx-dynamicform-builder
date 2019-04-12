@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { FormGroup, FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+
 import { PropertyMetadataClass } from './components-metadata/property.metadata.class';
 import { OComponentData } from './ontimize-components-data/o-component-data.class';
 
@@ -12,60 +14,69 @@ import { OComponentData } from './ontimize-components-data/o-component-data.clas
 })
 export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
 
-  component: OComponentData;
-  templateInputsData = {};
-  formGroup: FormGroup;
-  formDataCache: Object;
+  public component: OComponentData;
+  public templateInputsData = {};
+  public formGroup: FormGroup;
+  public formDataCache: Object;
+
+  public componentInputs$: BehaviorSubject<string[]> = new BehaviorSubject([]);
 
   constructor(
     public dialogRef: MatDialogRef<ComponentSettingsDialogComponent>
   ) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.formGroup = new FormGroup({});
-    var self = this;
-
+    const self = this;
     this.formGroup.valueChanges
       .subscribe((value: any) => {
         if (self.formDataCache === undefined) {
           self.formDataCache = {};
         }
-        (<any>Object).assign(self.formDataCache, value);
+        Object.assign(self.formDataCache, value);
       });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.formDataCache = undefined;
   }
 
-  registerFormControlComponent(comp: PropertyMetadataClass) {
+  public registerFormControlComponent(comp: PropertyMetadataClass): void {
     if (comp) {
-      let control: FormControl = comp.getFormControl();
+      const control: FormControl = comp.getFormControl();
       if (control) {
         this.formGroup.addControl(comp.getPropertyName(), control);
       }
     }
   }
 
-  unregisterFormControlComponent(comp: PropertyMetadataClass) {
+  public unregisterFormControlComponent(comp: PropertyMetadataClass): void {
     if (comp) {
-      let control: FormControl = comp.getFormControl();
+      const control: FormControl = comp.getFormControl();
       if (control) {
         this.formGroup.removeControl(comp.getPropertyName());
       }
     }
   }
 
-  setComponent(component: OComponentData) {
-    this.component = component;
-  }
-
-  setTemplateInputsData(inputsData) {
-    var clonedInputsData = JSON.parse(JSON.stringify(inputsData));
+  public setTemplateInputsData(inputsData): void {
+    const clonedInputsData = JSON.parse(JSON.stringify(inputsData));
     this.templateInputsData = clonedInputsData;
   }
 
-  save() {
+  public setComponent(component: OComponentData): void {
+    this.component = component;
+    // Display only supported inputs
+    this.componentInputs$.next(this.component.getInputs().filter(input => {
+      const result = this.templateInputsData[input];
+      if (!result) {
+        console.info('Attribute `' + input + '` from `' + component.getDirective() + '` is not supported on DynamicForm Builder');
+      }
+      return result;
+    }));
+  }
+
+  public save(): void {
     Object.keys(this.formGroup.controls).forEach(control => this.formGroup.controls[control].markAsTouched());
 
     if (!this.formGroup.valid) {
@@ -73,19 +84,18 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
       return;
     }
 
-    var self = this;
-    let configuredInputs = {};
+    const configuredInputs = {};
     if (this.formDataCache) {
-      let keys = Object.keys(this.formDataCache);
+      const keys = Object.keys(this.formDataCache);
       keys.map(item => {
-        let propertyValue = this.formDataCache[item];
-        if (self.templateInputsData[item].default !== propertyValue) {
+        const propertyValue = this.formDataCache[item];
+        if (this.templateInputsData[item].default !== propertyValue) {
           configuredInputs[item] = propertyValue;
           if (propertyValue !== undefined && typeof propertyValue !== 'string') {
             configuredInputs[item] = propertyValue.toString();
           }
           // TODO: buscar la forma de parsear los datos en otro sitio
-          if (self.templateInputsData[item].type === 'json') {
+          if (this.templateInputsData[item].type === 'json') {
             configuredInputs[item] = JSON.parse(propertyValue);
           }
         }
@@ -95,12 +105,12 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
     this.dialogRef.close(this.component);
   }
 
-  cancel() {
+  public cancel(): void {
     this.dialogRef.close(false);
   }
 
-  getInputData(inputName) {
-    let inputData = this.templateInputsData[inputName];
+  public getInputData(inputName): any {
+    const inputData = this.templateInputsData[inputName];
     let configuredValue = this.component.getConfiguredInputValue(inputName);
     // TODO: buscar la forma de parsear los datos en otro sitio
     if (inputData.type === 'json') {
@@ -112,7 +122,7 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
     return inputData;
   }
 
-  comparePropertyType(prop, type) {
+  public comparePropertyType(prop, type): boolean {
     const propertyType = this.templateInputsData.hasOwnProperty(prop) ? this.templateInputsData[prop].type : undefined;
     if (type === 'text') {
       return (propertyType === 'string' || propertyType === 'number' || propertyType === 'json');

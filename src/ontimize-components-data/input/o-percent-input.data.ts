@@ -1,4 +1,5 @@
 import { DEFAULT_INPUTS_O_PERCENT_INPUT } from 'ontimize-web-ngx';
+
 import { ORealInputData } from './o-real-input.data';
 
 export class OPercentInputData extends ORealInputData {
@@ -7,11 +8,11 @@ export class OPercentInputData extends ORealInputData {
     super();
   }
 
-  getDirective() {
+  public getDirective(): string {
     return 'o-percent-input';
   }
 
-  getInputsProperties(): Array<any> {
+  public getInputsProperties(): string[] {
     return DEFAULT_INPUTS_O_PERCENT_INPUT;
   }
 

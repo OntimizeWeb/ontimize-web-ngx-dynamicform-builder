@@ -2,8 +2,8 @@ import { ArrayList } from '../utils';
 
 export class OComponentData {
 
-  configuredInputs: any = {};
-  children: ArrayList<OComponentData>;
+  public configuredInputs: any = {};
+  public children: ArrayList<OComponentData>;
 
   constructor() {
     if (this.isContainer()) {
@@ -11,61 +11,61 @@ export class OComponentData {
     }
   }
 
-  getDirective() {
+  public getDirective(): string {
     return '';
   }
 
-  getInputsProperties() {
+  public getInputsProperties(): string[] {
     return [];
   }
 
-  getInputs() {
-    let rawProperties = this.getInputsProperties();
-    let parsedProperties = [];
-    for (var i = 0; i < rawProperties.length; i++) {
-      let splitted = rawProperties[i].split(':');
+  public getInputs(): string[] {
+    const rawProperties = this.getInputsProperties();
+    const parsedProperties = [];
+    rawProperties.forEach(properties => {
+      const splitted = properties.split(':');
       parsedProperties.push(splitted[splitted.length - 1].trim());
-    }
+    });
     return parsedProperties;
   }
 
-  getTemplateInputsData() {
+  public getTemplateInputsData(): any {
     return {
-      'attr': {
-        'type': 'string',
-        'label': 'attr',
-        'tooltip': '',
-        'default': null,
-        'required': true
+      attr: {
+        type: 'string',
+        label: 'attr',
+        tooltip: '',
+        default: null,
+        required: true
       }
     };
   }
 
-  isContainer(): Boolean {
+  public isContainer(): boolean {
     return false;
   }
 
-  setConfiguredInputs(data) {
+  public setConfiguredInputs(data: any): void {
     this.configuredInputs = Object.assign(this.configuredInputs, data);
   }
 
-  getComponentAttr() {
+  public getComponentAttr(): string {
     return this.configuredInputs ? this.configuredInputs.attr : undefined;
   }
 
-  getConfiguredInputs() {
+  public getConfiguredInputs(): any {
     return this.configuredInputs;
   }
 
-  getConfiguredInputValue(inputName) {
+  public getConfiguredInputValue(inputName: string): any {
     return this.configuredInputs ? this.configuredInputs[inputName] : undefined;
   }
 
-  addChild(child: OComponentData) {
+  public addChild(child: OComponentData): void {
     this.children.push(child);
   }
 
-  getChildren(): ArrayList<OComponentData> {
+  public getChildren(): ArrayList<OComponentData> {
     return this.children;
   }
 

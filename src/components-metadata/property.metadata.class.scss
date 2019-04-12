@@ -4,15 +4,13 @@ mat-form-field {
     .mat-input-placeholder.mat-focused {
       color: #f44336;
     }
+
     .mat-input-underline {
       border-top-color: #f44336;
+
       .mat-input-ripple {
-       background-color: #f44336;
+        background-color: #f44336;
       }
     }
   }
-}
-
-mat-select {
-  margin: 16px 0;
 }

@@ -1,11 +1,10 @@
-<div fxLayout="row" fxLayoutAlign="space-between center" fxFlexFill layout-padding [formGroup]="getFormGroup()">
-  <mat-select fxFlex [placeholder]="data.label" [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()">
-    <mat-option *ngIf="!data.required">
-    </mat-option>
-    <mat-option *ngFor="let value of data.values" [value]="value">
-      {{ value }}
-    </mat-option>
-  </mat-select>
-  <mat-icon fxFlex="10" fxFlexFill *ngIf="data.tooltip" [matTooltip]="data.tooltip" matTooltipPosition="right" class="material-icons">
-    info </mat-icon>
+<div fxLayout="row" [formGroup]="getFormGroup()">
+  <mat-form-field fxFlex>
+    <mat-select [name]="data.label" [placeholder]="data.label" [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)"
+      [formControlName]="getPropertyName()">
+      <mat-option *ngIf="!data.required"></mat-option>
+      <mat-option *ngFor="let value of data.values" [value]="value">{{ value }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-icon fxFlex="10" *ngIf="data.tooltip" [matTooltip]="data.tooltip" matTooltipPosition="right" class="material-icons">info</mat-icon>
 </div>

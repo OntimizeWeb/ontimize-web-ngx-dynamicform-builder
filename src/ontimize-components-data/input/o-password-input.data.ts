@@ -1,4 +1,5 @@
 import { DEFAULT_INPUTS_O_PASSWORD_INPUT } from 'ontimize-web-ngx';
+
 import { OTextInputData } from './o-text-input.data';
 
 export class OPasswordInputData extends OTextInputData {
@@ -7,11 +8,11 @@ export class OPasswordInputData extends OTextInputData {
     super();
   }
 
-  getDirective() {
+  public getDirective(): string {
     return 'o-password-input';
   }
 
-  getInputsProperties(): Array<any> {
+  public getInputsProperties(): string[] {
     return DEFAULT_INPUTS_O_PASSWORD_INPUT;
   }
 
