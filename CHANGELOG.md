@@ -1,3 +1,7 @@
+## 4.0.0 (2019-04-24)
+### PEER-DEPENDENCY UPDATES ###
+* **Updated**: ontimize-web-ngx@4.0.3, ontimize-web-ngx-dynamicform@4.0.0
+
 ## 4.0.0-rc.0 (2018-11-16)
 ### Features
 * **ontimize-web-ngx**: updating code for using '*ontimize-web-ngx@4.0.0-rc.0*'
