@@ -1,4 +1,5 @@
 import { DEFAULT_INPUTS_O_COMBO } from 'ontimize-web-ngx';
+
 import { OComponentFormDataService } from './o-component-form-data-service.class';
 
 export class OComboData extends OComponentFormDataService {
@@ -7,29 +8,29 @@ export class OComboData extends OComponentFormDataService {
     super();
   }
 
-  getDirective() {
+  public getDirective(): string {
     return 'o-combo';
   }
 
-  getInputsProperties(): Array<any> {
+  public getInputsProperties(): string[] {
     return DEFAULT_INPUTS_O_COMBO;
   }
 
-  getTemplateInputsData() {
-    var templateInputsData = super.getTemplateInputsData();
+  public getTemplateInputsData(): any {
+    const templateInputsData = super.getTemplateInputsData();
     templateInputsData['translate'] = {
-      'type': 'boolean',
-      'label': 'translate',
-      'tooltip': '',
-      'default': false,
-      'required': false
+      type: 'boolean',
+      label: 'translate',
+      tooltip: '',
+      default: false,
+      required: false
     };
     templateInputsData['null-selection'] = {
-      'type': 'boolean',
-      'label': 'null-selection',
-      'tooltip': '',
-      'default': true,
-      'required': true
+      type: 'boolean',
+      label: 'null-selection',
+      tooltip: '',
+      default: true,
+      required: true
     };
     return templateInputsData;
   }

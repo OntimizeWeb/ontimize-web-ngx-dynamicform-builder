@@ -1,6 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DndModule } from 'ng2-dnd';
+import { DndModule } from '@churchs19/ng2-dnd';
 
 import { OntimizeWebModule } from 'ontimize-web-ngx';
 import { DynamicFormModule } from 'ontimize-web-ngx-dynamicform';
@@ -15,7 +15,7 @@ export * from './src/services';
   imports: [
     OntimizeWebModule,
     CommonModule,
-    DndModule.forRoot(),
+    DndModule,
     DynamicFormModule
   ],
   declarations: O_DYNAMICFORM_BUILDER_COMPONENTS,

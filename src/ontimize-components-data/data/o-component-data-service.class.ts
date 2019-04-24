@@ -2,8 +2,8 @@ import { OComponentData } from '../o-component-data.class';
 
 export class OComponentDataService extends OComponentData {
 
-  getTemplateInputsData() {
-    var templateInputsData = super.getTemplateInputsData();
+  public getTemplateInputsData(): any {
+    const templateInputsData = super.getTemplateInputsData();
     templateInputsData['title'] = {
       'type': 'string',
       'label': 'title',

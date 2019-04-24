@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { AppMenuService } from '../../services/app-menu.service';
 import { AppMenuItem } from '../app-menu-item/app-menu-item.model';
 import { TreeListDefault } from '../tree-grid/tree-list.class';
-import { AppMenuService } from '../../services/app-menu.service';
-// import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-menu',
@@ -15,19 +15,29 @@ import { AppMenuService } from '../../services/app-menu.service';
     'flat: ui-flat',
     'gridCols: grid-columns',
     'treeGridCols: tree-grid-columns',
-    'dragEnabled : drag-enabled'
+    'dragEnabled: drag-enabled'
   ],
   templateUrl: './app-menu.component.html',
   styleUrls: ['./app-menu.component.scss']
 })
+export class AppMenuComponent implements OnInit {
 
-export class AppMenuComponent {
-  id: string;
-  flat: boolean = false;
-  treeList: TreeListDefault = new TreeListDefault();
-  dragEnabled: boolean = true;
+  public id: string;
+  public flat: boolean = false;
+  public treeList: TreeListDefault = new TreeListDefault();
+  public dragEnabled: boolean = true;
 
-  constructor(private appMenuService: AppMenuService) {
+  constructor(private appMenuService: AppMenuService) { }
+
+  public ngOnInit(): void {
+    this.appMenuService.getMenu().subscribe(menu => this.setMenu(menu));
+  }
+
+  public setMenu(menuObject: any): void {
+    this.model.groups = menuObject.groups;
+    this.treeList.setGroups(menuObject.groups);
+    this.model.items = menuObject.elements;
+    this.treeList.setElements(menuObject.elements);
   }
 
   get uiElement(): string {
@@ -46,7 +56,7 @@ export class AppMenuComponent {
     this.model.closed = input;
   }
 
-  get gridType() {
+  get gridType(): string {
     switch (this.uiElement) {
       case 'sidebar':
       case 'right sidebar':
@@ -78,7 +88,7 @@ export class AppMenuComponent {
     this.model.treeGridCols = input;
   }
 
-  get appStyle() {
+  get appStyle(): string {
     switch (this.uiElement) {
       case 'sidebar':
       case 'right sidebar':
@@ -103,7 +113,7 @@ export class AppMenuComponent {
     this.model.onlyIcons = input;
   }
 
-  private get model() {
+  private get model(): any {
     return {
       items: new Array<AppMenuItem>(),
       groups: new Array<AppMenuItem>(),
@@ -116,41 +126,4 @@ export class AppMenuComponent {
     };
   }
 
-  // private get controller() {
-  // 	return undefined;
-  // 	// return this.dispatcher.AppMenu.controller;
-  // }
-  // constructor() {
-  // 	// constructor(private dispatcher: AppDispatcherFactory) {
-  // 	// let api = this.dispatcher.AppMenu.api;
-  // 	// api.read((s, b) => s.next(api.backToModel(b)), {json: 'AppMenu.' + this.id + '.groups'}).subscribe(model => this.model.groups = model.groups);
-  // 	// api.read((s, b) => s.next(api.backToModel(b)), {json: 'AppMenu.' + this.id + '.items'}).subscribe(model => this.model.items = model.items);
-  // }
-  setMenu(menuObject: any) {
-    this.model.groups = menuObject.groups;
-    this.treeList.setGroups(menuObject.groups);
-    this.model.items = menuObject.elements;
-    this.treeList.setElements(menuObject.elements);
-  }
-
-  ngAfterViewInit() {
-    // 	//	this.dispatcher.AppMenu.register(this.id, { view: this });
-
-    // 	// this.treeList.setGroupsFilter(o => o.id || '');
-    // 	// this.treeList.setElementsFilter(o => o.parent || '');
-    // 	// this.treeList.setGroupParentsFilter(o => o.parent || '');
-
-    // 	//this.appMenuService.loadMenu(this.menuName);
-    // 	this.controller.load(this.id);
-
-    this.setMenu(this.appMenuService.getMenu());
-
-    // this.appMenuService.getMenu()
-    //   .subscribe(
-    //   menuData => this.setMenu(menuData),
-    //   err => {
-    //     console.log(err);
-    //   });
-    this.uiElement = 'sidebar';
-  }
 }

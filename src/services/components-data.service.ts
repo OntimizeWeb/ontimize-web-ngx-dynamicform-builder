@@ -1,30 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import {
-  OCurrencyInputData,
-  ODateInputData,
-  OEmailInputData,
-  OIntegerInputData,
-  ONifInputData,
-  OPasswordInputData,
-  OPercentInputData,
-  ORealInputData,
-  OTextInputData,
-  OTextareaInputData,
-  OColumnData,
-  ORowData,
-  OComboData,
-  OListPickerData,
-  OCheckboxData,
-  OTableData
-} from '../ontimize-components-data';
-
+import { OCheckboxData, OColumnData, OComboData, OCurrencyInputData, ODateInputData, OEmailInputData, OIntegerInputData, OListPickerData, ONifInputData, OPasswordInputData, OPercentInputData, ORealInputData, ORowData, OTableData, OTextareaInputData, OTextInputData } from '../ontimize-components-data';
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
 
 @Injectable()
 export class ComponentsDataService {
 
-  constructors = {
+  public constructors = {
     'o-currency-input': OCurrencyInputData,
     'o-date-input': ODateInputData,
     'o-email-input': OEmailInputData,
@@ -43,7 +25,7 @@ export class ComponentsDataService {
     'o-table': OTableData
   };
 
-  getOntimizeComponentData(componentName): OComponentData {
+  public getOntimizeComponentData(componentName): OComponentData {
     if (this.constructors.hasOwnProperty(componentName)) {
       return new this.constructors[componentName]();
     }

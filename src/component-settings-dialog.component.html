@@ -1,17 +1,29 @@
-<h1 mat-dialog-title> {{ component.getDirective() }} </h1>
+<h1 mat-dialog-title>{{ component.getDirective() }}</h1>
 <mat-dialog-content>
   <form #settingsForm [formGroup]="formGroup" fxLayout="column">
-    <mat-grid-list cols="2" rowHeight="5:1" gutterSize="16">
-      <mat-grid-tile *ngFor="let prop of component.getInputs()" fxLayoutAlign="start center">
-        <boolean-metadata fxFlexFill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'boolean')"></boolean-metadata>
-        <text-metadata fxFlexFill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'text')"></text-metadata>
-        <combo-metadata fxFlexFill [property]="prop" [data]="getInputData(prop)" *ngIf="comparePropertyType(prop, 'combo')"></combo-metadata>
-      </mat-grid-tile>
-    </mat-grid-list>
+
+    <ng-template #metadataFieldTemplate let-input="input">
+      <ng-container *ngIf="input !== 'empty'; else empty">
+        <boolean-metadata *ngIf="comparePropertyType(input, 'boolean')" [property]="input" [data]="getInputData(input)" fxFlex></boolean-metadata>
+        <text-metadata *ngIf="comparePropertyType(input, 'text')" [property]="input" [data]="getInputData(input)" fxFlex></text-metadata>
+        <combo-metadata *ngIf="comparePropertyType(input, 'combo')" [property]="input" [data]="getInputData(input)" fxFlex></combo-metadata>
+      </ng-container>
+      <ng-template #empty>
+        <span fxFlex></span>
+      </ng-template>
+    </ng-template>
+
+    <ng-container *ngFor="let prop of (componentInputs$ | async) as properties; let i = index; let size = count">
+      <div *ngIf="i % 2 === 0" fxLayout="row wrap" fxLayoutGap="16px">
+        <ng-container *ngTemplateOutlet="metadataFieldTemplate;context:{input:properties[i]}"></ng-container>
+        <ng-container *ngTemplateOutlet="metadataFieldTemplate;context:{input:properties[i+1] ? properties[i+1] : 'empty'}"></ng-container>
+      </div>
+    </ng-container>
+
   </form>
 </mat-dialog-content>
 
-<mat-dialog-actions>
-  <button mat-raised-button (click)="save()">{{ 'SAVE' | oTranslate }}</button>
-  <button mat-raised-button (click)="cancel()">{{ 'CANCEL' | oTranslate }}</button>
+<mat-dialog-actions align="end">
+  <button type="button" mat-stroked-button (click)="cancel()">{{ 'CANCEL' | oTranslate }}</button>
+  <button type="button" mat-stroked-button (click)="save()">{{ 'SAVE' | oTranslate }}</button>
 </mat-dialog-actions>

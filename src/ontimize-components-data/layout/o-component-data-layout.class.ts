@@ -2,26 +2,26 @@ import { OComponentData } from '../o-component-data.class';
 
 export class OComponentDataLayout extends OComponentData {
 
-  isContainer(): Boolean {
+  public isContainer(): boolean {
     return true;
   }
 
-  getTemplateInputsData() {
-    var templateInputsData = super.getTemplateInputsData();
-    templateInputsData['title-label'] = {
-      'type': 'string',
-      'label': 'title-label',
-      'tooltip': '',
-      'default': null,
-      'required': false
+  public getTemplateInputsData(): any {
+    const templateInputsData = super.getTemplateInputsData();
+    templateInputsData['title'] = {
+      type: 'string',
+      label: 'title',
+      tooltip: '',
+      default: null,
+      required: false
     };
     templateInputsData['layout-align'] = {
-      'type': 'combo',
-      'label': 'layout-align',
-      'tooltip': '',
-      'default': 'start start',
-      'required': false,
-      'values': [
+      type: 'combo',
+      label: 'layout-align',
+      tooltip: '',
+      default: 'start start',
+      required: false,
+      values: [
         'start start',
         'start center',
         'start end',
@@ -44,19 +44,26 @@ export class OComponentDataLayout extends OComponentData {
         'space-between stretch'
       ]
     };
-    templateInputsData['layout-fill'] = {
-      'type': 'boolean',
-      'label': 'layout-fill',
-      'tooltip': '',
-      'default': false,
-      'required': false
-    };
     templateInputsData['elevation'] = {
-      'type': 'number',
-      'label': 'elevation',
-      'tooltip': '',
-      'default': 0,
-      'required': false
+      type: 'number',
+      label: 'elevation',
+      tooltip: '',
+      default: 0,
+      required: false
+    };
+    templateInputsData['icon'] = {
+      type: 'string',
+      label: 'icon',
+      tooltip: '',
+      default: null,
+      required: false
+    };
+    templateInputsData['layout-gap'] = {
+      type: 'string',
+      label: 'layout-gap',
+      tooltip: '',
+      default: '8px',
+      required: false
     };
     return templateInputsData;
   }
