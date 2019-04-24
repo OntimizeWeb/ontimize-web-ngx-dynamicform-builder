@@ -12,12 +12,13 @@ import { dataServiceFactory, OFormComponent, OntimizeService } from 'ontimize-we
     }
   ],
   templateUrl: './o-form.component.html',
+  styleUrls: ['./o-form.component.scss'],
   inputs: OFormComponent.DEFAULT_INPUTS_O_FORM,
   outputs: OFormComponent.DEFAULT_OUTPUTS_O_FORM,
   encapsulation: ViewEncapsulation.None,
   host: {
     '[class.o-form]': 'true',
-    '[class.fill]': 'layoutFill'
+    '[class.extended-form]': 'true'
   }
 })
 export class ExtendedFormComponent extends OFormComponent {
