@@ -1,9 +1,7 @@
-<button dnd-draggable [dragEnabled]="componentDragEnabled" [dragData]="getDraggableData()" [class.only-label]="icon" class="item {{ style }}"
-  title="{{ label }}">
-  <mat-icon *ngIf="icon" class="material-icons item-icon" border="0" [style.paddingLeft]="indent">
-    {{icon}}
-  </mat-icon>
+<button dnd-draggable [dragEnabled]="componentDragEnabled" [dragData]="getDraggableData()" fxLayout="row" fxLayoutAlign="start center"
+  [class.only-label]="icon" class="item {{ style }}">
+  <mat-icon *ngIf="icon" class="material-icons item-icon" [style.paddingLeft]="indent">{{ icon }}</mat-icon>
   <div class="item-label" fxLayout="center">
-    <span class="item-label-text">{{ label }}</span>
+    <span class="item-label-text">{{ label | oTranslate }}</span>
   </div>
 </button>
