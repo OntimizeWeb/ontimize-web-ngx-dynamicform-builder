@@ -1,8 +1,6 @@
-<div [ngClass]="['title', style]" title="{{ label }}">
+<div [ngClass]="['title', style]">
   <div class="title-label" fxLayout="center">
-    <span class="title-label-text" fxFlex>{{ label }}</span>
+    <span class="title-label-text" fxFlex>{{ label | odfbTranslate }}</span>
   </div>
-  <button mat-button>
-    <mat-icon class="material-icons title-icon" [class.closed]="closed" border="0">expand_more</mat-icon>
-  </button>
+  <mat-icon [@toggle]="closed ? 'opened' : 'closed'" class="material-icons title-icon" [class.closed]="closed">expand_more</mat-icon>
 </div>

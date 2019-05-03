@@ -3,145 +3,151 @@ export const MENU_JSON_DATA: any = {
     {
       icon: '',
       id: 'LAYOUT',
-      label: 'Layout',
+      label: 'LAYOUT',
       parent: ''
     },
     {
       icon: '',
       id: 'INPUT_FIELDS',
-      label: 'Input Fields',
+      label: 'INPUT_FIELDS',
       parent: ''
     },
     {
       icon: '',
       id: 'SERVICE_FIELDS',
-      label: 'Service fields',
+      label: 'SERVICE_FIELDS',
       parent: ''
     },
     {
       icon: '',
       id: 'BUTTONS',
-      label: 'Buttons',
+      label: 'BUTTONS',
       parent: ''
     },
     {
       icon: '',
       id: 'DATA',
-      label: 'Data',
+      label: 'DATA',
       parent: ''
     },
     {
       icon: '',
       id: 'MEDIA',
-      label: 'Media',
+      label: 'MEDIA',
       parent: ''
     },
     {
       icon: '',
       id: 'MENU',
-      label: 'Menu',
+      label: 'MENU',
       parent: ''
     },
     {
       icon: '',
       id: 'MODALS',
-      label: 'Modals',
+      label: 'MODALS',
       parent: ''
     }
   ],
   elements: [
     {
-      icon: null,
+      icon: 'text_fields',
       id: 'o-text-input',
-      label: 'o-text-input',
+      label: 'o-text',
       parent: 'INPUT_FIELDS'
     },
     {
       icon: null,
+      svgIcon: 'odfb:integer',
       id: 'o-integer-input',
       label: 'o-integer',
       parent: 'INPUT_FIELDS'
     },
     {
       icon: null,
+      svgIcon: 'odfb:real',
       id: 'o-real-input',
       label: 'o-real',
       parent: 'INPUT_FIELDS'
     },
     {
       icon: null,
+      svgIcon: 'ontimize:PERCENT',
       id: 'o-percent-input',
       label: 'o-percent',
       parent: 'INPUT_FIELDS'
     },
     {
-      icon: null,
+      icon: 'euro_symbol',
       id: 'o-currency-input',
       label: 'o-currency',
       parent: 'INPUT_FIELDS'
     },
     {
-      icon: null,
+      icon: 'person',
       id: 'o-nif-input',
       label: 'o-nif',
       parent: 'INPUT_FIELDS'
     },
     {
-      icon: null,
+      icon: 'alternate_email',
       id: 'o-email-input',
       label: 'o-email',
       parent: 'INPUT_FIELDS'
     },
     {
-      icon: null,
+      icon: 'enhanced_encryption',
       id: 'o-password-input',
       label: 'o-password',
       parent: 'INPUT_FIELDS'
     },
     {
       icon: null,
+      svgIcon: 'odfb:textarea',
       id: 'o-textarea-input',
       label: 'o-textarea',
       parent: 'INPUT_FIELDS'
     },
     {
-      icon: null,
+      icon: 'calendar_today',
       id: 'o-date-input',
       label: 'o-date',
       parent: 'INPUT_FIELDS'
     },
     {
-      icon: null,
+      icon: 'swap_vert',
       id: 'o-column',
-      label: 'Column',
+      label: 'o-column',
       parent: 'LAYOUT'
     },
     {
-      icon: null,
+      icon: 'swap_horiz',
       id: 'o-row',
-      label: 'Row',
+      label: 'o-row',
       parent: 'LAYOUT'
     },
     {
       icon: null,
+      svgIcon: 'odfb:combo',
       id: 'o-combo',
       label: 'o-combo',
       parent: 'SERVICE_FIELDS'
     },
     {
       icon: null,
+      svgIcon: 'odfb:listpicker',
       id: 'o-list-picker',
       label: 'o-list-picker',
       parent: 'SERVICE_FIELDS'
     },
     {
-      icon: null,
+      icon: 'check_box',
       id: 'o-checkbox',
       label: 'o-checkbox',
       parent: 'INPUT_FIELDS'
     },
     {
-      icon: null,
+      icon: 'grid_on',
       id: 'o-table',
       label: 'o-table',
       parent: 'DATA'
