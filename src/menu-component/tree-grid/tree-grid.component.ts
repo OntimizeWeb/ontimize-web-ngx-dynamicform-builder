@@ -1,14 +1,7 @@
-import {
-  Component,
-  TemplateRef,
-  ContentChild,
-  ContentChildren,
-  QueryList,
-  HostBinding
-} from '@angular/core';
+import { Component, ContentChild, ContentChildren, HostBinding, QueryList, TemplateRef } from '@angular/core';
 
-import { TreeListDefault } from './tree-list.class';
 import { Type } from '../../utils';
+import { TreeListDefault } from './tree-list.class';
 
 @Component({
   selector: 'tree-grid',
@@ -22,50 +15,46 @@ import { Type } from '../../utils';
   templateUrl: './tree-grid.component.html',
   styleUrls: ['./tree-grid.component.scss']
 })
-
 export class TreeGridComponent {
+
   @ContentChild(TemplateRef)
-  header: QueryList<TemplateRef<any>>;
+  public header: QueryList<TemplateRef<any>>;
 
   @ContentChildren(TemplateRef)
-  contentTpls: QueryList<TemplateRef<any>>;
+  public contentTpls: QueryList<TemplateRef<any>>;
 
   @HostBinding('class')
-  gridType: string = 'grid';
+  public gridType: string = 'grid';
 
-  gridCols: number = 3;
-  treeGridCols: number = 3;
-  treeGrid: TreeListDefault;
-  head: Array<any>;
-  nodes: Array<any>;
-  elements: Array<any>;
-  id: string;
-  closed: boolean = true;
+  public gridCols: number = 3;
+  public treeGridCols: number = 3;
+  public treeGrid: TreeListDefault;
+  public head: any[];
+  public nodes: any[];
+  public elements: any[];
+  public id: string;
+  public closed: boolean = true;
 
-  needsDT: boolean = false;
-  needsDD: boolean = false;
+  public needsDT: boolean = false;
+  public needsDD: boolean = false;
 
-  // constructor() {
-  // }
-
-  ngAfterContentInit() {
+  public ngAfterContentInit(): void {
     this.update();
     if (!!this.treeGrid.update) {
       this.treeGrid.update.subscribe(() => this.update());
     }
   }
 
-  update() {
+  public update(): void {
     if (!this.treeGrid.header) {
       this.treeGrid.header = this.header;
     }
     if (!this.treeGrid.contentTpls && !!this.contentTpls) {
-      (<any>this.contentTpls)._results.shift();
+      (this.contentTpls as any)._results.shift();
       this.treeGrid.contentTpls = this.contentTpls;
     }
 
     [this.head, this.nodes, this.elements] = this.treeGrid.build(this.id);
-
 
     if (this.head.length > 0 && !Type.isNull(this.head[0])) {
       if (this.head.length > 0) {
@@ -81,7 +70,7 @@ export class TreeGridComponent {
     }
   }
 
-  toggleState() {
+  public toggleState(): void {
     this.closed = !this.closed;
     if (this.needsDT) {
       this.head[0].closed = this.closed;

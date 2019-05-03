@@ -53,23 +53,26 @@ export const MENU_JSON_DATA: any = {
     {
       icon: 'text_fields',
       id: 'o-text-input',
-      label: 'o-text-input',
+      label: 'o-text',
       parent: 'INPUT_FIELDS'
     },
     {
       icon: null,
+      svgIcon: 'odfb:integer',
       id: 'o-integer-input',
       label: 'o-integer',
       parent: 'INPUT_FIELDS'
     },
     {
       icon: null,
+      svgIcon: 'odfb:real',
       id: 'o-real-input',
       label: 'o-real',
       parent: 'INPUT_FIELDS'
     },
     {
       icon: null,
+      svgIcon: 'ontimize:PERCENT',
       id: 'o-percent-input',
       label: 'o-percent',
       parent: 'INPUT_FIELDS'
@@ -100,6 +103,7 @@ export const MENU_JSON_DATA: any = {
     },
     {
       icon: null,
+      svgIcon: 'odfb:textarea',
       id: 'o-textarea-input',
       label: 'o-textarea',
       parent: 'INPUT_FIELDS'
@@ -111,25 +115,27 @@ export const MENU_JSON_DATA: any = {
       parent: 'INPUT_FIELDS'
     },
     {
-      icon: null,
+      icon: 'swap_vert',
       id: 'o-column',
       label: 'o-column',
       parent: 'LAYOUT'
     },
     {
-      icon: null,
+      icon: 'swap_horiz',
       id: 'o-row',
       label: 'o-row',
       parent: 'LAYOUT'
     },
     {
       icon: null,
+      svgIcon: 'odfb:combo',
       id: 'o-combo',
       label: 'o-combo',
       parent: 'SERVICE_FIELDS'
     },
     {
       icon: null,
+      svgIcon: 'odfb:listpicker',
       id: 'o-list-picker',
       label: 'o-list-picker',
       parent: 'SERVICE_FIELDS'
