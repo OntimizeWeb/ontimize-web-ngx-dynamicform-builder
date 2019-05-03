@@ -106,7 +106,7 @@
 }
 
 :host > .sidebar > .menu-frame-container {
-  box-shadow: .16em .16em .54em -0.16em black, 0 0 0 0 black inset !important;
+  box-shadow: 3px 0 6px 0 rgba(0,0,0,0.24);
 }
 
 :host > .sidebar > .menu-frame-container.closed {
