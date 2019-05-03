@@ -1,6 +1,6 @@
 {
   "name": "ontimize-web-ngx-dynamicform-builder",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Dynamic form builder",
   "scripts": {
     "build": "o-ngx-lib-builder build --package ontimize-web-ngx-dynamicform-builder --ng-library ng.ontimizeWebDynamicformBuilder"
