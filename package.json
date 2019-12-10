@@ -91,6 +91,12 @@
     "typescript": "2.9.2",
     "webpack": "4.21.0",
     "webpack-merge": "3.0.0",
-    "zone.js": "0.8.26"
+    "zone.js": "0.8.26",
+    "serialize-javascript": ">=2.1.1",
+    "webpack-dev-server": ">=3.1.11",
+    "mem": ">=4.0.0",
+    "js-yaml": ">=3.13.1",
+    "cryptiles": ">=4.1.2",
+    "hoek": ">=4.2.1"
   }
 }
