@@ -1,0 +1,12 @@
+<div [class]="element" fxFlexFill color="primary">
+    <div class="menu-frame-container" [class.closed]="closed" [class.flat]="flat" [draggable]="isDraggable" [class.draggable]="isDraggable">
+        <div class="content" fxFlexFill>
+            <ng-content select=".contained"></ng-content>
+        </div>
+    </div>
+    <div class="framer">
+        <div class="content" fxFlexFill>
+            <ng-content select=".framed"></ng-content>
+        </div>
+    </div>
+</div>

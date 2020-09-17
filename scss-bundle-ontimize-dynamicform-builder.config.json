@@ -1,0 +1,8 @@
+{
+  "bundlerOptions": {
+    "entryFile": "./projects/ontimize-web-ngx-dynamicform-builder/styles.scss",
+    "rootDir": "./projects/ontimize-web-ngx-dynamicform-builder/src/lib/components/",
+    "outFile": "./dist/styles.scss",
+    "logLevel": "trace"
+  }
+}

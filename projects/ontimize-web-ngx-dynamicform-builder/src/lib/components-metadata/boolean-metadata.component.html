@@ -1,0 +1,6 @@
+<div fxLayout="row" fxLayoutAlign="center center" [formGroup]="getFormGroup()" fxFill>
+  <mat-slide-toggle [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()" fxFlex>
+    {{ data.label }}
+  </mat-slide-toggle>
+  <mat-icon fxFlex="10" *ngIf="data.tooltip" [matTooltip]="data.tooltip" matTooltipPosition="right" class="material-icons">info</mat-icon>
+</div>

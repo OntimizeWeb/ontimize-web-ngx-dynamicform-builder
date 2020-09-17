@@ -1,0 +1,21 @@
+@import '../../o-dynamic-form-builder.component.scss';
+
+app-menu-frame .menu-frame-container,
+mat-toolbar {
+    background-color: $color-primary;
+    color: $text-color-accent;
+}
+
+:host app-menu-frame .menu-frame-container {
+    background-color: $color-primary;
+    box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
+}
+
+// :host[id="HOME"] app-menu-frame /deep/ .container {
+//     background-color: $color-primary;
+//     box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
+// }
+
+// :host[id="SG_MANAGER"] app-menu-frame /deep/ .container {
+//     background-color: $color-primary - #312;
+// }
