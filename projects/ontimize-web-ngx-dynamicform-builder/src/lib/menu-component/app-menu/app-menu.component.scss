@@ -1,21 +1,54 @@
-@import '../../o-dynamic-form-builder.component.scss';
+.app-menu-nav {
+  height: 100%;
+  position: relative;
 
-app-menu-frame .menu-frame-container,
-mat-toolbar {
-    background-color: $color-primary;
-    color: $text-color-accent;
+  .app-menu-nav-content {
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+      width: 4px;
+    }
+
+    .group-btn {
+      padding-left: 15px;
+      height: 38px;
+      cursor: pointer;
+    }
+
+    .item-btn {
+      padding: 10px 15px;
+      font-size: 13px;
+    }
+
+    button {
+      margin: 0;
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+    ul {
+      list-style-type: none;
+      margin: 0 0 5px 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    li {
+      font-size: 13px;
+      line-height: 16px;
+      margin: 0;
+      padding: 5px 15px 5px 20px;
+    }
+  }
 }
-
-:host app-menu-frame .menu-frame-container {
-    background-color: $color-primary;
-    box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
-}
-
-// :host[id="HOME"] app-menu-frame /deep/ .container {
-//     background-color: $color-primary;
-//     box-shadow: 0em 0em 0em 0em black, 0em 0em 0em 0em black inset;
-// }
-
-// :host[id="SG_MANAGER"] app-menu-frame /deep/ .container {
-//     background-color: $color-primary - #312;
-// }

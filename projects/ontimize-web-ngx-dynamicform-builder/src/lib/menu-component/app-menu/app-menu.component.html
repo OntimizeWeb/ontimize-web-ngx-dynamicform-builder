@@ -1,31 +1,25 @@
-<app-menu-frame fxFlexFill [ui-element]="uiElement" [ui-closed]="closed" [ui-flat]="flat">
-  <tree-grid class="contained"
-    [tree-grid]="treeList"
-    [grid-type]="gridType"
-    [grid-columns]="gridCols"
-    [tree-grid-columns]="treeGridCols">
+<div class="app-menu-nav">
+  <div class="app-menu-nav-content">
+    <nav *ngFor="let category of groups;">
+      <button cdkAccordionItem #panel="cdkAccordionItem" (click)="panel.toggle()" expanded="false" fxLayout="row"
+        fxLayoutAlign="space-between center" class="group-btn">
+        {{ category.label | odfbTranslate }}
+        <mat-icon>{{ panel.expanded ? 'keyboard_arrow_up' :  'keyboard_arrow_down' }}</mat-icon>
+      </button>
+      <ul [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'" id="panel-{{category.id}}">
+        <li *ngFor="let component of getGroupItems(category)">
+          <button fxLayout="row" fxLayoutAlign="space-between center" [class.only-label]="component.icon" class="item-btn">
+            <!-- <mat-icon *ngIf="icon" [style.paddingLeft]="indent" class="material-icons item-icon">{{ icon }}</mat-icon>
+            <mat-icon *ngIf="svgIcon" svgIcon="{{ svgIcon }}" [style.paddingLeft]="indent"
+              class="material-icons item-icon">
+            </mat-icon> -->
+            <div class="item-label" fxLayout="center">
+              <span class="item-label-text">{{ component.label | odfbTranslate }}</span>
+            </div>
+          </button>
 
-    <ng-template let-app>
-      <app-menu-title
-        [app-label]="app.label"
-        [app-style]="appStyle"
-        [only-icons]="onlyIcons"
-        [title-closed]="app.closed">
-      </app-menu-title>
-    </ng-template>
-
-    <ng-template let-app>
-      <app-menu-item
-        [app-icon]="app.icon"
-        [app-svgicon]="app.svgIcon"
-        [app-label]="app.label"
-        [app-id]="app.id"
-        [app-style]="appStyle"
-        [only-icons]="onlyIcons"
-        [drag-enabled]="dragEnabled"
-        app-indent="6px">
-      </app-menu-item>
-    </ng-template>
-  </tree-grid>
-  <ng-content class="framed"></ng-content>
-</app-menu-frame>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

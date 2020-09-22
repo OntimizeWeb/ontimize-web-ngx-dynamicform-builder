@@ -18,36 +18,37 @@ export const MENU_JSON_DATA: any = {
       label: 'SERVICE_FIELDS',
       parent: ''
     },
-    {
-      icon: '',
-      id: 'BUTTONS',
-      label: 'BUTTONS',
-      parent: ''
-    },
+    // {
+    //   icon: '',
+    //   id: 'BUTTONS',
+    //   label: 'BUTTONS',
+    //   parent: ''
+    // },
     {
       icon: '',
       id: 'DATA',
       label: 'DATA',
       parent: ''
-    },
-    {
-      icon: '',
-      id: 'MEDIA',
-      label: 'MEDIA',
-      parent: ''
-    },
-    {
-      icon: '',
-      id: 'MENU',
-      label: 'MENU',
-      parent: ''
-    },
-    {
-      icon: '',
-      id: 'MODALS',
-      label: 'MODALS',
-      parent: ''
     }
+    // ,
+    // {
+    //   icon: '',
+    //   id: 'MEDIA',
+    //   label: 'MEDIA',
+    //   parent: ''
+    // },
+    // {
+    //   icon: '',
+    //   id: 'MENU',
+    //   label: 'MENU',
+    //   parent: ''
+    // },
+    // {
+    //   icon: '',
+    //   id: 'MODALS',
+    //   label: 'MODALS',
+    //   parent: ''
+    // }
   ],
   elements: [
     {

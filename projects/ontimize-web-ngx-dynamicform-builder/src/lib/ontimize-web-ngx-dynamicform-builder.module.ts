@@ -1,3 +1,4 @@
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
@@ -13,6 +14,7 @@ export * from './services/index';
 
 @NgModule({
   imports: [
+    CdkAccordionModule,
     OntimizeWebModule,
     CommonModule,
     DragDropModule,
