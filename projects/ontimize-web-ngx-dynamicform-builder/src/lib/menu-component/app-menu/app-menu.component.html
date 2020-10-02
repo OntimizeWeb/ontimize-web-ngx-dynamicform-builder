@@ -1,24 +1,46 @@
 <div class="app-menu-nav">
   <div class="app-menu-nav-content">
-    <nav *ngFor="let category of groups;">
+    <nav *ngFor="let category of menuItems;"
+      cdkDropList
+      [cdkDropListConnectedTo]="dynamicForm.connectedDropListIds"  
+      cdkDropListSortingDisabled
+      [cdkDropListData]="category.elements"
+      (cdkDropListEntered)="entered()"
+      (cdkDropListExited)="exited($event)"
+    >
       <button cdkAccordionItem #panel="cdkAccordionItem" (click)="panel.toggle()" expanded="false" fxLayout="row"
         fxLayoutAlign="space-between center" class="group-btn">
         {{ category.label | odfbTranslate }}
         <mat-icon>{{ panel.expanded ? 'keyboard_arrow_up' :  'keyboard_arrow_down' }}</mat-icon>
       </button>
       <ul [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'" id="panel-{{category.id}}">
-        <li *ngFor="let component of getGroupItems(category)">
-          <button fxLayout="row" fxLayoutAlign="space-between center" [class.only-label]="component.icon" class="item-btn">
-            <!-- <mat-icon *ngIf="icon" [style.paddingLeft]="indent" class="material-icons item-icon">{{ icon }}</mat-icon>
-            <mat-icon *ngIf="svgIcon" svgIcon="{{ svgIcon }}" [style.paddingLeft]="indent"
-              class="material-icons item-icon">
-            </mat-icon> -->
-            <div class="item-label" fxLayout="center">
-              <span class="item-label-text">{{ component.label | odfbTranslate }}</span>
+        <ng-container *ngFor="let component of category.elements">
+          
+        
+          <li
+            class="app-menu-item"   
+            cdkDrag 
+            [cdkDragData]="getOntimizeComponentData(component)"
+            >
+            <div *cdkDragPreview class="drag-preview">
+              {{ component.label | odfbTranslate }}
             </div>
-          </button>
 
-        </li>
+            <button fxLayout="row" fxLayoutAlign="space-between center" [class.only-label]="component.icon"
+              class="item-btn">
+              <!-- <mat-icon *ngIf="icon" [style.paddingLeft]="indent" class="material-icons item-icon">{{ icon }}</mat-icon>
+              <mat-icon *ngIf="svgIcon" svgIcon="{{ svgIcon }}" [style.paddingLeft]="indent"
+                class="material-icons item-icon">
+              </mat-icon> -->
+              <div class="item-label" fxLayout="center">
+                <span class="item-label-text">{{ component.label | odfbTranslate }}</span>
+              </div>
+            </button>
+
+          </li>
+
+         
+        </ng-container>
       </ul>
     </nav>
   </div>

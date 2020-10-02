@@ -61,8 +61,12 @@ export class OComponentData {
     return this.configuredInputs ? this.configuredInputs[inputName] : undefined;
   }
 
-  public addChild(child: OComponentData): void {
-    this.children.push(child);
+  public addChild(child: OComponentData, index?: number): void {
+    if (index == null) {
+      this.children.push(child);
+    } else {
+      this.children.splice(index, 0, child);
+    }
   }
 
   public getChildren(): ArrayList<OComponentData> {

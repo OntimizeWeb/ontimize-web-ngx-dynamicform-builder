@@ -8,7 +8,6 @@ import { OComponentData } from './ontimize-components-data/o-component-data.clas
 
 @Component({
   selector: 'component-settings-dialog',
-  inputs: [],
   templateUrl: './component-settings-dialog.component.html',
   styleUrls: ['./component-settings-dialog.component.scss']
 })
@@ -87,7 +86,7 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
     const configuredInputs = {};
     if (this.formDataCache) {
       const keys = Object.keys(this.formDataCache);
-      keys.map(item => {
+      keys.forEach(item => {
         const propertyValue = this.formDataCache[item];
         if (this.templateInputsData[item].default !== propertyValue) {
           configuredInputs[item] = propertyValue;
@@ -106,7 +105,7 @@ export class ComponentSettingsDialogComponent implements OnInit, OnDestroy {
   }
 
   public cancel(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close(null);
   }
 
   public getInputData(inputName): any {

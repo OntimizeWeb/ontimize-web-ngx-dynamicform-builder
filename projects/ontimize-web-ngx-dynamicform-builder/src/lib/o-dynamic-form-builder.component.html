@@ -1,17 +1,24 @@
 <div fxLayout="row" fxFlexFill>
   <div class="menu-frame-container" fxFlex="20">
-    <app-menu [drag-enabled]="!isReadOnly"></app-menu>
+    <app-menu #appMenu [dynamicForm]="dynamicForm" [dragEnabled]="isEditionActive"></app-menu>
   </div>
   <div class="framer" fxFlex>
     <div class="content" fxFlexFill>
       <div fxLayout="row" fxLayoutAlign="center center" class="dynamicform-container" fxFill>
         <div fxLayout="row" fxLayoutAlign="center" class="mat-elevation-z1 dropzone-container" fxFlex="90">
           <extended-form #innerForm show-header="false" query-on-init="false" fxFlex>
-            <o-dynamic-form #dynamicForm query-on-init="false" register-in-parent-form="false"
-              [form-definition]="formDefinition$ | async" [edit-mode]="!isReadOnly"
-              (onAddComponent)="onAddComponent($event)" (onMoveComponent)="onMoveComponent($event)"
+            <o-dynamic-form #dynamicForm 
+              query-on-init="false" 
+              register-in-parent-form="false"
+              [form-definition]="formDefinition$ | async" 
+              [edit-mode]="isEditionActive"
+
+              (onAddComponent)="onAddComponent($event)" 
+              (onMoveComponent)="onMoveComponent($event)"
+              (onDeleteComponent)="onDeleteComponent($event)" 
+              (onDrop)="onDrop()"
               (onEditComponentSettings)="onEditComponentSettings($event)"
-              (onDeleteComponent)="onDeleteComponent($event)" (render)="onDynamicFormRendered()">
+              (render)="onDynamicFormRendered()">
             </o-dynamic-form>
           </extended-form>
         </div>
