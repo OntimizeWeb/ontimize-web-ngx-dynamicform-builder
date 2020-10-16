@@ -1,13 +1,8 @@
 export const ODFB_TRANSLATIONS = {
   // English
   en: {
-    'DATA': 'Data',
-    'MEDIA': 'Media',
     'LAYOUT': 'Layout',
-    'MENU': 'Menu',
-    'MODALS': 'Modals',
-    'BUTTONS': 'Buttons',
-    'INPUT_FIELDS': 'Input Fields',
+    'BASIC_FIELDS': 'Basic fields',
     'SERVICE_FIELDS': 'Service fields',
     'o-text': 'Text',
     'o-integer': 'Integer',
@@ -24,18 +19,15 @@ export const ODFB_TRANSLATIONS = {
     'o-combo': 'Combo',
     'o-list-picker': 'List picker',
     'o-checkbox': 'Checkbox',
-    'o-table': 'Table'
+    'o-table': 'Table',
+    'SAVE': 'Save',
+    'COMPONENTS': 'Components'
   },
 
   // Spanish
   es: {
-    'DATA': 'Datos',
-    'MEDIA': 'Media',
     'LAYOUT': 'Disposición',
-    'MENU': 'Menú',
-    'MODALS': 'Ventanas',
-    'BUTTONS': 'Botones',
-    'INPUT_FIELDS': 'Campos',
+    'BASIC_FIELDS': 'Campos',
     'SERVICE_FIELDS': 'Campos servicio',
     'o-text': 'Texto',
     'o-integer': 'Entero',
@@ -52,6 +44,8 @@ export const ODFB_TRANSLATIONS = {
     'o-combo': 'Combo',
     'o-list-picker': 'Selector',
     'o-checkbox': 'Checkbox',
-    'o-table': 'Tabla'
+    'o-table': 'Tabla',
+    'SAVE': 'Guardar',
+    'COMPONENTS': 'Componentes'
   }
 };

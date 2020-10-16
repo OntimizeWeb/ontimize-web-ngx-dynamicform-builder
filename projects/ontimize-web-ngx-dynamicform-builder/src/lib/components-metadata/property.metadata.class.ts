@@ -1,7 +1,7 @@
 import { forwardRef, Inject } from '@angular/core';
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 
-import { ComponentSettingsDialogComponent } from '../component-settings-dialog.component';
+import { ComponentPropertiesComponent } from '../component-properties/component-properties.component';
 
 export const DEFAULT_INPUTS_METADATA = [
   'property',
@@ -16,19 +16,18 @@ export class PropertyMetadataClass {
   public value: any;
 
   constructor(
-    @Inject(forwardRef(() => ComponentSettingsDialogComponent))
-    protected settingsDialog: ComponentSettingsDialogComponent
+    @Inject(forwardRef(() => ComponentPropertiesComponent))
+    protected propertiesComponent: ComponentPropertiesComponent
   ) { }
 
   public initialize(): void {
-    if (this.settingsDialog) {
-      this.registerFormListeners();
-    }
+    this.registerFormListeners();
+
   }
 
   public registerFormListeners(): void {
-    if (this.settingsDialog) {
-      this.settingsDialog.registerFormControlComponent(this);
+    if (this.propertiesComponent) {
+      this.propertiesComponent.registerFormControlComponent(this);
     }
   }
 
@@ -37,13 +36,13 @@ export class PropertyMetadataClass {
   }
 
   public unregisterFormListeners(): void {
-    if (this.settingsDialog) {
-      this.settingsDialog.unregisterFormControlComponent(this);
+    if (this.propertiesComponent) {
+      this.propertiesComponent.unregisterFormControlComponent(this);
     }
   }
 
   public getFormGroup(): any {
-    return this.settingsDialog.formGroup;
+    return this.propertiesComponent.formGroup;
   }
 
   public getPropertyName(): string {

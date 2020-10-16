@@ -1,0 +1,30 @@
+<div fxLayout="column">
+  <form #settingsForm [formGroup]="formGroup" fxLayout="column">
+
+    <ng-container *ngFor="let input of (componentInputs$ | async)">
+      
+      <ng-container *ngIf="input !== 'empty'; else empty">
+        <boolean-metadata fxFlex
+          *ngIf="comparePropertyType(input, 'boolean')" 
+          [property]="input" 
+          [data]="getInputData(input)">
+        </boolean-metadata>
+        <text-metadata fxFlex 
+          *ngIf="comparePropertyType(input, 'text')" 
+          [property]="input" 
+          [data]="getInputData(input)">
+        </text-metadata>
+        <combo-metadata fxFlex
+          *ngIf="comparePropertyType(input, 'combo')" 
+          [property]="input" 
+          [data]="getInputData(input)">
+        </combo-metadata>
+      </ng-container>
+      <ng-template #empty>
+        <span fxFlex></span>
+      </ng-template>
+      
+    </ng-container>
+
+  </form>
+</div>

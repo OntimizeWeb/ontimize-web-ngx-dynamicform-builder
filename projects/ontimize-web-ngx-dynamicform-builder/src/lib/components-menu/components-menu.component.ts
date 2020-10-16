@@ -1,41 +1,53 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDragExit } from '@angular/cdk/drag-drop';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatTabGroup } from '@angular/material';
+
 import { ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
 import { Subject } from 'rxjs';
-import { OComponentData } from '../../ontimize-components-data/o-component-data.class';
 
-import { AppMenuService } from '../../services/app-menu.service';
-import { ComponentsDataService } from '../../services/components-data.service';
+import { OComponentData } from '../ontimize-components-data/o-component-data.class';
+import { AppMenuService } from '../services/app-menu.service';
+import { ComponentsDataService } from '../services/components-data.service';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './app-menu.component.html',
-  styleUrls: ['./app-menu.component.scss'],
+  selector: 'components-menu',
+  templateUrl: './components-menu.component.html',
+  styleUrls: ['./components-menu.component.scss'],
   animations: [
     trigger('bodyExpansion', [
       state('collapsed', style({ height: '0px', display: 'none' })),
       state('expanded', style({ height: '*', display: 'block' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4,0.0,0.2,1)')),
     ])
-  ]
+  ],
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    '[class.components-menu]': 'true'
+  }
 })
-export class AppMenuComponent implements OnInit {
+export class ComponentsMenuComponent implements OnInit {
   expansions: { [key: string]: boolean } = {};
   private _onDestroy = new Subject<void>();
 
-  menuItems: any[] = [];
+  layoutItems: any[] = [];
+  componentItems: any[] = [];
 
   @Input() dynamicForm: ODynamicFormComponent;
   @Input() dragEnabled: boolean;
 
+  @Output() modeChange: EventEmitter<any> = new EventEmitter();
+
+  @ViewChild('tabGroup', { static: false }) tabGroup: MatTabGroup;
 
   constructor(
     private appMenuService: AppMenuService,
     private componentsDataService: ComponentsDataService
   ) {
-    this.appMenuService.getMenu().subscribe((menu: any) => {
-      this.menuItems = menu.items;
+    this.appMenuService.getMenu().subscribe((items: any) => {
+      // this.menuItems = items;
+      this.layoutItems = items.filter(i => i.id === 'LAYOUT');
+      this.componentItems = items.filter(i => i.id !== 'LAYOUT');
     });
   }
 
@@ -86,5 +98,15 @@ export class AppMenuComponent implements OnInit {
     }
   }
 
+  get editableComponents(): string[] {
+    const array = (!this.tabGroup || this.tabGroup.selectedIndex === 0) ?
+      this.componentItems :
+      this.layoutItems;
+    const res = array.reduce((a, b) => {
+      a.push(...(b.elements || []).map(el => el['ontimize-component']));
+      return a;
+    }, []);
+    return res;
+  }
 
 }

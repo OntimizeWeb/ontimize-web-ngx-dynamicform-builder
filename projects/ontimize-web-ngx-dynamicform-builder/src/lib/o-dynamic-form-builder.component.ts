@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Inject, OnInit, Optional, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, forwardRef, HostBinding, Inject, OnInit, Optional, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import {
@@ -13,9 +13,10 @@ import {
 } from 'ontimize-web-ngx';
 import { BaseComponent, ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
 import { BehaviorSubject } from 'rxjs';
+import { ComponentPropertiesComponent } from './component-properties/component-properties.component';
 
 import { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
-import { AppMenuComponent } from './menu-component/app-menu/app-menu.component';
+import { ComponentsMenuComponent } from './components-menu/components-menu.component';
 import { OComponentData } from './ontimize-components-data/o-component-data.class';
 import { ComponentsDataService } from './services/components-data.service';
 import { ArrayList } from './utils/collections/ArrayList';
@@ -35,7 +36,10 @@ import { ArrayList } from './utils/collections/ArrayList';
     'render',
     'onFormDefinitionUpdate'
   ],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    '[class.o-dynamic-form-builder]': 'true'
+  }
 })
 
 export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDataTypeComponent, IFormDataComponent {
@@ -47,14 +51,18 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   @InputConverter()
   public editMode: boolean = false;
 
+
+  @HostBinding('style.flexDirection') get style_flexDirection() { return 'column'; }
+  @HostBinding('style.display') get style_display() { return 'flex'; }
+
   public formDefinition$: BehaviorSubject<any> = new BehaviorSubject(null);
   public componentsArray: ArrayList<OComponentData> = new ArrayList<OComponentData>();
 
   public render: EventEmitter<any> = new EventEmitter();
   public onFormDefinitionUpdate: EventEmitter<Object> = new EventEmitter<Object>();
 
-  public onChange: EventEmitter<Object>;
-  public onValueChange: EventEmitter<OValueChangeEvent>;
+  public onChange: EventEmitter<object> = new EventEmitter<object>();
+  public onValueChange: EventEmitter<OValueChangeEvent> = new EventEmitter<OValueChangeEvent>();
 
   protected oattr: string;
   protected innerFormDefinition: any = null;
@@ -67,7 +75,9 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   @ViewChild('dynamicForm', { static: false })
   protected dynamicForm: ODynamicFormComponent;
   @ViewChild('appMenu', { static: false })
-  protected appMenu: AppMenuComponent;
+  protected appMenu: ComponentsMenuComponent;
+  @ViewChild('componentProperties', { static: false })
+  protected componentProperties: ComponentPropertiesComponent;
 
   constructor(
     protected dialog: MatDialog,
@@ -96,7 +106,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   public registerFormListeners(): void {
     if (this.parentForm) {
       this.parentForm.registerFormComponent(this);
-      // this.parentForm.registerDynamicFormComponent(this);
+      this.parentForm.registerFormControlComponent(this);
       this.parentForm.registerSQLTypeFormComponent(this);
     }
   }
@@ -108,7 +118,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   public unregisterFormListeners(): void {
     if (this.parentForm) {
       this.parentForm.unregisterFormComponent(this);
-      // this.parentForm.unregisterDynamicFormComponent(this);
+      this.parentForm.unregisterFormControlComponent(this);
       this.parentForm.unregisterSQLTypeFormComponent(this);
     }
   }
@@ -213,10 +223,15 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   }
 
   private onUpdateComponents(): void {
+    const oldValue = this.definitionToString();
     const componentsParsedArray = [];
     this.getComponentsJson(this.componentsArray, componentsParsedArray);
     this.formDefinition = { components: componentsParsedArray };
     this.onFormDefinitionUpdate.emit(this.innerFormDefinition);
+    const newValue = this.definitionToString();
+    this._fControl.setValue(newValue);
+    this.emitOnValueChange(OValueChangeEvent.PROGRAMMATIC_CHANGE, newValue, oldValue);
+    this.emitOnChange(newValue);
   }
 
   public getComponentsJson(components: ArrayList<OComponentData>, parent: any[]): void {
@@ -268,7 +283,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     const dialogArgs = {
       parent: parent,
       index: args.index,
-      add: true
+      new: true
     };
     this.openSettingsDialog(component, dialogArgs);
   }
@@ -303,7 +318,11 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     const transfered = previousChildren[args.previousIndex];
     const container: OComponentData = this.getOComponentData(args.container);
     this._removeElement(transfered.getComponentAttr(), previousChildren);
-    container.addChild(transfered, args.currentIndex);
+    if (container) {
+      container.addChild(transfered, args.currentIndex);
+    } else {
+      this.componentsArray.splice(args.currentIndex, 0, transfered);
+    }
   }
 
   public onEditComponentSettings(args): void {
@@ -311,7 +330,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     if (!component) {
       return;
     }
-    this.openSettingsDialog(component, { edit: true });
+    this.componentProperties.setComponent(component);
   }
 
   public onDeleteComponent(args): void {
@@ -401,7 +420,23 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this.appMenu.entered();
   }
 
-  get isEditionActive(): boolean {
-    return this.editMode && !this.isReadOnly;
+  public save() {
+    if (this.parentForm) {
+      this.parentForm.update();
+    }
   }
+
+  protected emitOnValueChange(type, newValue, oldValue): void {
+    const event = new OValueChangeEvent(type, newValue, oldValue, this);
+    this.onValueChange.emit(event);
+  }
+
+  protected emitOnChange(value): void {
+    this.onChange.emit(value);
+  }
+
+  get isEditionActive(): boolean {
+    return this.editMode || !this.isReadOnly;
+  }
+
 }

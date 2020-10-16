@@ -1,5 +1,5 @@
 <div fxLayout="row" [formGroup]="getFormGroup()">
-  <mat-form-field fxFlex>
+  <mat-form-field fxFlex floatLabel="always">
     <input matInput [attr.type]="data.type === 'number' ? 'number' : 'text'" [attr.step]="data.type === 'number' ? 1 : undefined"
       [attr.min]="data.type === 'number' ? -1000 : undefined" [attr.max]="data.type === 'number' ? 1000 : undefined" [placeholder]="data.label"
       [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()" />

@@ -1,5 +1,5 @@
 <div fxLayout="row" [formGroup]="getFormGroup()">
-  <mat-form-field fxFlex>
+  <mat-form-field fxFlex floatLabel="always">
     <mat-select [name]="data.label" [placeholder]="data.label" [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)"
       [formControlName]="getPropertyName()">
       <mat-option *ngIf="!data.required"></mat-option>

@@ -8,10 +8,10 @@
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
 
-  .main-sidenav {
-    mat-sidenav {
-      background-color: mat-color($primary);
-      color: mat-color($primary, default-contrast);
-    }
-  }
+  // .main-sidenav {
+  //   mat-sidenav {
+  //     background-color: mat-color($primary);
+  //     color: mat-color($primary, default-contrast);
+  //   }
+  // }
 }

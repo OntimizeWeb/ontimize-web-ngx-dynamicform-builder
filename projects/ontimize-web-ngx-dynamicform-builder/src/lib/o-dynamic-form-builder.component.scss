@@ -1,57 +1,25 @@
-// $color-primary: #E4333C; // From Imatia Web
-$color-primary: rgb(218,70,68); // From Imatia Emails
-// $color-primary: #009688;
-// $color-primary-dark: #B3282F;
-$color-primary-dark: $color-primary - #111;
-$color-accent: #111111;
-$text-color-primary: #111111;
-$text-color-accent: #eeeeee;
-$window-background: #cccccc;
-@mixin fullsize {
-  width: 100%;
-  height: 100%;
-}
+$border: 1px solid #e6e6e6;
 
-::-webkit-scrollbar {
-  width: 5px;
-  height: 4px;
-}
+.o-dynamic-form-builder {
+  background-color: #f0f0f0;
+  > div {
+    padding: 16px 32px;
+  }
+  > .content {
+    padding-top: 0;
 
-::-webkit-scrollbar-button {
-  width: 0;
-  height: 0;
-}
+    .components-menu,
+    .component-properties,
+    .dynamic-form-container .o-form .o-form-content-wrapper {
+      border: $border;
+      background: #ffffff;
+    }
 
-::-webkit-scrollbar-thumb {
-  background: rgba($color-primary + #c93, 0.2);
-}
-
-::-webkit-scrollbar-track {
-  background: rgba($text-color-primary, 0.3);
-}
-
-::-webkit-scrollbar-thumb:active {
-  background: rgba($text-color-primary, 0.3);
-}
-
-::-webkit-scrollbar-thumb,
-::-webkit-scrollbar-track {
-  border: none;
-}
-
-::-webkit-scrollbar-corner,
-::-webkit-scrollbar-track:active,
-::-webkit-scrollbar-track:hover {
-  background: transparent;
-}
-
-o-dynamic-form-builder {
-  .dynamicform-container {
-    height: 100%;
-
-    .dropzone-container {
-      height: 95%;
-      overflow: auto;
+    .dynamic-form-container {
+      padding: 0 16px;
+      .o-form .o-form-content-wrapper {
+        padding: 8px;
+      }
     }
   }
 }

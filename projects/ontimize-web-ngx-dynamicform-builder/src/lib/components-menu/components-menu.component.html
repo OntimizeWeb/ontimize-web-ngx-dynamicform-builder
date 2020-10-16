@@ -1,0 +1,63 @@
+<div class="app-menu-nav">
+  <div class="app-menu-nav-content">
+    <ng-template #categoryTemplate let-category="category">
+      <nav 
+        cdkDropList
+        [cdkDropListConnectedTo]="dynamicForm.connectedDropListIds" 
+        cdkDropListSortingDisabled
+        [cdkDropListData]="category.elements"
+        (cdkDropListEntered)="entered()"
+        (cdkDropListExited)="exited($event)"
+      >
+        <button cdkAccordionItem #panel="cdkAccordionItem" (click)="panel.toggle()" expanded="false" fxLayout="row"
+          fxLayoutAlign="space-between center" class="group-btn">
+          {{ category.label | odfbTranslate }}
+          <mat-icon>{{ panel.expanded ? 'keyboard_arrow_up' :  'keyboard_arrow_down' }}</mat-icon>
+        </button>
+        <ul [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'" id="panel-{{category.id}}">
+          <ng-container *ngFor="let component of category.elements">
+            <li
+              class="app-menu-item"   
+              cdkDrag 
+              [cdkDragData]="getOntimizeComponentData(component)"
+              >
+              <div *cdkDragPreview class="drag-preview">
+                {{ component.label | odfbTranslate }}
+              </div>
+
+              <button fxLayout="row" fxLayoutAlign="space-between center" [class.only-label]="component.icon"
+                class="item-btn">
+                <!-- <mat-icon *ngIf="icon" [style.paddingLeft]="indent" class="material-icons item-icon">{{ icon }}</mat-icon>
+                <mat-icon *ngIf="svgIcon" svgIcon="{{ svgIcon }}" [style.paddingLeft]="indent"
+                  class="material-icons item-icon">
+                </mat-icon> -->
+                <div class="item-label" fxLayout="center">
+                  <span class="item-label-text">{{ component.label | odfbTranslate }}</span>
+                </div>
+              </button>
+
+            </li>
+
+          
+          </ng-container>
+        </ul>
+      </nav>
+    </ng-template>
+    
+
+    <mat-tab-group #tabGroup [disableRipple]="true">
+
+      <mat-tab label="{{ 'COMPONENTS' | odfbTranslate }}">
+        <ng-container *ngFor="let category of componentItems;">
+          <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category}"></ng-container>
+        </ng-container>
+      </mat-tab>
+
+      <mat-tab label="{{ 'LAYOUT' | odfbTranslate }}">
+        <ng-container *ngFor="let category of layoutItems;">
+          <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category}"></ng-container>
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
