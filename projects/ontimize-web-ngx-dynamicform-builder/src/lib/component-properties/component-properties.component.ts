@@ -1,15 +1,25 @@
-import { ViewEncapsulation } from '@angular/core';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
 
 import { PropertyMetadataClass } from '../components-metadata/property.metadata.class';
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
+import { InputMetadata } from '../types/inputs-metadata.type';
+
 
 @Component({
   selector: 'component-properties',
   templateUrl: './component-properties.component.html',
   styleUrls: ['./component-properties.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
     '[class.component-properties]': 'true'
@@ -17,77 +27,119 @@ import { OComponentData } from '../ontimize-components-data/o-component-data.cla
 })
 export class ComponentPropertiesComponent implements OnInit, OnDestroy {
 
-  public component: OComponentData;
-  public templateInputsData = {};
+  public _component: OComponentData;
+  public attr: string;
 
   public formGroup: FormGroup;
-  public formDataCache: any;
 
-  public componentInputs$: BehaviorSubject<string[]> = new BehaviorSubject([]);
+  public inputsMetadata: InputMetadata[] = [];
+  public basicInputsMetadata: InputMetadata[] = [];
+  public advancedInputsMetadata: InputMetadata[] = [];
 
-  constructor() { }
+  @Output() componentUpdate: EventEmitter<any> = new EventEmitter();
 
-  ngOnInit(): void {
-    this.formGroup = new FormGroup({});
-    this.formGroup.valueChanges.subscribe((value: any) => {
-      if (this.formDataCache === undefined) {
-        this.formDataCache = {};
+  constructor(protected cd: ChangeDetectorRef) {
+    this.createFormGroup();
+  }
+
+  ngOnInit(): void { }
+
+  ngOnDestroy(): void { }
+
+  private clear() {
+    this._component = null;
+    this.attr = null;
+    this.inputsMetadata = [];
+    this.basicInputsMetadata = [];
+    this.advancedInputsMetadata = [];
+    this.cd.detectChanges();
+  }
+
+  protected createFormGroup() {
+    this.formGroup = new FormGroup({}, { updateOn: 'blur' });
+  }
+
+  protected getInputsMetadata(): InputMetadata[] {
+    const inputsMetadata = this.component.getInputsMetadata();
+    const clonedInputsData: InputMetadata[] = JSON.parse(JSON.stringify(inputsMetadata));
+    clonedInputsData.forEach(metadata => {
+      let configuredValue = this.component.getConfiguredInputValue(metadata.input);
+      // TODO: buscar la forma de parsear los datos en otro sitio
+      if (metadata.type === 'json') {
+        configuredValue = JSON.stringify(configuredValue);
       }
-      Object.assign(this.formDataCache, value);
+      if (configuredValue !== undefined) {
+        metadata.default = configuredValue;
+      }
+      metadata.editionType = metadata.type === 'string' || metadata.type === 'number' || metadata.type === 'json' ?
+        'text' :
+        metadata.type;
     });
+    return clonedInputsData;
   }
 
-  ngOnDestroy(): void {
-    this.formDataCache = undefined;
-  }
 
-  protected setTemplateInputsData(): void {
-    const inputsData = this.component.getTemplateInputsData();
-    const clonedInputsData = JSON.parse(JSON.stringify(inputsData));
-    this.templateInputsData = clonedInputsData;
-  }
-
-  public setComponent(component: OComponentData): void {
-    this.component = component;
-
-    this.setTemplateInputsData();
-    
+  protected setInputsMetadata(): void {
     // Display only supported inputs
-    this.componentInputs$.next(this.component.getInputs().filter(input => {
-      const result = this.templateInputsData[input];
-      if (!result) {
-        console.info('Attribute `' + input + '` from `' + component.getDirective() + '` is not supported on DynamicForm Builder');
+    const basicInputsMetadata: InputMetadata[] = [];
+    const advancedInputsMetadata: InputMetadata[] = [];
+
+    this.component.getInputs().forEach(input => {
+      const inputMetadata = this.inputsMetadata.find(item => item.input === input);
+      if (inputMetadata != null) {
+        if (this._component.getBasicInputs().indexOf(input) !== -1) {
+          basicInputsMetadata.push(inputMetadata);
+        } else {
+          advancedInputsMetadata.push(inputMetadata);
+        }
+      } else {
+        console.info('Attribute `' + input + '` from `' + this._component.getDirective() + '` is not supported on DynamicForm Builder');
       }
-      return result;
-    }));
+    });
+
+    this.basicInputsMetadata = basicInputsMetadata;
+    this.advancedInputsMetadata = advancedInputsMetadata;
   }
 
-  public comparePropertyType(prop, type): boolean {
-    const propertyType = this.templateInputsData.hasOwnProperty(prop) ? this.templateInputsData[prop].type : undefined;
-    if (type === 'text') {
-      return (propertyType === 'string' || propertyType === 'number' || propertyType === 'json');
+  // get basicInputsMetadata(): InputMetadata[] {
+  //   return this._basicInputsMetadata;
+  // }
+
+  // set basicInputsMetadata(value: InputMetadata[]) {
+  //   this._basicInputsMetadata = value;
+  // }
+
+  // get advancedInputsMetadata(): InputMetadata[] {
+  //   return this._advancedInputsMetadata;
+  // }
+
+  // set advancedInputsMetadata(value: InputMetadata[]) {
+  //   this._advancedInputsMetadata = value;
+  // }
+
+  set component(component: OComponentData) {
+    if (component == null) {
+      this.clear();
+      return;
     }
-    return (propertyType === type);
+    this._component = component;
+    this.attr = component.configuredInputs['attr'];
+
+    this.inputsMetadata = this.getInputsMetadata();
+    this.setInputsMetadata();
+
+    this.cd.detectChanges();
   }
 
-  public getInputData(inputName): any {
-    const inputData = this.templateInputsData[inputName];
-    let configuredValue = this.component.getConfiguredInputValue(inputName);
-    // TODO: buscar la forma de parsear los datos en otro sitio
-    if (inputData.type === 'json') {
-      configuredValue = JSON.stringify(configuredValue);
-    }
-    if (configuredValue !== undefined) {
-      inputData.default = configuredValue;
-    }
-    return inputData;
+  get component(): OComponentData {
+    return this._component;
   }
 
   public registerFormControlComponent(comp: PropertyMetadataClass): void {
     if (comp) {
       const control: FormControl = comp.getFormControl();
       if (control) {
-        this.formGroup.addControl(comp.getPropertyName(), control);
+        this.formGroup.registerControl(comp.getPropertyName(), control);
       }
     }
   }
@@ -101,32 +153,36 @@ export class ComponentPropertiesComponent implements OnInit, OnDestroy {
     }
   }
 
-  public save(): void {
-    Object.keys(this.formGroup.controls).forEach(control => this.formGroup.controls[control].markAsTouched());
+  public save(input: string, value: any): void {
+    // Object.keys(this.formGroup.controls).forEach(control => this.formGroup.controls[control].markAsTouched());
 
     if (!this.formGroup.valid) {
       console.error('ERROR_MESSAGES.FORM_VALIDATION_ERROR');
       return;
     }
-
-    const configuredInputs = {};
-    if (this.formDataCache) {
-      const keys = Object.keys(this.formDataCache);
-      keys.forEach(item => {
-        const propertyValue = this.formDataCache[item];
-        if (this.templateInputsData[item].default !== propertyValue) {
-          configuredInputs[item] = propertyValue;
-          if (propertyValue !== undefined && typeof propertyValue !== 'string') {
-            configuredInputs[item] = propertyValue.toString();
-          }
-          // TODO: buscar la forma de parsear los datos en otro sitio
-          if (this.templateInputsData[item].type === 'json') {
-            configuredInputs[item] = JSON.parse(propertyValue);
-          }
-        }
-      });
+    const inputMetadata = this.inputsMetadata.find(item => item.input === input);
+    if (!inputMetadata) {
+      return;
     }
-    this.component.setConfiguredInputs(configuredInputs);
+
+    if (inputMetadata.default !== value) {
+      const configuredInputs: any = {};
+      configuredInputs[input] = value;
+      if (value != undefined && typeof value !== 'string') {
+        configuredInputs[input] = value.toString();
+      }
+      // TODO: buscar la forma de parsear los datos en otro sitio
+      if (inputMetadata.type === 'json') {
+        configuredInputs[input] = JSON.parse(value);
+      }
+
+      this.component.setConfiguredInputs(configuredInputs);
+      if (configuredInputs.attr != null) {
+        this.attr = configuredInputs.attr;
+      }
+
+      this.componentUpdate.emit();
+    }
   }
 
 }

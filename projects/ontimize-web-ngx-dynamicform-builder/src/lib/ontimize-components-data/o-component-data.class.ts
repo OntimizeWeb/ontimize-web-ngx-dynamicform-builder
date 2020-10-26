@@ -1,3 +1,4 @@
+import { InputMetadata } from '../types/inputs-metadata.type';
 import { ArrayList } from '../utils/collections/ArrayList';
 
 export class OComponentData {
@@ -5,10 +6,14 @@ export class OComponentData {
   public configuredInputs: any = {};
   public children: ArrayList<OComponentData>;
 
-  constructor() {
+  constructor(arg: any) {
+    Object.assign(this, arg);
     if (this.isContainer()) {
       this.children = new ArrayList<OComponentData>();
     }
+    // TODO we need to find a better way to create a random string
+    const randomId = Math.random().toString(36).substring(9);
+    this.configuredInputs.attr = `${this.getDirective()}-${randomId}`;
   }
 
   public getDirective(): string {
@@ -29,16 +34,19 @@ export class OComponentData {
     return parsedProperties;
   }
 
-  public getTemplateInputsData(): any {
-    return {
-      attr: {
-        type: 'string',
-        label: 'attr',
-        tooltip: '',
-        default: null,
-        required: true
-      }
-    };
+  public getBasicInputs(): string[] {
+    return ['attr'];
+  }
+
+  public getInputsMetadata(): InputMetadata[] {
+    return [{
+      input: 'attr',
+      type: 'string',
+      label: 'attr',
+      tooltip: '',
+      default: null,
+      required: true
+    }];
   }
 
   public isContainer(): boolean {

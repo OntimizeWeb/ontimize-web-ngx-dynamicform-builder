@@ -1,31 +1,32 @@
-<div fxLayout="row" fxLayoutAlign="end center">
-  <button mat-flat-button color="primary" (click)="save()">{{ 'SAVE' | odfbTranslate }}</button>
-</div>
-
-<div fxLayout="row" fxFlex class="content">
-  <components-menu fxFlex="10" #appMenu 
-    [dynamicForm]="dynamicForm"
-    [dragEnabled]="isEditionActive">
-  </components-menu>
-  
-  <div fxFlex fxLayout="row" class="dynamic-form-container">
-    <o-form #innerForm show-header="false" query-on-init="false" fxFlex>
-      <o-dynamic-form #dynamicForm 
-        query-on-init="false" 
-        register-in-parent-form="false"
-        [form-definition]="formDefinition$ | async" 
-        [edit-mode]="isEditionActive"
-        [editable-components]="appMenu?.editableComponents"
-
-        (onAddComponent)="onAddComponent($event)"
-        (onMoveComponent)="onMoveComponent($event)"
-        (onDeleteComponent)="onDeleteComponent($event)"
-        (onDrop)="onDrop()"
-        (onEditComponentSettings)="onEditComponentSettings($event)"
-        (render)="onDynamicFormRendered()">
-      </o-dynamic-form>
-    </o-form>
+<div fxLayout="column" fxFlex>
+  <div fxLayout="row" fxLayoutAlign="end center" class="header">
+    <button mat-flat-button color="primary" (click)="save()">{{ 'SAVE' | odfbTranslate }}</button>
   </div>
+  <div fxLayout="row" class="content">
+    <components-menu fxFlex="10" #appMenu 
+      [dynamicForm]="dynamicForm"
+      [dragEnabled]="isEditionActive">
+    </components-menu>
+    
+    <div fxFlex fxLayout="row" class="dynamic-form-container">
+      <o-form #innerForm show-header="false" query-on-init="false" fxFlex>
+        <o-dynamic-form #dynamicForm 
+          query-on-init="false" 
+          register-in-parent-form="false"
+          [form-definition]="formDefinition$ | async" 
+          [edit-mode]="isEditionActive"
+          [editable-components]="appMenu?.editableComponents"
 
-  <component-properties #componentProperties fxFlex="15"></component-properties>
+          (onAddComponent)="onAddComponent($event)"
+          (onMoveComponent)="onMoveComponent($event)"
+          (onDeleteComponent)="onDeleteComponent($event)"
+          (onDrop)="onDrop()"
+          (onEditComponentSettings)="onEditComponentSettings($event)"
+          (render)="onDynamicFormRendered()">
+        </o-dynamic-form>
+      </o-form>
+    </div>
+
+    <component-properties #componentProperties fxFlex="15" (componentUpdate)="componentUpdated()"></component-properties>
+  </div>
 </div>

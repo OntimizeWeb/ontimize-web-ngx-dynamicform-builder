@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { OntimizeWebModule } from 'ontimize-web-ngx';
 import { DynamicFormModule } from 'ontimize-web-ngx-dynamicform';
 
-import { ComponentSettingsDialogComponent, O_DYNAMICFORM_BUILDER_COMPONENTS } from './components-index';
+import { O_DYNAMICFORM_BUILDER_COMPONENTS } from './components-index';
 import { O_DYNAMICFORM_BUILDER_PROVIDERS } from './services/index';
 import { ODynamicFormBuilderTranslateModule } from './utils/odfb-translate.pipe';
 
@@ -23,9 +23,6 @@ export * from './services/index';
   ],
   declarations: O_DYNAMICFORM_BUILDER_COMPONENTS,
   exports: O_DYNAMICFORM_BUILDER_COMPONENTS,
-  entryComponents: [
-    ComponentSettingsDialogComponent
-  ],
   providers: O_DYNAMICFORM_BUILDER_PROVIDERS,
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

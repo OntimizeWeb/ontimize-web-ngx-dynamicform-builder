@@ -3,10 +3,19 @@ $border: 1px solid #e6e6e6;
 .o-dynamic-form-builder {
   background-color: #f0f0f0;
   > div {
+    position: relative;
+  }
+  .content,
+  .header {
     padding: 16px 32px;
   }
-  > .content {
+  .content {
     padding-top: 0;
+    position: absolute;
+    top: 68px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
 
     .components-menu,
     .component-properties,

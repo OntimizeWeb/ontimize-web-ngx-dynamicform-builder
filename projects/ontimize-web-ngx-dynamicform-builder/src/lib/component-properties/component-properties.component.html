@@ -1,30 +1,22 @@
 <div fxLayout="column">
-  <form #settingsForm [formGroup]="formGroup" fxLayout="column">
 
-    <ng-container *ngFor="let input of (componentInputs$ | async)">
-      
-      <ng-container *ngIf="input !== 'empty'; else empty">
-        <boolean-metadata fxFlex
-          *ngIf="comparePropertyType(input, 'boolean')" 
-          [property]="input" 
-          [data]="getInputData(input)">
-        </boolean-metadata>
-        <text-metadata fxFlex 
-          *ngIf="comparePropertyType(input, 'text')" 
-          [property]="input" 
-          [data]="getInputData(input)">
-        </text-metadata>
-        <combo-metadata fxFlex
-          *ngIf="comparePropertyType(input, 'combo')" 
-          [property]="input" 
-          [data]="getInputData(input)">
-        </combo-metadata>
-      </ng-container>
-      <ng-template #empty>
-        <span fxFlex></span>
-      </ng-template>
-      
-    </ng-container>
+  <form *ngIf="formGroup && component" #settingsForm [formGroup]="formGroup" fxLayout="column">
 
+    <span>
+      {{ 'COMPONENT_PROPERTIES' | odfbTranslate }}
+    </span>
+
+    <inputs-array [inputsMetadata]="basicInputsMetadata"> </inputs-array>
+
+    <mat-expansion-panel *ngIf="advancedInputsMetadata.length > 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'ADVANCED_PROPERTIES' | odfbTranslate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <inputs-array [inputsMetadata]="advancedInputsMetadata"></inputs-array>
+
+    </mat-expansion-panel>
   </form>
 </div>

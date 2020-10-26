@@ -15,7 +15,6 @@ import { BaseComponent, ODynamicFormComponent } from 'ontimize-web-ngx-dynamicfo
 import { BehaviorSubject } from 'rxjs';
 import { ComponentPropertiesComponent } from './component-properties/component-properties.component';
 
-import { ComponentSettingsDialogComponent } from './component-settings-dialog.component';
 import { ComponentsMenuComponent } from './components-menu/components-menu.component';
 import { OComponentData } from './ontimize-components-data/o-component-data.class';
 import { ComponentsDataService } from './services/components-data.service';
@@ -232,6 +231,15 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this._fControl.setValue(newValue);
     this.emitOnValueChange(OValueChangeEvent.PROGRAMMATIC_CHANGE, newValue, oldValue);
     this.emitOnChange(newValue);
+    this.refreshComponentProperties();
+  }
+
+
+  private refreshComponentProperties() {
+    if (this.componentProperties) {
+      const comp = this._searchElement(this.componentProperties.attr, this.componentsArray);
+      this.componentProperties.component = comp;
+    }
   }
 
   public getComponentsJson(components: ArrayList<OComponentData>, parent: any[]): void {
@@ -247,32 +255,6 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
   }
 
-  public openSettingsDialog(component: OComponentData, args?: any): void {
-    const dialogRef = this.dialog.open(ComponentSettingsDialogComponent, {
-      width: '60%',
-      disableClose: true,
-      panelClass: ['o-dialog-class', 'o-dynamic-form-builder-dialog']
-    });
-    dialogRef.componentInstance.setTemplateInputsData(component.getTemplateInputsData());
-    dialogRef.componentInstance.setComponent(component);
-
-    dialogRef.afterClosed().subscribe(componentData => {
-      if (componentData == null || !(componentData instanceof OComponentData)) {
-        return;
-      }
-
-      if (args.new && args.parent != null) {
-        args.parent.addChild(componentData, args.index);
-      } else if (args.new) {
-        this.componentsArray.splice(args.index, 0, componentData);
-      }
-
-      if (args.new || args.edit) {
-        this.onUpdateComponents();
-      }
-    });
-  }
-
   public getComponentsArray(): OComponentData[] {
     return this.componentsArray.toArray();
   }
@@ -280,12 +262,13 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   public onAddComponent(args): void {
     const component: OComponentData = args.component;
     const parent: OComponentData = this.getOComponentData(args.parent);
-    const dialogArgs = {
-      parent: parent,
-      index: args.index,
-      new: true
-    };
-    this.openSettingsDialog(component, dialogArgs);
+    if (parent != null) {
+      parent.addChild(component, args.index);
+    } else {
+      this.componentsArray.splice(args.index, 0, component);
+    }
+    this.onUpdateComponents();
+    this.componentProperties.component = component;
   }
 
   public onMoveComponent(args): void {
@@ -330,7 +313,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     if (!component) {
       return;
     }
-    this.componentProperties.setComponent(component);
+    this.componentProperties.component = component;
   }
 
   public onDeleteComponent(args): void {
@@ -338,6 +321,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     if (!component) {
       return;
     }
+    this.componentProperties.component = null;
     this._removeElement(component.getComponentAttr(), this.componentsArray);
     this.onUpdateComponents();
   }
@@ -437,6 +421,10 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
 
   get isEditionActive(): boolean {
     return this.editMode || !this.isReadOnly;
+  }
+
+  componentUpdated() {
+    this.onUpdateComponents();
   }
 
 }
