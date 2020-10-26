@@ -1,12 +1,9 @@
 import { DEFAULT_INPUTS_O_TEXTAREA_INPUT } from 'ontimize-web-ngx';
 
+import { InputMetadata } from '../../types/inputs-metadata.type';
 import { OTextInputData } from './o-text-input.data';
 
 export class OTextareaInputData extends OTextInputData {
-
-  constructor() {
-    super();
-  }
 
   public getDirective(): string {
     return 'o-textarea-input';
@@ -16,23 +13,25 @@ export class OTextareaInputData extends OTextInputData {
     return DEFAULT_INPUTS_O_TEXTAREA_INPUT;
   }
 
-  public getTemplateInputsData(): any {
-    const templateInputsData = super.getTemplateInputsData();
-    templateInputsData['columns'] = {
+  public getInputsMetadata(): InputMetadata[] {
+    const inputsMetadata = super.getInputsMetadata();
+    const metadata: InputMetadata[] = [{
+      input: 'columns',
       type: 'number',
       label: 'columns',
       tooltip: '',
       default: 5,
       required: false
-    };
-    templateInputsData['rows'] = {
+    }, {
+      input: 'rows',
       type: 'number',
       label: 'rows',
       tooltip: '',
       default: null,
       required: false
-    };
-    return templateInputsData;
+    }];
+    inputsMetadata.push(...metadata);
+    return inputsMetadata;
   }
 
 }

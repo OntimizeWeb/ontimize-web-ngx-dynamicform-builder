@@ -1,12 +1,9 @@
 import { DEFAULT_INPUTS_O_TABLE } from 'ontimize-web-ngx';
 
+import { InputMetadata } from '../../types/inputs-metadata.type';
 import { OComponentDataService } from './o-component-data-service.class';
 
 export class OTableData extends OComponentDataService {
-
-  constructor() {
-    super();
-  }
 
   public getDirective(): string {
     return 'o-table';
@@ -16,128 +13,129 @@ export class OTableData extends OComponentDataService {
     return DEFAULT_INPUTS_O_TABLE;
   }
 
-  public getTemplateInputsData(): any {
-    const templateInputsData = super.getTemplateInputsData();
-    templateInputsData['insert-method'] = {
+  public getInputsMetadata(): InputMetadata[] {
+    const inputsMetadata = super.getInputsMetadata();
+    const metadata: InputMetadata[] = [{
+      input: 'insert-method',
       type: 'string',
       label: 'insert-method',
       tooltip: '',
       default: 'insert',
       required: false
-    };
-    templateInputsData['update-method'] = {
+    }, {
+      input: 'update-method',
       type: 'string',
       label: 'update-method',
       tooltip: '',
       default: 'update',
       required: false
-    };
-    templateInputsData['visible-columns'] = {
+    }, {
+      input: 'visible-columns',
       type: 'string',
       label: 'visible-columns',
       tooltip: '',
       default: '',
       required: false
-    };
-    templateInputsData[''] = {
+    }, {
+      input: '',
       type: 'number',
       label: '',
       tooltip: '',
       default: -1,
       required: false
-    };
-    templateInputsData['editable-columns'] = {
+    }, {
+      input: 'editable-columns',
       type: 'string',
       label: 'editable-columns',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['sort-columns'] = {
+    }, {
+      input: 'sort-columns',
       type: 'string',
       label: 'sort-columns',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['quick-filter'] = {
+    }, {
+      input: 'quick-filter',
       type: 'boolean',
       label: 'quick-filter',
       tooltip: '',
       default: true,
       required: false
-    };
-    templateInputsData['delete-button'] = {
+    }, {
+      input: 'delete-button',
       type: 'boolean',
       label: 'delete-button',
       tooltip: '',
       default: true,
       required: false
-    };
-    templateInputsData['refresh-button'] = {
+    }, {
+      input: 'refresh-button',
       type: 'boolean',
       label: 'refresh-button',
       tooltip: '',
       default: true,
       required: false
-    };
-    templateInputsData['columns-visibility-button'] = {
+    }, {
+      input: 'columns-visibility-button',
       type: 'boolean',
       label: 'columns-visibility-button',
       tooltip: '',
       default: true,
       required: false
-    };
-    templateInputsData['export-button'] = {
+    }, {
+      input: 'export-button',
       type: 'boolean',
       label: 'export-button',
       tooltip: '',
       default: true,
       required: false
-    };
-    templateInputsData['show-table-buttons-text'] = {
+    }, {
+      input: 'show-table-buttons-text',
       type: 'boolean',
       label: 'show-table-buttons-text',
       tooltip: '',
       default: true,
       required: false
-    };
-    templateInputsData['select-all-checkbox'] = {
+    }, {
+      input: 'select-all-checkbox',
       type: 'boolean',
       label: 'select-all-checkbox',
       tooltip: '',
       default: true,
       required: false
-    };
-    templateInputsData['pagination-controls'] = {
+    }, {
+      input: 'pagination-controls',
       type: 'boolean',
       label: 'pagination-controls',
       tooltip: '',
       default: true,
       required: false
-    };
-    templateInputsData['filter-case-sensitive'] = {
+    }, {
+      input: 'filter-case-sensitive',
       type: 'boolean',
       label: 'filter-case-sensitive',
       tooltip: '',
       default: false,
       required: false
-    };
-    templateInputsData['fixed-header'] = {
+    }, {
+      input: 'fixed-header',
       type: 'boolean',
       label: 'fixed-header',
       tooltip: '',
       default: false,
       required: false
-    };
-    templateInputsData['show-title'] = {
+    }, {
+      input: 'show-title',
       type: 'boolean',
       label: 'show-title',
       tooltip: '',
       default: false,
       required: false
-    };
-    templateInputsData['edition-mode'] = {
+    }, {
+      input: 'edition-mode',
       type: 'combo',
       label: 'edition-mode',
       tooltip: '',
@@ -149,8 +147,8 @@ export class OTableData extends OComponentDataService {
         'click',
         'dblclick'
       ]
-    };
-    templateInputsData['selection-mode'] = {
+    }, {
+      input: 'selection-mode',
       type: 'combo',
       label: 'selection-mode',
       tooltip: '',
@@ -161,8 +159,9 @@ export class OTableData extends OComponentDataService {
         'simple',
         'multiple'
       ]
-    };
-    return templateInputsData;
+    }];
+    inputsMetadata.push(...metadata);
+    return inputsMetadata;
   }
 
 }

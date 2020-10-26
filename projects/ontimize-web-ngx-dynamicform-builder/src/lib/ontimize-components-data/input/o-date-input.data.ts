@@ -1,12 +1,9 @@
 import { DEFAULT_INPUTS_O_DATE_INPUT } from 'ontimize-web-ngx';
 
+import { InputMetadata } from '../../types/inputs-metadata.type';
 import { OTextInputData } from './o-text-input.data';
 
 export class ODateInputData extends OTextInputData {
-
-  constructor() {
-    super();
-  }
 
   public getDirective(): string {
     return 'o-date-input';
@@ -16,30 +13,32 @@ export class ODateInputData extends OTextInputData {
     return DEFAULT_INPUTS_O_DATE_INPUT;
   }
 
-  public getTemplateInputsData(): any {
-    const templateInputsData = super.getTemplateInputsData();
-    templateInputsData['format'] = {
+  public getInputsMetadata(): InputMetadata[] {
+    const inputsMetadata = super.getInputsMetadata();
+    const metadata: InputMetadata[] = [{
+      input: 'format',
       type: 'string',
       label: 'format',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['locale'] = {
+    }, {
+      input: 'locale',
       type: 'string',
       label: 'locale',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['touch-ui'] = {
+    }, {
+      input: 'touch-ui',
       type: 'boolean',
       label: 'touch-ui',
       tooltip: '',
       default: false,
       required: false
-    };
-    return templateInputsData;
+    }];
+    inputsMetadata.push(...metadata);
+    return inputsMetadata;
   }
 
 }

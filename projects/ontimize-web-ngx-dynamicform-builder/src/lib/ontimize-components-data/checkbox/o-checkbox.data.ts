@@ -1,12 +1,9 @@
 import { DEFAULT_INPUTS_O_CHECKBOX } from 'ontimize-web-ngx';
 
+import { InputMetadata } from '../../types/inputs-metadata.type';
 import { OComponenetDataInput } from '../input/o-component-data-input.class';
 
 export class OCheckboxData extends OComponenetDataInput {
-
-  constructor() {
-    super();
-  }
 
   public getDirective(): string {
     return 'o-checkbox';
@@ -16,16 +13,17 @@ export class OCheckboxData extends OComponenetDataInput {
     return DEFAULT_INPUTS_O_CHECKBOX;
   }
 
-  public getTemplateInputsData(): any {
-    const templateInputsData = super.getTemplateInputsData();
-    templateInputsData['data'] = {
+  public getInputsMetadata(): InputMetadata[] {
+    const inputsMetadata = super.getInputsMetadata();
+    const metadata: InputMetadata[] = [{
+      input: 'data',
       type: 'boolean',
       label: 'data',
       tooltip: '',
       default: false,
       required: false
-    };
-    templateInputsData['sql-type'] = {
+    }, {
+      input: 'sql-type',
       type: 'combo',
       label: 'sql-type',
       tooltip: '',
@@ -34,30 +32,31 @@ export class OCheckboxData extends OComponenetDataInput {
       values: [
         'BOOLEAN'
       ]
-    };
-    templateInputsData['true-value'] = {
+    }, {
+      input: 'true-value',
       type: 'string',
       label: 'true-value',
       tooltip: '',
       default: true,
       required: true
-    };
-    templateInputsData['false-value'] = {
+    }, {
+      input: 'false-value',
       type: 'string',
       label: 'false-value',
       tooltip: '',
       default: false,
       required: true
-    };
-    templateInputsData['boolean-type'] = {
+    }, {
+      input: 'boolean-type',
       type: 'combo',
       label: 'boolean-type',
       tooltip: '',
       default: 'boolean',
       required: true,
       values: ['number', 'boolean', 'string']
-    };
-    return templateInputsData;
+    }];
+    inputsMetadata.push(...metadata);
+    return inputsMetadata;
   }
 
 }

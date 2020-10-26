@@ -4,10 +4,6 @@ import { OComponentDataLayout } from './o-component-data-layout.class';
 
 export class ORowData extends OComponentDataLayout {
 
-  constructor() {
-    super();
-  }
-
   public getDirective(): string {
     return 'o-row';
   }

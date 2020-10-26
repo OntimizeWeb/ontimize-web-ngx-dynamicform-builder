@@ -1,101 +1,109 @@
+import { InputMetadata } from '../../types/inputs-metadata.type';
 import { OComponenetDataInput } from '../input/o-component-data-input.class';
 
 export class OComponentFormDataService extends OComponenetDataInput {
 
-  public getTemplateInputsData(): any {
-    const templateInputsData = super.getTemplateInputsData();
-    templateInputsData['static-data'] = {
+  public getBasicInputs(): string[] {
+    const result = super.getBasicInputs();
+    result.push(...['entity', 'service', 'value-column', 'parent-keys', 'visible-columns', 'description-columns']);
+    return result;
+  }
+
+  public getInputsMetadata(): InputMetadata[] {
+    const inputsMetadata = super.getInputsMetadata();
+    const metadata: InputMetadata[] = [{
+      input: 'static-data',
       type: 'json',
       label: 'static-data',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['entity'] = {
+    }, {
+      input: 'entity',
       type: 'string',
       label: 'entity',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['service'] = {
+    }, {
+      input: 'service',
       type: 'string',
       label: 'service',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['columns'] = {
+    }, {
+      input: 'columns',
       type: 'string',
       label: 'columns',
       tooltip: '',
       default: null,
       required: true
-    };
-    templateInputsData['value-column'] = {
+    }, {
+      input: 'value-column',
       type: 'string',
       label: 'value-column',
       tooltip: '',
       default: null,
       required: true
-    };
-    templateInputsData['value-column-type'] = {
+    }, {
+      input: 'value-column-type',
       type: 'string',
       label: 'value-column-type',
       tooltip: '',
       default: 'int',
       required: true
-    };
-    templateInputsData['parent-keys'] = {
+    }, {
+      input: 'parent-keys',
       type: 'string',
       label: 'parent-keys',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['visible-columns'] = {
+    }, {
+      input: 'visible-columns',
       type: 'string',
       label: 'visible-columns',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['description-columns'] = {
+    }, {
+      input: 'description-columns',
       type: 'string',
       label: 'description-columns',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['separator'] = {
+    }, {
+      input: 'separator',
       type: 'string',
       label: 'separator',
       tooltip: '',
       default: null,
       required: false
-    };
-    templateInputsData['query-on-init'] = {
+    }, {
+      input: 'query-on-init',
       type: 'boolean',
       label: 'query-on-init',
       tooltip: '',
       default: true,
       required: true
-    };
-    templateInputsData['query-on-bind'] = {
+    }, {
+      input: 'query-on-bind',
       type: 'boolean',
       label: 'query-on-bind',
       tooltip: '',
       default: false,
       required: true
-    };
-    templateInputsData['service-type'] = {
+    }, {
+      input: 'service-type',
       type: 'string',
       label: 'service-type',
       tooltip: '',
       default: null,
       required: false
-    };
-    return templateInputsData;
+    }];
+    inputsMetadata.push(...metadata);
+    return inputsMetadata;
   }
-
 }

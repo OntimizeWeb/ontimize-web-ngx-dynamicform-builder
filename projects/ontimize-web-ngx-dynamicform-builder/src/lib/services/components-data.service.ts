@@ -44,9 +44,9 @@ export class ComponentsDataService {
 
   public getOntimizeComponentData(componentName): OComponentData {
     if (this.constructors.hasOwnProperty(componentName)) {
-      return new this.constructors[componentName]();
+      return new this.constructors[componentName]({ new: true });
     }
-    return new OComponentData();
+    return new OComponentData({ new: true });
   }
 
 }

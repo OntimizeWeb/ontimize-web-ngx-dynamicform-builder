@@ -1,12 +1,9 @@
 import { DEFAULT_INPUTS_O_TEXT_INPUT } from 'ontimize-web-ngx';
 
+import { InputMetadata } from '../../types/inputs-metadata.type';
 import { OComponenetDataInput } from './o-component-data-input.class';
 
 export class OTextInputData extends OComponenetDataInput {
-
-  constructor() {
-    super();
-  }
 
   public getDirective(): string {
     return 'o-text-input';
@@ -16,23 +13,25 @@ export class OTextInputData extends OComponenetDataInput {
     return DEFAULT_INPUTS_O_TEXT_INPUT;
   }
 
-  public getTemplateInputsData(): any {
-    const templateInputsData = super.getTemplateInputsData();
-    templateInputsData['min-length'] = {
+  public getInputsMetadata(): InputMetadata[] {
+    const inputsMetadata = super.getInputsMetadata();
+    const metadata: InputMetadata[] = [{
+      input: 'min-length',
       type: 'number',
       label: 'min-length',
       tooltip: '',
       default: -1,
       required: false
-    };
-    templateInputsData['max-length'] = {
+    }, {
+      input: 'max-length',
       type: 'number',
       label: 'max-length',
       tooltip: '',
       default: -1,
       required: false
-    };
-    return templateInputsData;
+    }];
+    inputsMetadata.push(...metadata);
+    return inputsMetadata;
   }
 
 }

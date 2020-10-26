@@ -4,10 +4,6 @@ import { ORealInputData } from './o-real-input.data';
 
 export class OPercentInputData extends ORealInputData {
 
-  constructor() {
-    super();
-  }
-
   public getDirective(): string {
     return 'o-percent-input';
   }
