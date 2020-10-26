@@ -1,43 +1,61 @@
-import { forwardRef, Inject } from '@angular/core';
+import { forwardRef, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { ComponentPropertiesComponent } from '../component-properties/component-properties.component';
+import { InputMetadata } from '../types/inputs-metadata.type';
 
 export const DEFAULT_INPUTS_METADATA = [
-  'property',
-  'data'
+  'metadata'
 ];
 
-export class PropertyMetadataClass {
+export class PropertyMetadataClass implements OnInit, OnDestroy {
 
-  public property: string;
-  public data: any;
+  public metadata: InputMetadata;
   public fControl: FormControl;
-  public value: any;
+  // public value: any;
+
+  protected subscriptions: Subscription = new Subscription();
 
   constructor(
     @Inject(forwardRef(() => ComponentPropertiesComponent))
     protected propertiesComponent: ComponentPropertiesComponent
   ) { }
 
-  public initialize(): void {
+  ngOnInit() {
+    this.createFormControl();
     this.registerFormListeners();
-
   }
 
-  public registerFormListeners(): void {
-    if (this.propertiesComponent) {
-      this.propertiesComponent.registerFormControlComponent(this);
-    }
-  }
-
-  public destroy(): void {
+  ngOnDestroy() {
     this.unregisterFormListeners();
   }
 
-  public unregisterFormListeners(): void {
+  private createFormControl() {
+    const validators: ValidatorFn[] = this.resolveValidators();
+    const value = (this.metadata && this.metadata.default) ? this.metadata.default : undefined;
+    const cfg = {
+      value: this.parseValue(value),
+      disabled: false
+    };
+    this.fControl = new FormControl(cfg, validators);
+  }
+
+  private registerFormListeners(): void {
+    if (this.propertiesComponent) {
+      this.propertiesComponent.registerFormControlComponent(this);
+    }
+    this.subscriptions.add(this.fControl.valueChanges.subscribe((value: any) => {
+      this.propertiesComponent.save(this.metadata.input, value);
+    }));
+  }
+
+  private unregisterFormListeners(): void {
     if (this.propertiesComponent) {
       this.propertiesComponent.unregisterFormControlComponent(this);
+    }
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
     }
   }
 
@@ -46,17 +64,10 @@ export class PropertyMetadataClass {
   }
 
   public getPropertyName(): string {
-    if (this.property) {
-      return this.property;
+    if (this.metadata.input) {
+      return this.metadata.input;
     }
     return undefined;
-  }
-
-  public getValue(): any {
-    if (this.value) {
-      return this.value.value;
-    }
-    return this.parseValue(this.data.default);
   }
 
   public parseValue(arg: any): any {
@@ -64,19 +75,21 @@ export class PropertyMetadataClass {
   }
 
   public getFormControl(): FormControl {
-    if (!this.fControl) {
-      const validators: ValidatorFn[] = this.resolveValidators();
-      const cfg = {
-        value: (this.data && this.data.default) ? this.data.default : undefined
-      };
-      this.fControl = new FormControl(cfg, validators);
-    }
+    // if (!this.fControl) {
+    //   const validators: ValidatorFn[] = this.resolveValidators();
+    //   const value = (this.data && this.data.default) ? this.data.default : undefined;
+    //   const cfg = {
+    //     value: this.parseValue(value),
+    //     disabled: false
+    //   };
+    //   this.fControl = new FormControl(cfg, validators);
+    // }
     return this.fControl;
   }
 
   public resolveValidators(): ValidatorFn[] {
     const validators: ValidatorFn[] = [];
-    if (this.data.required) {
+    if (this.metadata.required) {
       validators.push(Validators.required);
     }
     return validators;
@@ -89,9 +102,9 @@ export class PropertyMetadataClass {
     return false;
   }
 
-  public innerOnChange(value: any): void {
-    this.value = { value: value };
-    // this.fControl.setValue({ value: value });
-  }
+  // public innerOnChange(value: any): void {
+  //   this.value = value;
+  //   // this.fControl.setValue({ value: value });
+  // }
 
 }

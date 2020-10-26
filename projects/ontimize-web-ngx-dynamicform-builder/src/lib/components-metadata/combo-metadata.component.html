@@ -1,10 +1,13 @@
 <div fxLayout="row" [formGroup]="getFormGroup()">
   <mat-form-field fxFlex floatLabel="always">
-    <mat-select [name]="data.label" [placeholder]="data.label" [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)"
+    <mat-select 
+      [name]="metadata.label" 
+      [placeholder]="metadata.label"
+      [required]="metadata.required"
       [formControlName]="getPropertyName()">
-      <mat-option *ngIf="!data.required"></mat-option>
-      <mat-option *ngFor="let value of data.values" [value]="value">{{ value }}</mat-option>
+      <mat-option *ngIf="!metadata.required"></mat-option>
+      <mat-option *ngFor="let value of metadata.values" [value]="value">{{ value }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-icon fxFlex="10" *ngIf="data.tooltip" [matTooltip]="data.tooltip" matTooltipPosition="right" class="material-icons">info</mat-icon>
+  <mat-icon fxFlex="10" *ngIf="metadata.tooltip" [matTooltip]="metadata.tooltip" matTooltipPosition="right" class="material-icons">info</mat-icon>
 </div>

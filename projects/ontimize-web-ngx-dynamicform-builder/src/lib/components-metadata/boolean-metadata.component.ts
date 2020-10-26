@@ -10,12 +10,10 @@ export const DEFAULT_INPUTS_BOOLEAN_METADATA = [
   selector: 'boolean-metadata',
   templateUrl: './boolean-metadata.component.html',
   styleUrls: ['./property.metadata.class.scss'],
-  inputs: [
-    ...DEFAULT_INPUTS_BOOLEAN_METADATA
-  ],
+  inputs: DEFAULT_INPUTS_BOOLEAN_METADATA,
   encapsulation: ViewEncapsulation.None
 })
-export class BooleanMetadataComponent extends PropertyMetadataClass implements OnInit, OnDestroy {
+export class BooleanMetadataComponent extends PropertyMetadataClass {
 
   onChange: EventEmitter<Object> = new EventEmitter<Object>();
 
@@ -25,13 +23,4 @@ export class BooleanMetadataComponent extends PropertyMetadataClass implements O
     }
     return arg;
   }
-
-  ngOnInit() {
-    this.initialize();
-  }
-
-  ngOnDestroy() {
-    this.destroy();
-  }
-
 }

@@ -1,13 +1,18 @@
 <div fxLayout="row" [formGroup]="getFormGroup()">
   <mat-form-field fxFlex floatLabel="always">
-    <input matInput [attr.type]="data.type === 'number' ? 'number' : 'text'" [attr.step]="data.type === 'number' ? 1 : undefined"
-      [attr.min]="data.type === 'number' ? -1000 : undefined" [attr.max]="data.type === 'number' ? 1000 : undefined" [placeholder]="data.label"
-      [ngModel]="getValue()" (ngModelChange)="innerOnChange($event)" [formControlName]="getPropertyName()" />
-    <mat-hint *ngIf="fControl.touched && fControl.errors">
+    <input matInput 
+      [attr.type]="metadata.type === 'number' ? 'number' : 'text'" 
+      [attr.step]="metadata.type === 'number' ? 1 : undefined"
+      [attr.min]="metadata.type === 'number' ? -1000 : undefined" 
+      [attr.max]="metadata.type === 'number' ? 1000 : undefined" 
+      [placeholder]="metadata.label"
+      [required]="metadata.required"
+      [formControlName]="getPropertyName()"/>
+    <mat-hint *ngIf="fControl?.touched && fControl?.errors">
       <span *ngIf="fControl.errors?.required">{{ 'FORM_VALIDATION.REQUIRED' | oTranslate }}</span>
       <span *ngIf="fControl.errors?.minlength">{{ 'FORM_VALIDATION.MIN_LENGTH' | oTranslate }}: {{ fControl.errors?.minlength.requiredLength }}</span>
       <span *ngIf="fControl.errors?.maxlength">{{ 'FORM_VALIDATION.MAX_LENGTH' | oTranslate }}: {{ fControl.errors?.maxlength.requiredLength }}</span>
     </mat-hint>
   </mat-form-field>
-  <mat-icon fxFlex="10" *ngIf="data.tooltip" [matTooltip]="data.tooltip" matTooltipPosition="right" class="material-icons">info</mat-icon>
+  <mat-icon fxFlex="10" *ngIf="metadata.tooltip" [matTooltip]="metadata.tooltip" matTooltipPosition="right" class="material-icons">info</mat-icon>
 </div>

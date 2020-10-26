@@ -10,21 +10,10 @@ export const DEFAULT_INPUTS_COMBO_METADATA = [
   selector: 'combo-metadata',
   templateUrl: './combo-metadata.component.html',
   styleUrls: ['./property.metadata.class.scss'],
-  inputs: [
-    ...DEFAULT_INPUTS_COMBO_METADATA
-  ],
+  inputs: DEFAULT_INPUTS_COMBO_METADATA,
   encapsulation: ViewEncapsulation.None
 })
-export class ComboMetadataComponent extends PropertyMetadataClass implements OnInit, OnDestroy {
+export class ComboMetadataComponent extends PropertyMetadataClass {
 
   onChange: EventEmitter<Object> = new EventEmitter<Object>();
-
-  ngOnInit() {
-    this.initialize();
-  }
-
-  ngOnDestroy() {
-    this.destroy();
-  }
-
 }

@@ -1,0 +1,14 @@
+<div fxLayout="column">
+  <ng-container *ngFor="let metadata of inputsMetadata">
+    <ng-container [ngSwitch]="metadata.editionType">
+      <text-metadata fxFlex *ngSwitchCase="'text'" [metadata]="metadata">
+      </text-metadata>
+
+      <boolean-metadata fxFlex *ngSwitchCase="'boolean'" [metadata]="metadata">
+      </boolean-metadata>
+
+      <combo-metadata fxFlex *ngSwitchCase="'combo'" [metadata]="metadata">
+      </combo-metadata>
+    </ng-container>
+  </ng-container>
+</div>
