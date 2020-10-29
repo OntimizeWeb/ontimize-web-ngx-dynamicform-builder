@@ -1,0 +1,40 @@
+.components-tree {
+  .component-node {
+    width: 100%;
+    cursor: default;
+    &.layout-node {
+      cursor: pointer;
+    }
+  }
+  .node-expand {
+    &.disabled {
+      color: rgba(0, 0, 0, 0.26);
+    }
+  }
+
+  .tree-invisible {
+    display: none;
+  }
+
+  ul,
+  li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+    padding: 0 0 0 4px;
+  }
+
+  .mat-tree-node {
+    min-height: 24px;
+  }
+
+  .mat-icon {
+    height: 16px;
+    width: 16px;
+    font-size: 16px;
+    margin-right: 4px;
+    &.delete-icon {
+      margin-left: auto;
+    }
+  }
+}

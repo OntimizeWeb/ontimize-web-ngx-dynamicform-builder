@@ -1,0 +1,19 @@
+<div fxLayout="row" fxLayoutAlign="start center" class="mat-tree-node">
+
+  <mat-icon *ngIf="isLayoutNode" class="node-expand" [class.disabled]="hasEmptyChildren">
+    {{treeControl.isExpanded(node) && !hasEmptyChildren ? 'expand_more' : 'chevron_right'}}
+  </mat-icon>
+
+  <mat-icon *ngIf="node?.display?.svgIcon; else icon" svgIcon="{{ node.display.svgIcon }}" class="material-icons">
+  </mat-icon>
+
+  <ng-template #icon>
+    <mat-icon *ngIf="node?.display?.icon" class="material-icons">
+      {{ node.display.icon }}
+    </mat-icon>
+  </ng-template>
+
+  {{node.attr}}
+
+  <mat-icon fxFlexAlign="end" (click)="deleteNode($event)" class="delete-icon">delete_outline</mat-icon>
+</div>
