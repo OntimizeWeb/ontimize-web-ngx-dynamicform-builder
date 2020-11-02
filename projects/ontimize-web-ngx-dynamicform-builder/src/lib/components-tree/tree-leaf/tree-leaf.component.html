@@ -1,19 +1,23 @@
-<div fxLayout="row" fxLayoutAlign="start center" class="mat-tree-node">
+<div fxLayout="row" fxLayoutAlign="start center" 
+  [class.hover]="node?.hover"
+  [class.empty]="node?.empty">
 
-  <mat-icon *ngIf="isLayoutNode" class="node-expand" [class.disabled]="hasEmptyChildren">
-    {{treeControl.isExpanded(node) && !hasEmptyChildren ? 'expand_more' : 'chevron_right'}}
-  </mat-icon>
+  <button *ngIf="node.expandable" matTreeNodeToggle [disabled]="node.empty">
+    <mat-icon class="mat-icon-rtl-mirror">
+      {{treeControl.isExpanded(node) && !node.empty ? 'expand_more' : 'chevron_right'}}
+    </mat-icon>
+  </button>
 
-  <mat-icon *ngIf="node?.display?.svgIcon; else icon" svgIcon="{{ node.display.svgIcon }}" class="material-icons">
+  <mat-icon *ngIf="node?.display?.svgIcon; else icon" svgIcon="{{ node.display.svgIcon }}" class="material-icons component-icon">
   </mat-icon>
 
   <ng-template #icon>
-    <mat-icon *ngIf="node?.display?.icon" class="material-icons">
+    <mat-icon *ngIf="node?.display?.icon" class="material-icons component-icon">
       {{ node.display.icon }}
     </mat-icon>
   </ng-template>
 
   {{node.attr}}
 
-  <mat-icon fxFlexAlign="end" (click)="deleteNode($event)" class="delete-icon">delete_outline</mat-icon>
+  <mat-icon (click)="deleteNode($event)" class="delete-icon">delete_outline</mat-icon>
 </div>

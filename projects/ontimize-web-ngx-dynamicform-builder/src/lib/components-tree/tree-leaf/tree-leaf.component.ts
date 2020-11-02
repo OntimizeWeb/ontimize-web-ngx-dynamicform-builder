@@ -2,6 +2,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, EventEmitter, Injector, Input, Output, ViewEncapsulation } from '@angular/core';
 import { DialogService } from 'ontimize-web-ngx';
 
+import { ComponentFlatNode } from '../component-node';
 
 @Component({
   selector: 'tree-leaf',
@@ -14,7 +15,7 @@ import { DialogService } from 'ontimize-web-ngx';
 })
 export class TreeLeafComponent {
 
-  @Input() node: any;
+  @Input() node: ComponentFlatNode;
   @Input() treeControl: NestedTreeControl<any>;
 
   @Output() public deleteLeaf: EventEmitter<any> = new EventEmitter();
@@ -25,14 +26,6 @@ export class TreeLeafComponent {
     protected injector: Injector,
   ) {
     this.dialogService = this.injector.get(DialogService);
-  }
-
-  get isLayoutNode(): boolean {
-    return this.node && (this.node['ontimize-directive'] === 'o-row' || this.node['ontimize-directive'] === 'o-column');
-  }
-
-  get hasEmptyChildren(): boolean {
-    return this.isLayoutNode && this.node && this.node.children.length === 0;
   }
 
   deleteNode(event: any) {
