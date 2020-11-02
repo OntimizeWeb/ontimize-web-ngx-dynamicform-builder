@@ -3,10 +3,21 @@
     <button mat-flat-button color="primary" (click)="save()">{{ 'SAVE' | odfbTranslate }}</button>
   </div>
   <div fxLayout="row" class="content">
-    <components-menu fxFlex="10" #appMenu 
-      [dynamicForm]="dynamicForm"
-      [dragEnabled]="isEditionActive">
-    </components-menu>
+
+    <div fxLayout="column" fxFlex="10">
+      <components-menu #appMenu fxFlex
+        (modeChange)="componentsMenuEditionChange($event)"
+        [dynamicForm]="dynamicForm"
+        [dragEnabled]="isEditionActive">
+      </components-menu>
+
+      <components-tree fxFlex
+        [form-definition]="formDefinition$ | async"
+        (onMoveComponent)="onMoveComponent($event)"
+        (onDeleteComponent)="onDeleteComponent($event)">
+      </components-tree>
+    </div>
+   
     
     <div fxFlex fxLayout="row" class="dynamic-form-container">
       <o-form #innerForm show-header="false" query-on-init="false" fxFlex>
@@ -15,7 +26,6 @@
           register-in-parent-form="false"
           [form-definition]="formDefinition$ | async" 
           [edit-mode]="isEditionActive"
-          [editable-components]="appMenu?.editableComponents"
 
           (onAddComponent)="onAddComponent($event)"
           (onMoveComponent)="onMoveComponent($event)"

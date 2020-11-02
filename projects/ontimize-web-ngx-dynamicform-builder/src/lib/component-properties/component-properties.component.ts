@@ -136,20 +136,14 @@ export class ComponentPropertiesComponent implements OnInit, OnDestroy {
   }
 
   public registerFormControlComponent(comp: PropertyMetadataClass): void {
-    if (comp) {
-      const control: FormControl = comp.getFormControl();
-      if (control) {
-        this.formGroup.registerControl(comp.getPropertyName(), control);
-      }
+    if (comp && comp.fControl) {
+      this.formGroup.registerControl(comp.getPropertyName(), comp.fControl);
     }
   }
 
   public unregisterFormControlComponent(comp: PropertyMetadataClass): void {
-    if (comp) {
-      const control: FormControl = comp.getFormControl();
-      if (control) {
-        this.formGroup.removeControl(comp.getPropertyName());
-      }
+    if (comp && comp.fControl) {
+      this.formGroup.removeControl(comp.getPropertyName());
     }
   }
 

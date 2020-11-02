@@ -13,7 +13,6 @@ export class PropertyMetadataClass implements OnInit, OnDestroy {
 
   public metadata: InputMetadata;
   public fControl: FormControl;
-  // public value: any;
 
   protected subscriptions: Subscription = new Subscription();
 
@@ -74,19 +73,6 @@ export class PropertyMetadataClass implements OnInit, OnDestroy {
     return arg;
   }
 
-  public getFormControl(): FormControl {
-    // if (!this.fControl) {
-    //   const validators: ValidatorFn[] = this.resolveValidators();
-    //   const value = (this.data && this.data.default) ? this.data.default : undefined;
-    //   const cfg = {
-    //     value: this.parseValue(value),
-    //     disabled: false
-    //   };
-    //   this.fControl = new FormControl(cfg, validators);
-    // }
-    return this.fControl;
-  }
-
   public resolveValidators(): ValidatorFn[] {
     const validators: ValidatorFn[] = [];
     if (this.metadata.required) {
@@ -101,10 +87,4 @@ export class PropertyMetadataClass implements OnInit, OnDestroy {
     }
     return false;
   }
-
-  // public innerOnChange(value: any): void {
-  //   this.value = value;
-  //   // this.fControl.setValue({ value: value });
-  // }
-
 }

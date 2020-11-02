@@ -2,6 +2,7 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { MatTreeModule } from '@angular/material';
 import { OntimizeWebModule } from 'ontimize-web-ngx';
 import { DynamicFormModule } from 'ontimize-web-ngx-dynamicform';
 
@@ -16,6 +17,7 @@ export * from './services/index';
   imports: [
     CdkAccordionModule,
     OntimizeWebModule,
+    MatTreeModule,
     CommonModule,
     DragDropModule,
     DynamicFormModule,

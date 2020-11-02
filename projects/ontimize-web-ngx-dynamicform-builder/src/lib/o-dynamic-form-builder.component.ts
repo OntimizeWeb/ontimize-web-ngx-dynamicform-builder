@@ -267,8 +267,10 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     } else {
       this.componentsArray.splice(args.index, 0, component);
     }
+    this.componentProperties.attr = null;
     this.onUpdateComponents();
-    this.componentProperties.component = component;
+    const componentRef = this._searchElement(component.getComponentAttr(), this.componentsArray);
+    this.componentProperties.component = componentRef;
   }
 
   public onMoveComponent(args): void {
@@ -321,7 +323,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     if (!component) {
       return;
     }
-    this.componentProperties.component = null;
+    this.componentProperties.attr = null;
     this._removeElement(component.getComponentAttr(), this.componentsArray);
     this.onUpdateComponents();
   }
@@ -335,9 +337,9 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     return component;
   }
 
-  public cloneComponent(component): OComponentData {
-    return this._cloneComponentData(component.settings);
-  }
+  // public cloneComponent(component): OComponentData {
+  //   return this._cloneComponentData(component.settings);
+  // }
 
   get isReadOnly(): boolean {
     return this._isReadOnly;
@@ -388,17 +390,17 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
   }
 
-  private _cloneComponentData(settings): OComponentData {
-    const newComponent: OComponentData = this.componentsDataService.getOntimizeComponentData(settings['ontimize-directive']);
-    delete settings['ontimize-directive'];
-    newComponent.setConfiguredInputs(settings);
-    if (settings.children) {
-      settings.children.forEach(child => {
-        newComponent.addChild(this._cloneComponentData(child));
-      });
-    }
-    return newComponent;
-  }
+  // private _cloneComponentData(settings): OComponentData {
+  //   const newComponent: OComponentData = this.componentsDataService.getOntimizeComponentData(settings['ontimize-directive']);
+  //   delete settings['ontimize-directive'];
+  //   newComponent.setConfiguredInputs(settings);
+  //   if (settings.children) {
+  //     settings.children.forEach(child => {
+  //       newComponent.addChild(this._cloneComponentData(child));
+  //     });
+  //   }
+  //   return newComponent;
+  // }
 
   onDrop() {
     this.appMenu.entered();
@@ -427,4 +429,8 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this.onUpdateComponents();
   }
 
+  componentsMenuEditionChange(editableComponentsSelector: string[]) {
+    this.dynamicForm.editableComponents = editableComponentsSelector;
+    this.componentProperties.component = null;
+  }
 }

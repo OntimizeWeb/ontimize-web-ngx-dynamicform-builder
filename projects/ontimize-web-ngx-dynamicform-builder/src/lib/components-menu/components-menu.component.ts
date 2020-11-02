@@ -1,10 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDragExit } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatTabGroup } from '@angular/material';
-
 import { ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
 import { AppMenuService } from '../services/app-menu.service';
@@ -26,19 +25,21 @@ import { ComponentsDataService } from '../services/components-data.service';
     '[class.components-menu]': 'true'
   }
 })
-export class ComponentsMenuComponent implements OnInit {
+export class ComponentsMenuComponent implements AfterViewInit {
   expansions: { [key: string]: boolean } = {};
   private _onDestroy = new Subject<void>();
 
   layoutItems: any[] = [];
   componentItems: any[] = [];
 
-  @Input() dynamicForm: ODynamicFormComponent;
   @Input() dragEnabled: boolean;
-
+  @Input() dynamicForm: ODynamicFormComponent;
+  
   @Output() modeChange: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('tabGroup', { static: false }) tabGroup: MatTabGroup;
+
+  protected subscriptions: Subscription = new Subscription();
 
   constructor(
     private appMenuService: AppMenuService,
@@ -51,13 +52,21 @@ export class ComponentsMenuComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-
+  ngAfterViewInit() {
+    if (this.tabGroup) {
+      this.subscriptions.add(this.tabGroup.selectedIndexChange.subscribe(index => {
+        this.modeChange.emit(this.getEditableComponentsSelectors(index));
+      }));
+      this.modeChange.emit(this.getEditableComponentsSelectors(this.tabGroup.selectedIndex));
+    }
   }
 
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
+    if (this.tabGroup) {
+      this.subscriptions.unsubscribe();
+    }
   }
 
   _getExpandedState(category: string) {
@@ -74,6 +83,15 @@ export class ComponentsMenuComponent implements OnInit {
 
   getOntimizeComponentData(component: any): OComponentData {
     return this.componentsDataService.getOntimizeComponentData(component['ontimize-component']);
+  }
+
+  private getEditableComponentsSelectors(selectedTabIndex: number) {
+    const array = selectedTabIndex === 0 ? this.componentItems : this.layoutItems;
+    const res = array.reduce((a, b) => {
+      a.push(...(b.elements || []).map(el => el['ontimize-component']));
+      return a;
+    }, []);
+    return res;
   }
 
   protected currentExitedArray;
@@ -96,17 +114,6 @@ export class ComponentsMenuComponent implements OnInit {
       const item = Object.assign({}, e.container.data[index], { temp: true });
       this.currentExitedArray.splice(index + 1, 0, item);
     }
-  }
-
-  get editableComponents(): string[] {
-    const array = (!this.tabGroup || this.tabGroup.selectedIndex === 0) ?
-      this.componentItems :
-      this.layoutItems;
-    const res = array.reduce((a, b) => {
-      a.push(...(b.elements || []).map(el => el['ontimize-component']));
-      return a;
-    }, []);
-    return res;
   }
 
 }
