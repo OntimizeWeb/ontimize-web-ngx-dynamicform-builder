@@ -8,7 +8,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 import { PropertyMetadataClass } from '../components-metadata/property.metadata.class';
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
@@ -100,22 +100,6 @@ export class ComponentPropertiesComponent implements OnInit, OnDestroy {
     this.basicInputsMetadata = basicInputsMetadata;
     this.advancedInputsMetadata = advancedInputsMetadata;
   }
-
-  // get basicInputsMetadata(): InputMetadata[] {
-  //   return this._basicInputsMetadata;
-  // }
-
-  // set basicInputsMetadata(value: InputMetadata[]) {
-  //   this._basicInputsMetadata = value;
-  // }
-
-  // get advancedInputsMetadata(): InputMetadata[] {
-  //   return this._advancedInputsMetadata;
-  // }
-
-  // set advancedInputsMetadata(value: InputMetadata[]) {
-  //   this._advancedInputsMetadata = value;
-  // }
 
   set component(component: OComponentData) {
     if (component == null) {

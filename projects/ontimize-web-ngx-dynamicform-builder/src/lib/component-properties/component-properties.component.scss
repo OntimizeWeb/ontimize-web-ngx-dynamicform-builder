@@ -1,12 +1,12 @@
 .component-properties {
+  > div {
+    height: 100%;
+  }
   overflow: auto;
   form {
-    padding: 16px 0;
+    padding-bottom: 16px;
     > :not(.mat-expansion-panel) {
-      padding: 0 16px;
-    }
-    > inputs-array {
-      padding-top: 16px;
+      padding: 16px;
     }
   }
   .mat-expansion-panel {

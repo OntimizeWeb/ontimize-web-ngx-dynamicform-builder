@@ -1,22 +1,19 @@
-<div fxLayout="column">
+<form *ngIf="formGroup && component" #settingsForm [formGroup]="formGroup" fxLayout="column" fxFlex>
 
-  <form *ngIf="formGroup && component" #settingsForm [formGroup]="formGroup" fxLayout="column">
+  <span>
+    {{ 'COMPONENT_PROPERTIES' | odfbTranslate }}
+  </span>
 
-    <span>
-      {{ 'COMPONENT_PROPERTIES' | odfbTranslate }}
-    </span>
+  <inputs-array [inputsMetadata]="basicInputsMetadata"> </inputs-array>
 
-    <inputs-array [inputsMetadata]="basicInputsMetadata"> </inputs-array>
+  <mat-expansion-panel *ngIf="advancedInputsMetadata.length > 0">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ 'ADVANCED_PROPERTIES' | odfbTranslate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
 
-    <mat-expansion-panel *ngIf="advancedInputsMetadata.length > 0">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ 'ADVANCED_PROPERTIES' | odfbTranslate }}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
+    <inputs-array [inputsMetadata]="advancedInputsMetadata"></inputs-array>
 
-      <inputs-array [inputsMetadata]="advancedInputsMetadata"></inputs-array>
-
-    </mat-expansion-panel>
-  </form>
-</div>
+  </mat-expansion-panel>
+</form>
