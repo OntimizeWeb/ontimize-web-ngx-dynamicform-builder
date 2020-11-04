@@ -1,35 +1,52 @@
 $border: 1px solid #e6e6e6;
+$background-color: #d5d5d5;
 
 .o-dynamic-form-builder {
-  background-color: #f0f0f0;
-  > div {
-    position: relative;
+  background-color: $background-color;
+
+  .left-sidenav,
+  .mat-sidenav-container {
+    background-color: $background-color;
   }
-  .content,
+
+  .mat-sidenav-container,
   .header {
-    padding: 16px 32px;
+    margin: 16px;
   }
-  .content {
-    padding-top: 0;
-    position: absolute;
-    top: 68px;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
 
-    .components-menu,
-    .components-tree,
-    .component-properties,
-    .dynamic-form-container .o-form .o-form-content-wrapper {
-      border: $border;
-      background: #ffffff;
-    }
+  .header {
+    margin-bottom: 0;
+  }
 
-    .dynamic-form-container {
-      padding: 0 16px;
-      .o-form .o-form-content-wrapper {
-        padding: 8px;
-      }
+  .left-sidenav {
+    width: 10%;
+  }
+
+  .mat-sidenav {
+    border: none;
+  }
+
+  .mat-sidenav-content {
+    width: 100%;
+  }
+
+  .right-sidenav {
+    width: 15%;
+  }
+
+  .components-menu,
+  .components-tree,
+  .component-properties,
+  .dynamic-form-container .o-form .o-form-content-wrapper {
+    // border: $border;
+    background: #ffffff;
+  }
+
+  .dynamic-form-container {
+    height: 100%;
+    padding: 0 16px;
+    .o-form ng-host form .o-form-content-wrapper {
+      padding: 8px;
     }
   }
 }

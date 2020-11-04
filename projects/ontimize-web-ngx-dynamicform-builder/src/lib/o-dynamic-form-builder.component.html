@@ -1,24 +1,33 @@
 <div fxLayout="column" fxFlex>
-  <div fxLayout="row" fxLayoutAlign="end center" class="header">
+  <div fxLayout="row" fxLayoutAlign="end center" class="header" fxLayoutGap="16px">
+
+    <mat-slide-toggle (change)="changeEditionMode($event)" checked="false">
+      {{ 'PREVIEW' | odfbTranslate }}
+    </mat-slide-toggle>
+
     <button mat-flat-button color="primary" (click)="save()">{{ 'SAVE' | odfbTranslate }}</button>
   </div>
-  <div fxLayout="row" class="content">
+  
+  <mat-sidenav-container fxFlex fxLayout="row">
+    <mat-sidenav #leftSidenav mode="side" opened class="left-sidenav">
+      <div fxLayout="column" fxFlex fxLayoutGap="24px">
+        <components-menu #appMenu fxFlex
+          (modeChange)="componentsMenuEditionChange($event)"
+          [connectedDropListIds]="componentsMenuConnectedDropListIds"
+          [dragEnabled]="isEditionActive">
+        </components-menu>
 
-    <div fxLayout="column" fxFlex="10">
-      <components-menu #appMenu fxFlex
-        (modeChange)="componentsMenuEditionChange($event)"
-        [dynamicForm]="dynamicForm"
-        [dragEnabled]="isEditionActive">
-      </components-menu>
+        <components-tree fxFlex #componentsTree
+          [form-definition]="formDefinition$ | async"
+          (onAddComponent)="onAddComponent($event)"
+          (onMoveComponent)="onMoveComponent($event)"
+          (onDeleteComponent)="onDeleteComponent($event)"
+          (onDrop)="onDrop()"
+          (componentSelected)="setSelectedComponent($event)">
+        </components-tree>
+      </div>
+    </mat-sidenav>
 
-      <components-tree fxFlex
-        [form-definition]="formDefinition$ | async"
-        (onMoveComponent)="onMoveComponent($event)"
-        (onDeleteComponent)="onDeleteComponent($event)">
-      </components-tree>
-    </div>
-   
-    
     <div fxFlex fxLayout="row" class="dynamic-form-container">
       <o-form #innerForm show-header="false" query-on-init="false" fxFlex>
         <o-dynamic-form #dynamicForm 
@@ -31,12 +40,19 @@
           (onMoveComponent)="onMoveComponent($event)"
           (onDeleteComponent)="onDeleteComponent($event)"
           (onDrop)="onDrop()"
+          (onSelectComponent)="onEditComponentSettings($event)"
           (onEditComponentSettings)="onEditComponentSettings($event)"
           (render)="onDynamicFormRendered()">
         </o-dynamic-form>
       </o-form>
     </div>
+    
 
-    <component-properties #componentProperties fxFlex="15" (componentUpdate)="componentUpdated()"></component-properties>
-  </div>
+    <mat-sidenav #rightSidenav mode="side" opened position="end" class="right-sidenav">
+      <div fxLayout="column" fxFlex>
+        <component-properties fxFlex #componentProperties (componentUpdate)="componentUpdated()"></component-properties>
+      </div>
+    </mat-sidenav>
+  </mat-sidenav-container>
+  
 </div>

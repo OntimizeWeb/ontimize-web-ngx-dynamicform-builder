@@ -21,7 +21,8 @@ export const ODFB_TRANSLATIONS = {
     'o-checkbox': 'Checkbox',
     'o-table': 'Table',
     'SAVE': 'Save',
-    'COMPONENTS': 'Components'
+    'COMPONENTS': 'Components',
+    'PREVIEW': 'Preview'
   },
 
   // Spanish
@@ -46,6 +47,7 @@ export const ODFB_TRANSLATIONS = {
     'o-checkbox': 'Checkbox',
     'o-table': 'Tabla',
     'SAVE': 'Guardar',
-    'COMPONENTS': 'Componentes'
+    'COMPONENTS': 'Componentes',
+    'PREVIEW': 'Previsualización'
   }
 };

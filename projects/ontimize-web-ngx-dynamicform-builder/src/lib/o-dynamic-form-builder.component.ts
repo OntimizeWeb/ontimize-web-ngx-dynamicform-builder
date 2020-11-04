@@ -1,6 +1,16 @@
-import { Component, EventEmitter, forwardRef, HostBinding, Inject, OnInit, Optional, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  HostBinding,
+  Inject,
+  OnInit,
+  Optional,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import {
   IComponent,
   IFormDataComponent,
@@ -13,10 +23,12 @@ import {
 } from 'ontimize-web-ngx';
 import { BaseComponent, ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
 import { BehaviorSubject } from 'rxjs';
-import { ComponentPropertiesComponent } from './component-properties/component-properties.component';
 
+import { ComponentPropertiesComponent } from './component-properties/component-properties.component';
 import { ComponentsMenuComponent } from './components-menu/components-menu.component';
+import { ComponentsTreeComponent } from './components-tree/components-tree.component';
 import { OComponentData } from './ontimize-components-data/o-component-data.class';
+import { ComponentsAttrsService } from './services/components-attrs.service';
 import { ComponentsDataService } from './services/components-data.service';
 import { ArrayList } from './utils/collections/ArrayList';
 
@@ -50,7 +62,6 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   @InputConverter()
   public editMode: boolean = false;
 
-
   @HostBinding('style.flexDirection') get style_flexDirection() { return 'column'; }
   @HostBinding('style.display') get style_display() { return 'flex'; }
 
@@ -69,20 +80,30 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   protected _isReadOnly: boolean;
   protected _fControl: FormControl;
 
+  forcedEditionMode: boolean = true;
+
   @ViewChild('innerForm', { static: false })
   protected innerForm: OFormComponent;
+
   @ViewChild('dynamicForm', { static: false })
   protected dynamicForm: ODynamicFormComponent;
+
   @ViewChild('appMenu', { static: false })
   protected appMenu: ComponentsMenuComponent;
+
   @ViewChild('componentProperties', { static: false })
   protected componentProperties: ComponentPropertiesComponent;
 
+  @ViewChild('componentsTree', { static: false })
+  protected componentsTree: ComponentsTreeComponent;
+
   constructor(
-    protected dialog: MatDialog,
     protected componentsDataService: ComponentsDataService,
+    protected componentsAttrsService: ComponentsAttrsService,
     @Optional() @Inject(forwardRef(() => OFormComponent)) protected parentForm: OFormComponent
-  ) { }
+  ) {
+    this.componentsAttrsService.setFormDefinitionListener(this.formDefinition$);
+  }
 
   public ngOnInit(): void {
     // ensuring formControl creation
@@ -112,6 +133,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
 
   public ngOnDestroy(): void {
     this.unregisterFormListeners();
+    this.componentsAttrsService.destroy();
   }
 
   public unregisterFormListeners(): void {
@@ -234,12 +256,8 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this.refreshComponentProperties();
   }
 
-
   private refreshComponentProperties() {
-    if (this.componentProperties) {
-      const comp = this._searchElement(this.componentProperties.attr, this.componentsArray);
-      this.componentProperties.component = comp;
-    }
+    this.setComponentPropertiesByAttr(this.componentProperties.attr);
   }
 
   public getComponentsJson(components: ArrayList<OComponentData>, parent: any[]): void {
@@ -269,8 +287,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
     this.componentProperties.attr = null;
     this.onUpdateComponents();
-    const componentRef = this._searchElement(component.getComponentAttr(), this.componentsArray);
-    this.componentProperties.component = componentRef;
+    this.setComponentPropertiesByAttr(component.getComponentAttr());
   }
 
   public onMoveComponent(args): void {
@@ -310,21 +327,15 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
   }
 
-  public onEditComponentSettings(args): void {
-    const component: OComponentData = this.getOComponentData(args.component);
-    if (!component) {
-      return;
-    }
-    this.componentProperties.component = component;
+  public onEditComponentSettings(attr: string): void {
+    this.setComponentTreeSelectedNodeByAttr(attr);
+    this.setComponentPropertiesByAttr(attr);
   }
 
-  public onDeleteComponent(args): void {
-    const component: OComponentData = this.getOComponentData(args.component);
-    if (!component) {
-      return;
-    }
+  public onDeleteComponent(attr: string): void {
+    this.dynamicForm.setActiveComponent(null);
     this.componentProperties.attr = null;
-    this._removeElement(component.getComponentAttr(), this.componentsArray);
+    this._removeElement(attr, this.componentsArray);
     this.onUpdateComponents();
   }
 
@@ -336,10 +347,6 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     const component = this._searchElement(attr, this.componentsArray);
     return component;
   }
-
-  // public cloneComponent(component): OComponentData {
-  //   return this._cloneComponentData(component.settings);
-  // }
 
   get isReadOnly(): boolean {
     return this._isReadOnly;
@@ -390,18 +397,6 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
   }
 
-  // private _cloneComponentData(settings): OComponentData {
-  //   const newComponent: OComponentData = this.componentsDataService.getOntimizeComponentData(settings['ontimize-directive']);
-  //   delete settings['ontimize-directive'];
-  //   newComponent.setConfiguredInputs(settings);
-  //   if (settings.children) {
-  //     settings.children.forEach(child => {
-  //       newComponent.addChild(this._cloneComponentData(child));
-  //     });
-  //   }
-  //   return newComponent;
-  // }
-
   onDrop() {
     this.appMenu.entered();
   }
@@ -422,7 +417,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   }
 
   get isEditionActive(): boolean {
-    return this.editMode || !this.isReadOnly;
+    return this.forcedEditionMode && (this.editMode || !this.isReadOnly);
   }
 
   componentUpdated() {
@@ -431,6 +426,38 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
 
   componentsMenuEditionChange(editableComponentsSelector: string[]) {
     this.dynamicForm.editableComponents = editableComponentsSelector;
-    this.componentProperties.component = null;
+  }
+
+  get componentsMenuConnectedDropListIds(): string[] {
+    const result = [];
+    if (this.componentsTree) {
+      result.push(this.componentsTree.uId);
+    }
+    if (this.dynamicForm) {
+      result.push(...this.dynamicForm.connectedDropListIds);
+    }
+    return result;
+  }
+
+  protected setComponentPropertiesByAttr(attr: string) {
+    if (this.componentProperties) {
+      const componentRef = this._searchElement(attr, this.componentsArray);
+      this.componentProperties.component = componentRef;
+    }
+  }
+
+  protected setComponentTreeSelectedNodeByAttr(attr: string) {
+    if (this.componentsTree) {
+      this.componentsTree.setSelectedNodeByAttr(attr);
+    }
+  }
+
+  setSelectedComponent(attr: string) {
+    this.dynamicForm.setActiveComponent(attr);
+    this.setComponentPropertiesByAttr(attr);
+  }
+
+  changeEditionMode(val: MatSlideToggleChange) {
+    this.forcedEditionMode = !val.checked;
   }
 }
