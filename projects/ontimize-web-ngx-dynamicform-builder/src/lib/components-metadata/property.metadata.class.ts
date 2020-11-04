@@ -1,8 +1,9 @@
 import { forwardRef, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, ValidatorFn, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Observable, Subscription } from 'rxjs';
 
 import { ComponentPropertiesComponent } from '../component-properties/component-properties.component';
+import { ComponentsAttrsService } from '../services/components-attrs.service';
 import { InputMetadata } from '../types/inputs-metadata.type';
 
 export const DEFAULT_INPUTS_METADATA = [
@@ -18,7 +19,8 @@ export class PropertyMetadataClass implements OnInit, OnDestroy {
 
   constructor(
     @Inject(forwardRef(() => ComponentPropertiesComponent))
-    protected propertiesComponent: ComponentPropertiesComponent
+    protected propertiesComponent: ComponentPropertiesComponent,
+    protected componentsAttrsService: ComponentsAttrsService
   ) { }
 
   ngOnInit() {
@@ -40,12 +42,19 @@ export class PropertyMetadataClass implements OnInit, OnDestroy {
     this.fControl = new FormControl(cfg, validators);
   }
 
+  protected getValueChangesObservable(): Observable<any> {
+    return this.fControl.valueChanges;
+  }
+
   private registerFormListeners(): void {
     if (this.propertiesComponent) {
       this.propertiesComponent.registerFormControlComponent(this);
     }
-    this.subscriptions.add(this.fControl.valueChanges.subscribe((value: any) => {
-      this.propertiesComponent.save(this.metadata.input, value);
+    this.subscriptions.add(this.getValueChangesObservable().subscribe((value: any) => {
+      if (this.fControl.valid) {
+        this.fControl.parent.updateValueAndValidity();
+        this.propertiesComponent.save(this.metadata.input, value);
+      }
     }));
   }
 
@@ -78,6 +87,9 @@ export class PropertyMetadataClass implements OnInit, OnDestroy {
     if (this.metadata.required) {
       validators.push(Validators.required);
     }
+    if (this.metadata.input === 'attr') {
+      validators.push(this.uniqueAttrValidator.bind(this));
+    }
     return validators;
   }
 
@@ -86,5 +98,16 @@ export class PropertyMetadataClass implements OnInit, OnDestroy {
       return this.fControl.valid;
     }
     return false;
+  }
+
+  public uniqueAttrValidator(control: FormControl): ValidationErrors {
+    if (control.value &&
+      control.value.length > 0 &&
+      this.metadata.default !== control.value &&
+      !this.componentsAttrsService.isAttrUnique(control.value)) {
+
+      return { repeatedAttr: true };
+    }
+    return {};
   }
 }
