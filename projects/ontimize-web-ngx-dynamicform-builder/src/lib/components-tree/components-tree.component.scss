@@ -1,9 +1,31 @@
 .components-tree {
-  tree-leaf {
-    width: 100%;
+
+  .mat-tree {
+    padding: 8px;
   }
 
   .mat-tree-node {
     min-height: 24px;
+  }
+
+  li.app-menu-item {
+    height: 8px;
+    list-style-type: none;
+    button {
+      margin: 0;
+      background: none;
+      border: none;
+
+      &:focus {
+        outline: none;
+      }
+
+      .mat-icon {
+        width: 16px;
+        height: 16px;
+        font-size: 16px;
+        margin-right: 4px;
+      }
+    }
   }
 }

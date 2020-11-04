@@ -18,6 +18,7 @@ export class ComponentFlatNode {
   public empty: boolean;
   public hover: boolean;
   public display: any;
+  public selected: boolean;
 
   constructor(node: ComponentNode, public level: number) {
     this.attr = node.attr;

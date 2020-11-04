@@ -19,5 +19,5 @@
 
   {{node.attr}}
 
-  <mat-icon (click)="deleteNode($event)" class="delete-icon">delete_outline</mat-icon>
+  <mat-icon *ngIf="visibleDeleteButton" (click)="deleteNode($event)" class="delete-icon">delete_outline</mat-icon>
 </div>

@@ -1,43 +1,42 @@
-<div fxLayout="column">
-  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" 
-    [id]="uId"  
-    cdkDropList 
-    (cdkDropListDropped)="drop($event)">
+<mat-tree fxFlex
+  [dataSource]="dataSource" [treeControl]="treeControl" 
+  [id]="uId"  
+  cdkDropList 
+  (cdkDropListDropped)="drop($event)">
 
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
-      cdkDrag 
-      [cdkDragData]="node"
-      (mouseenter)="dragHover(node)" 
-      (mouseleave)="dragHoverEnd(node)" 
-      (cdkDragStarted)="dragStart($event)"
-      (cdkDragReleased)="dragEnd($event)">
-      
-      <div class="components-tree-drag-preview" *cdkDragPreview></div>
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
+    cdkDrag 
+    [cdkDragData]="node"
+    (mouseenter)="dragHover(node)" 
+    (mouseleave)="dragHoverEnd(node)" 
+    (cdkDragStarted)="dragStart($event)"
+    (cdkDragReleased)="dragEnd($event)">
+    
+    <div class="components-tree-drag-preview" *cdkDragPreview></div>
 
-      <tree-leaf [node]="node" 
-        [treeControl]="treeControl" 
-        (deleteLeaf)="deleteNode($event)" 
-        class="node-level-{{node.level}}">
-      </tree-leaf>
-      
-    </mat-tree-node>
+    <tree-leaf [node]="node"
+      [treeControl]="treeControl" 
+      (deleteLeaf)="deleteNode($event)" 
+      (click)="clickLeaf(node)">
+    </tree-leaf>
+    
+  </mat-tree-node>
 
-    <mat-tree-node *matTreeNodeDef="let node;when: hasChild"
-      cdkDrag 
-      [cdkDragData]="node"
-      (mouseenter)="dragHover(node)" 
-      (mouseleave)="dragHoverEnd(node)" 
-      (cdkDragStarted)="dragStart($event)"
-      (cdkDragReleased)="dragEnd($event)">
+  <mat-tree-node *matTreeNodeDef="let node;when: hasChild"
+    cdkDrag 
+    [cdkDragData]="node"
+    (mouseenter)="dragHover(node)" 
+    (mouseleave)="dragHoverEnd(node)" 
+    (cdkDragStarted)="dragStart($event)"
+    (cdkDragReleased)="dragEnd($event)">
 
-      <div class="components-tree-drag-preview" *cdkDragPreview></div>
+    <div class="components-tree-drag-preview" *cdkDragPreview></div>
 
-      <tree-leaf [node]="node" 
-        [treeControl]="treeControl" 
-        (deleteLeaf)="deleteNode($event)" 
-        class="node-level-{{node.level}}">
-      </tree-leaf>
+    <tree-leaf [node]="node"
+      [treeControl]="treeControl" 
+      (deleteLeaf)="deleteNode($event)" 
+      (click)="clickLeaf(node)">
+    </tree-leaf>
 
-    </mat-tree-node>
-  </mat-tree>
-</div>
+  </mat-tree-node>
+</mat-tree>

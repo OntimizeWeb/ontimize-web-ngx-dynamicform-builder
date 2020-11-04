@@ -21,8 +21,11 @@ import { ComponentsTreeDatabase } from './components-tree.datasource';
 })
 export class ComponentsTreeComponent {
 
+  @Output() public onAddComponent: EventEmitter<any> = new EventEmitter();
   @Output() public onDeleteComponent: EventEmitter<any> = new EventEmitter();
   @Output() public onMoveComponent: EventEmitter<any> = new EventEmitter();
+  @Output() public onDrop: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() public componentSelected: EventEmitter<Object> = new EventEmitter<Object>();
 
   protected formDefinitionChange = new Subject<any>();
   protected componentsInfoChange = new Subject<any>();
@@ -38,6 +41,8 @@ export class ComponentsTreeComponent {
   protected expandDelay = 200;
 
   uId: any;
+
+  protected pendingSelectedAttr;
 
   @Input('form-definition')
   set formDefinition(value: any) {
@@ -82,6 +87,10 @@ export class ComponentsTreeComponent {
     this.dataSource.data = data;
     this.deleteMissingExpandedNodes(this.treeControl, this.expandedNodesSet);
     this.expandNodesByAttr(this.treeControl.dataNodes, this.expandedNodesSet);
+    if (this.pendingSelectedAttr != null) {
+      this.setSelectedNodeByAttr(this.pendingSelectedAttr);
+      this.pendingSelectedAttr = null;
+    }
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -89,35 +98,27 @@ export class ComponentsTreeComponent {
     if (!event.isPointerOverContainer) {
       return;
     }
+    const node: ComponentNode = event.item.data;
 
     // construct a list of visible nodes, this will match the DOM.
     // the cdkDragDrop event.currentIndex gives with visible nodes.
     // it calls rememberExpandedTreeNodes to persist expand state
     const visibleNodes = this.visibleNodes();
 
+    // determine where to insert the node
+    const nodeAtDest = visibleNodes[event.currentIndex];
+
     // deep clone the data source so we can mutate it
     const changedData: ComponentNode[] = JSON.parse(JSON.stringify(this.dataSource.data));
 
-    // remove the node from its old place
-    const node: ComponentNode = event.item.data;
-    const siblings: ComponentNode[] = this.findNodeSiblings(changedData, node.uId);
-    const previousIndex = siblings.findIndex(n => n.uId === node.uId);
-    const nodeToInsert: ComponentNode = siblings.splice(previousIndex, 1)[0];
-
-    // determine where to insert the node
-    const nodeAtDest = visibleNodes[event.currentIndex];
-    if (nodeAtDest.uId === nodeToInsert.uId) {
-      return;
-    }
-
-    const nodeFlatNode = this.treeControl.dataNodes.find(n => node.uId === n.uId);
-    const originParentFlatNode: ComponentFlatNode = this.getParentNode(nodeFlatNode);
-
     // determine drop index relative to destination array
     let relativeIndex = event.currentIndex; // default if no parent
-    const nodeAtDestFlatNode = this.treeControl.dataNodes.find(n => nodeAtDest.uId === n.uId);
+    let destinationParentFlatNode: ComponentFlatNode;
+    if (nodeAtDest) {
+      const nodeAtDestFlatNode = this.treeControl.dataNodes.find(n => nodeAtDest.uId === n.uId);
+      destinationParentFlatNode = this.getParentNode(nodeAtDestFlatNode);
+    }
 
-    const destinationParentFlatNode: ComponentFlatNode = this.getParentNode(nodeAtDestFlatNode);
     if (destinationParentFlatNode) {
       const parentIndex = visibleNodes.findIndex(n => n.uId === destinationParentFlatNode.uId) + 1;
       relativeIndex = event.currentIndex - parentIndex;
@@ -132,6 +133,33 @@ export class ComponentsTreeComponent {
         }
       });
     }
+
+    if ((node as any).new) {
+      delete node['new'];
+
+      this.onAddComponent.emit({
+        component: node,
+        parent: destinationParentFlatNode,
+        index: relativeIndex
+      });
+
+      this.onDrop.emit();
+      this.componentSelected.emit((node as any).configuredInputs.attr);
+      return;
+    }
+
+    // remove the node from its old place
+    const siblings: ComponentNode[] = this.findNodeSiblings(changedData, node.uId);
+    const previousIndex = siblings.findIndex(n => n.uId === node.uId);
+    const nodeToInsert: ComponentNode = siblings.splice(previousIndex, 1)[0];
+
+    if (nodeAtDest.uId === nodeToInsert.uId) {
+      return;
+    }
+
+    const nodeFlatNode = this.treeControl.dataNodes.find(n => node.uId === n.uId);
+    const originParentFlatNode: ComponentFlatNode = this.getParentNode(nodeFlatNode);
+
     // insert node 
     const newSiblings = this.findNodeSiblings(changedData, nodeAtDest.uId);
     if (!newSiblings) {
@@ -153,13 +181,13 @@ export class ComponentsTreeComponent {
   }
 
   dragStart(event: CdkDragStart<any>) {
+    this.componentSelected.emit(null);
     this.dragging = true;
   }
 
   dragEnd(event: CdkDragEnd<any>) {
     this.dragging = false;
   }
-
 
   dragHover(node: ComponentFlatNode) {
     if (!this.dragging) {
@@ -190,8 +218,25 @@ export class ComponentsTreeComponent {
     // }
   }
 
-  deleteNode(arg: any) {
-    this.onDeleteComponent.emit(arg);
+  deleteNode(attr: string) {
+    this.onDeleteComponent.emit(attr);
+  }
+
+  clickLeaf(node: ComponentFlatNode) {
+    this.treeControl.dataNodes.forEach(dataNode => dataNode.selected = false);
+    node.selected = true;
+    this.componentSelected.emit(node.attr);
+  }
+
+  setSelectedNodeByAttr(attr: string) {
+    if (!this.treeControl.dataNodes.find(dataNode => dataNode.attr === attr)) {
+      this.pendingSelectedAttr = attr;
+    }
+    this.treeControl.dataNodes.forEach(dataNode => dataNode.selected = (dataNode.attr === attr));
+    // expand parent nodes in case where collapsed
+    const attrs = new Set<string>();
+    attrs.add(attr);
+    this.expandNodesByAttr(this.treeControl.dataNodes, attrs);
   }
 
   private getComponentsInfo() {

@@ -1,4 +1,9 @@
 .tree-leaf {
+  width: 100%;
+  &.selected {
+    background: #dadada;
+  }
+  cursor: default;
   button {
     border: none;
     outline: none;
@@ -11,7 +16,6 @@
     font-size: 16px;
     &.component-icon {
       margin-right: 4px;
-      cursor: default;
     }
     &.delete-icon {
       margin-left: auto;
