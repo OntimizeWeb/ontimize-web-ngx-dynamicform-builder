@@ -20,7 +20,9 @@ import {
 } from '../ontimize-components-data/index';
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ComponentsDataService {
 
   public constructors = {

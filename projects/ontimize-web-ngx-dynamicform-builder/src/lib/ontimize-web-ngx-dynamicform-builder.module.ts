@@ -7,7 +7,6 @@ import { OntimizeWebModule } from 'ontimize-web-ngx';
 import { DynamicFormModule } from 'ontimize-web-ngx-dynamicform';
 
 import { O_DYNAMICFORM_BUILDER_COMPONENTS } from './components-index';
-import { O_DYNAMICFORM_BUILDER_PROVIDERS } from './services/index';
 import { ODynamicFormBuilderTranslateModule } from './utils/odfb-translate.pipe';
 
 export * from './components-index';
@@ -25,7 +24,6 @@ export * from './services/index';
   ],
   declarations: O_DYNAMICFORM_BUILDER_COMPONENTS,
   exports: O_DYNAMICFORM_BUILDER_COMPONENTS,
-  providers: O_DYNAMICFORM_BUILDER_PROVIDERS,
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DynamicFormBuilderModule { }
