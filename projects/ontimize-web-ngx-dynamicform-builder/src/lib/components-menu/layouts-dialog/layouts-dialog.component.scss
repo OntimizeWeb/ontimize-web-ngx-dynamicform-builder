@@ -1,0 +1,15 @@
+.layouts-dialog {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .mat-dialog-content {
+    height: 100%;
+  }
+
+  .layout-selector {
+    height: 88px;
+    width: 88px;
+    padding: 8px;
+  }
+}

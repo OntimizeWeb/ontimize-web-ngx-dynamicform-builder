@@ -13,6 +13,11 @@ export const MENU_JSON_DATA: any = [
       icon: 'swap_horiz',
       'ontimize-component': 'o-row',
       label: 'o-row'
+    },
+    {
+      icon: 'grid_on',
+      action: 'openLayoutsDialog',
+      label: 'LAYOUTS.PREDEFINED_LAYOUT'
     }]
   },
   {

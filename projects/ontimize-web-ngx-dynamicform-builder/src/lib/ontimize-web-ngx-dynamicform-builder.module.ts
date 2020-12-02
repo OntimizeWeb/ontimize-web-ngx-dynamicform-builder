@@ -7,6 +7,10 @@ import { OntimizeWebModule } from 'ontimize-web-ngx';
 import { DynamicFormModule } from 'ontimize-web-ngx-dynamicform';
 
 import { O_DYNAMICFORM_BUILDER_COMPONENTS } from './components-index';
+import { LayoutsDialogComponent } from './components-menu/layouts-dialog/layouts-dialog.component';
+import {
+  ChooseSelectorDialogComponent,
+} from './ontimize-components-data/choose-selector-dialog/choose-selector-dialog.component';
 import { ODynamicFormBuilderTranslateModule } from './utils/odfb-translate.pipe';
 
 export * from './components-index';
@@ -24,6 +28,7 @@ export * from './services/index';
   ],
   declarations: O_DYNAMICFORM_BUILDER_COMPONENTS,
   exports: O_DYNAMICFORM_BUILDER_COMPONENTS,
+  entryComponents: [LayoutsDialogComponent, ChooseSelectorDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DynamicFormBuilderModule { }

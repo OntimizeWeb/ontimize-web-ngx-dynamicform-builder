@@ -1,0 +1,13 @@
+<span mat-dialog-title>{{ 'CHANGE_SELECTOR.DIALOG_TITLE' | odfbTranslate }}</span>
+<div mat-dialog-content fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="16px">
+  <div *ngFor="let item of data.availableSelectors" (click)="chooseSelector(item)">
+    <span>{{item}}</span>
+  </div>
+</div>
+
+<mat-dialog-actions align="end">
+  <button type="button" mat-stroked-button class="mat-primary" mat-dialog-close>
+    {{ 'CANCEL' | oTranslate | uppercase }} </button>
+</mat-dialog-actions>
+
+

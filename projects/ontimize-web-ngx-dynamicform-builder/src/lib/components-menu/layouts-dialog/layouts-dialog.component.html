@@ -1,0 +1,16 @@
+<span mat-dialog-title>{{ 'LAYOUTS.DIALOG_TITLE' | odfbTranslate }}</span>
+<div mat-dialog-content fxLayout="row" fxLayoutGap="16px">
+  <button class="layout-selector" 
+    fxLayout="column" fxLayoutAlign="space-between center"  
+    *ngFor="let item of layoutItems" (click)="chooseLayout(item)">
+    <mat-icon>{{ item.icon }}</mat-icon>
+    <div fxLayout="row" fxLayoutAlign="center center">{{ item.title | odfbTranslate }}</div>
+  </button>
+</div>
+
+<mat-dialog-actions align="end">
+  <button type="button" mat-stroked-button class="mat-primary" mat-dialog-close>
+    {{ 'CANCEL' | oTranslate | uppercase }} </button>
+</mat-dialog-actions>
+
+
