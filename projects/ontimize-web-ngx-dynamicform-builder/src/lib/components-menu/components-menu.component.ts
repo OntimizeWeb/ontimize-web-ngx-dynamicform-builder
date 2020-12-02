@@ -1,21 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CdkDragExit } from '@angular/cdk/drag-drop';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { MatIconRegistry } from '@angular/material';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { MatDialog, MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
-import { AppMenuService } from '../services/app-menu.service';
+import { AppDataService } from '../services/app-data.service';
 import { ComponentsDataService } from '../services/components-data.service';
+import { LayoutsDialogComponent } from './layouts-dialog/layouts-dialog.component';
 
 @Component({
   selector: 'components-menu',
@@ -33,7 +25,7 @@ import { ComponentsDataService } from '../services/components-data.service';
     '[class.components-menu]': 'true'
   }
 })
-export class ComponentsMenuComponent implements AfterViewInit {
+export class ComponentsMenuComponent {
   layoutItems: any[] = [];
   componentItems: any[] = [];
 
@@ -41,19 +33,17 @@ export class ComponentsMenuComponent implements AfterViewInit {
   @Input() connectedDropListIds: string[];
 
   @Output() modeChange: EventEmitter<any> = new EventEmitter();
-  protected selectedCategoryDiv: any;
-  protected visibleDiv: any;
 
-  @ViewChild('componentsSelector', { static: false }) componentsSelectorDiv: ElementRef<any>;
-  @ViewChild('componentItemsDiv', { static: false }) componentItemsDiv: ElementRef<any>;
+  public selectedIndex: number;
 
   constructor(
-    private appMenuService: AppMenuService,
+    private appDataService: AppDataService,
     private componentsDataService: ComponentsDataService,
     protected domSanitizer: DomSanitizer,
-    protected matIconRegistry: MatIconRegistry
+    protected matIconRegistry: MatIconRegistry,
+    protected dialog: MatDialog
   ) {
-    this.appMenuService.getMenu().subscribe((items: any) => {
+    this.appDataService.getMenu().subscribe((items: any) => {
       this.layoutItems = items.filter(i => i.id === 'LAYOUT');
       this.componentItems = items.filter(i => i.id !== 'LAYOUT');
     });
@@ -66,28 +56,20 @@ export class ComponentsMenuComponent implements AfterViewInit {
     this.matIconRegistry.addSvgIconLiteralInNamespace('odfb', 'integer', this.domSanitizer.bypassSecurityTrustHtml(`<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 26 26" style="enable-background:new 0 0 26 26;" xml:space="preserve"><style type="text/css">.odbfint{font-family:Roboto,"Helvetica Neue",sans-serif;font-size:12px;fill:#040006;}.st3{fill:none;}</style><text transform="matrix(1 0 0 1 2.9017 16.2349)" class="odbfint">123</text><rect x="1" y="1" class="st3" width="24" height="24"/></svg>`));
   }
 
-  ngAfterViewInit() {
-    const selectorDiv = this.componentsSelectorDiv ? this.componentsSelectorDiv.nativeElement : null;
-    const itemsDiv = this.componentItemsDiv ? this.componentItemsDiv.nativeElement : null;
-    this.setSelectors(0, selectorDiv, itemsDiv);
-  }
-
-  setSelectors(index: number, selectedCategory: any, visibleDiv: any) {
-    this.selectedCategoryDiv = selectedCategory;
-    this.visibleDiv = visibleDiv;
+  setActiveComponentsSelectors(index: number) {
+    this.selectedIndex = index;
     this.modeChange.emit(this.getEditableComponentsSelectors(index));
   }
 
-  isSelectedCategory(div: any): boolean {
-    return this.selectedCategoryDiv === div;
-  }
-
-  isVisibleDiv(div: any): boolean {
-    return this.visibleDiv === div;
+  isActiveIndex(index: number): boolean {
+    return this.selectedIndex === index;
   }
 
   getOntimizeComponentData(component: any): OComponentData {
-    return this.componentsDataService.getOntimizeComponentData(component['ontimize-component']);
+    if (component['ontimize-component'] != null) {
+      return this.componentsDataService.getOntimizeComponentData(component['ontimize-component']);
+    }
+    return component;
   }
 
   private getEditableComponentsSelectors(selectedTabIndex: number) {
@@ -125,4 +107,17 @@ export class ComponentsMenuComponent implements AfterViewInit {
     }
   }
 
+  openLayoutsDialog(callback?: (definition: any) => void) {
+    const dialogRef = this.dialog.open(LayoutsDialogComponent, {
+      width: '50%',
+      height: '50%',
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      if (res != null && callback != null) {
+        callback(res);
+      }
+    });
+  }
 }

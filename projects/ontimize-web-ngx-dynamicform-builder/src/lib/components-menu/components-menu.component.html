@@ -1,36 +1,41 @@
 <div fxLayout="row" fxLayoutGap="24px" class="selector-container">
   <div #componentsSelector 
     class="components-selector"
-    [class.selected]="isSelectedCategory(componentsSelector)" 
-    (click)="setSelectors(0,componentsSelector, componentItemsDiv)">
+    [class.selected]="isActiveIndex(0)" 
+    (click)="setActiveComponentsSelectors(0)">
     {{ 'COMPONENTS' | odfbTranslate }}
   </div>
   <div #layoutsSelector 
     class="components-selector" 
-    [class.selected]="isSelectedCategory(layoutsSelector)" 
-    (click)="setSelectors(1, layoutsSelector, layoutItemsDiv)">
+    [class.selected]="isActiveIndex(1)" 
+    (click)="setActiveComponentsSelectors(1)">
     {{ 'LAYOUT' | odfbTranslate }}
   </div>
 </div>
 
 <div class="menu-content">
-  <div #componentItemsDiv class="components-list" [class.visible]="isVisibleDiv(componentItemsDiv)">
-    <ng-container *ngFor="let category of componentItems;">
-      <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category}"></ng-container>
+  <div #componentItemsDiv class="components-list" [class.visible]="isActiveIndex(0)">
+    <ng-container *ngFor="let category of componentItems; first as isFirst">
+      <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category, expanded: isFirst}"></ng-container>
     </ng-container>
   </div>
 
-  <div #layoutItemsDiv class="components-list" [class.visible]="isVisibleDiv(layoutItemsDiv)">
-    <ng-container *ngFor="let category of layoutItems;">
-      <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category}"></ng-container>
+  <div #layoutItemsDiv class="components-list" [class.visible]="isActiveIndex(1)">
+    <ng-container *ngFor="let category of layoutItems; first as isFirst">
+      <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category, expanded: isFirst}"></ng-container>
     </ng-container>
   </div>
 </div>
 
-<ng-template #categoryTemplate let-category="category">
-  <nav cdkDropList [cdkDropListConnectedTo]="connectedDropListIds" cdkDropListSortingDisabled
-    [cdkDropListData]="category.elements" (cdkDropListEntered)="entered()" (cdkDropListExited)="exited($event)">
-    <button cdkAccordionItem #panel="cdkAccordionItem" (click)="panel.toggle()" expanded="false" fxLayout="row"
+<ng-template #categoryTemplate let-category="category" let-expanded="expanded">
+  <nav cdkDropList 
+    [cdkDropListConnectedTo]="connectedDropListIds" 
+    cdkDropListSortingDisabled
+    [cdkDropListData]="category.elements" 
+    (cdkDropListEntered)="entered()" 
+    (cdkDropListExited)="exited($event)">
+
+    <button cdkAccordionItem #panel="cdkAccordionItem" (click)="panel.toggle()" [expanded]="expanded" fxLayout="row"
       fxLayoutAlign="space-between center" class="group-btn">
       {{ category.label | odfbTranslate }}
       <mat-icon>{{ panel.expanded ? 'keyboard_arrow_up' :  'keyboard_arrow_down' }}</mat-icon>
@@ -43,8 +48,8 @@
           </div>
 
           <button fxLayout="row" fxLayoutAlign="start center" [class.only-label]="component.icon" class="item-btn">
-            <mat-icon *ngIf="component.icon" class="material-icons item-icon">{{ component.icon }}</mat-icon>
-            <mat-icon *ngIf="component.svgIcon" svgIcon="{{ component.svgIcon }}" class="material-icons item-icon">
+            <mat-icon *ngIf="component.icon" class="item-icon">{{ component.icon }}</mat-icon>
+            <mat-icon *ngIf="component.svgIcon" svgIcon="{{ component.svgIcon }}" class="item-icon">
             </mat-icon>
             <div class="item-label" fxLayout="center">
               <span class="item-label-text">{{ component.label | odfbTranslate }}</span>
