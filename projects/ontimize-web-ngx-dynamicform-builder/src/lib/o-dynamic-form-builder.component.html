@@ -1,6 +1,8 @@
 <div fxLayout="column" fxFlex>
-  <div fxLayout="row" fxLayoutAlign="end center" class="header" fxLayoutGap="16px">
-
+  <div fxLayout="row" fxLayoutAlign="start center" class="header" fxLayoutGap="16px">
+    <div fxFlex>
+      <ng-content select=".o-dynamic-form-builder-header"></ng-content>
+    </div>
     <mat-slide-toggle (change)="changeEditionMode($event)" checked="false">
       {{ 'PREVIEW' | odfbTranslate }}
     </mat-slide-toggle>
@@ -23,7 +25,9 @@
           (onMoveComponent)="onMoveComponent($event)"
           (onDeleteComponent)="onDeleteComponent($event)"
           (onDrop)="onDrop()"
-          (componentSelected)="setSelectedComponent($event)">
+          (componentSelected)="setSelectedComponent($event)"
+          (onChangeComponentSelector)="onChangeComponentSelector($event)"
+          (onAddPredefinedLayout)="onAddPredefinedLayout($event)">
         </components-tree>
       </div>
     </mat-sidenav>
@@ -40,8 +44,11 @@
           (onMoveComponent)="onMoveComponent($event)"
           (onDeleteComponent)="onDeleteComponent($event)"
           (onDrop)="onDrop()"
-          (onSelectComponent)="onEditComponentSettings($event)"
           (onEditComponentSettings)="onEditComponentSettings($event)"
+          (onSelectComponent)="onEditComponentSettings($event)"
+          (onChangeComponentSelector)="onChangeComponentSelector($event)"
+          (onAddPredefinedLayout)="onAddPredefinedLayout($event)"
+
           (render)="onDynamicFormRendered()">
         </o-dynamic-form>
       </o-form>

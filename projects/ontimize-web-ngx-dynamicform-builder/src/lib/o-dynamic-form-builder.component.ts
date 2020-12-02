@@ -9,7 +9,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import {
   IComponent,
@@ -17,20 +17,25 @@ import {
   IFormDataTypeComponent,
   InputConverter,
   OFormComponent,
+  OFormControl,
   OFormValue,
   OValueChangeEvent,
   SQLTypes,
 } from 'ontimize-web-ngx';
 import { BaseComponent, ODynamicFormComponent } from 'ontimize-web-ngx-dynamicform';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { ComponentPropertiesComponent } from './component-properties/component-properties.component';
 import { ComponentsMenuComponent } from './components-menu/components-menu.component';
 import { ComponentsTreeComponent } from './components-tree/components-tree.component';
+import {
+  ChooseSelectorDialogComponent,
+} from './ontimize-components-data/choose-selector-dialog/choose-selector-dialog.component';
 import { OComponentData } from './ontimize-components-data/o-component-data.class';
 import { ComponentsAttrsService } from './services/components-attrs.service';
 import { ComponentsDataService } from './services/components-data.service';
-import { ArrayList } from './utils/collections/ArrayList';
+import { ODynamicFormBuidlerUtils } from './utils/o-dynamic-form-builder-utils';
+
 
 @Component({
   selector: 'o-dynamic-form-builder',
@@ -66,7 +71,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   @HostBinding('style.display') get style_display() { return 'flex'; }
 
   public formDefinition$: BehaviorSubject<any> = new BehaviorSubject(null);
-  public componentsArray: ArrayList<OComponentData> = new ArrayList<OComponentData>();
+  public componentsArray: OComponentData[] = [];
 
   public render: EventEmitter<any> = new EventEmitter();
   public onFormDefinitionUpdate: EventEmitter<Object> = new EventEmitter<Object>();
@@ -78,7 +83,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   protected innerFormDefinition: any = null;
 
   protected _isReadOnly: boolean;
-  protected _fControl: FormControl;
+  protected _fControl: OFormControl;
 
   forcedEditionMode: boolean = true;
 
@@ -97,10 +102,13 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   @ViewChild('componentsTree', { static: false })
   protected componentsTree: ComponentsTreeComponent;
 
+  protected subscriptions: Subscription = new Subscription();
+
   constructor(
     protected componentsDataService: ComponentsDataService,
     protected componentsAttrsService: ComponentsAttrsService,
-    @Optional() @Inject(forwardRef(() => OFormComponent)) protected parentForm: OFormComponent
+    @Optional() @Inject(forwardRef(() => OFormComponent)) public parentForm: OFormComponent,
+    protected dialog: MatDialog
   ) {
     this.componentsAttrsService.setFormDefinitionListener(this.formDefinition$);
   }
@@ -128,12 +136,20 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
       this.parentForm.registerFormComponent(this);
       this.parentForm.registerFormControlComponent(this);
       this.parentForm.registerSQLTypeFormComponent(this);
+
+      this.subscriptions.add(this.parentForm.onFormInitStream.subscribe(() => {
+        const selectedIndex = this.parentForm.isInInsertMode() ? 1 : 0;
+        this.appMenu.setActiveComponentsSelectors(selectedIndex);
+      }));
     }
   }
 
   public ngOnDestroy(): void {
     this.unregisterFormListeners();
     this.componentsAttrsService.destroy();
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+    }
   }
 
   public unregisterFormListeners(): void {
@@ -144,8 +160,8 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     }
   }
 
-  public getValue(): any {
-    // TO-DO
+  public getValue(): string {
+    return this._fControl.value;
   }
 
   public clearValue(): void {
@@ -227,7 +243,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
         console.error('set formDefinition error');
       }
     }
-    this.componentsArray = new ArrayList<OComponentData>();
+    this.componentsArray = [];
     if (definitionJSON && definitionJSON.hasOwnProperty('components') && definitionJSON.components.length) {
       this.getComponentsFromJSON(definitionJSON.components, this.componentsArray);
     }
@@ -260,7 +276,7 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this.setComponentPropertiesByAttr(this.componentProperties.attr);
   }
 
-  public getComponentsJson(components: ArrayList<OComponentData>, parent: any[]): void {
+  public getComponentsJson(components: OComponentData[], parent: any[]): void {
     for (const comp of components) {
       const compInputs = comp.getConfiguredInputs();
       const compObj = Object.assign({}, compInputs);
@@ -274,20 +290,24 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   }
 
   public getComponentsArray(): OComponentData[] {
-    return this.componentsArray.toArray();
+    return this.componentsArray;
   }
 
   public onAddComponent(args): void {
     const component: OComponentData = args.component;
-    const parent: OComponentData = this.getOComponentData(args.parent);
-    if (parent != null) {
-      parent.addChild(component, args.index);
-    } else {
-      this.componentsArray.splice(args.index, 0, component);
-    }
+    const parentComp: OComponentData = this.getOComponentData(args.parent);
+    this.addComponentDataToParent(component, parentComp, args.index);
     this.componentProperties.attr = null;
     this.onUpdateComponents();
     this.setComponentPropertiesByAttr(component.getComponentAttr());
+  }
+
+  private addComponentDataToParent(component: OComponentData, parent: OComponentData, index: number) {
+    if (parent != null) {
+      parent.addChild(component, index);
+    } else {
+      this.componentsArray.splice(index, 0, component);
+    }
   }
 
   public onMoveComponent(args): void {
@@ -339,6 +359,70 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this.onUpdateComponents();
   }
 
+  public onChangeComponentSelector(attr: string): void {
+    const componentRef = this._searchElement(attr, this.componentsArray);
+    if (!componentRef) {
+      return;
+    }
+    if (componentRef.isContainer()) {
+      componentRef.changeSelector();
+      this.onUpdateComponents();
+    } else {
+      let selectors = componentRef.getAvailableSelectorsToChange();
+      if (selectors.length > 0) {
+        selectors.splice(selectors.indexOf(componentRef.getDirective()), 1);
+        this.dialog.open(ChooseSelectorDialogComponent, {
+          width: '200px',
+          height: '500px',
+          disableClose: false,
+          data: {
+            availableSelectors: selectors
+          }
+        }).afterClosed().subscribe((res) => {
+          if (res != null) {
+            componentRef.changeSelector(res);
+            this.onUpdateComponents();
+          }
+        });
+      }
+    }
+  }
+
+  public onAddPredefinedLayout(args: any): void {
+    let parentComponent: OComponentData;
+    if (args.mode === 'existingContainer') {
+      parentComponent = this._searchElement(args.attr, this.componentsArray);
+    } else if (args.mode === 'new' && args.parent != null) {
+      parentComponent = this.getOComponentData(args.parent);
+    }
+    this.appMenu.openLayoutsDialog((layoutDefinition) => {
+      const randomId = Math.random().toString(36).substring(9);
+      const components = JSON.parse(layoutDefinition.components);
+      const componentsData = this.createComponentsData(components, randomId);
+      componentsData.forEach((comp, index) => {
+        this.addComponentDataToParent(comp, parentComponent, args.index + index);
+      });
+      this.onUpdateComponents();
+    });
+  }
+
+  private createComponentsData(components: any[], randomAttr: string, parent?: OComponentData): OComponentData[] {
+    const result: OComponentData[] = [];
+    components.forEach((comp, index) => {
+      const compData = this.componentsDataService.getOntimizeComponentData(comp['ontimize-directive']);
+      compData.configuredInputs.attr = `${randomAttr}-${index}`;
+      if (comp.children) {
+        this.createComponentsData(comp.children, compData.configuredInputs.attr, compData);
+      }
+      if (parent) {
+        parent.addChild(compData);
+      } else {
+        result.push(compData);
+      }
+    });
+    return result;
+  }
+
   public getOComponentData(fieldComponent: BaseComponent<any> | any) {
     if (!fieldComponent) {
       return undefined;
@@ -356,14 +440,14 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this._isReadOnly = value;
   }
 
-  public getControl(): FormControl {
+  public getControl(): OFormControl {
     if (!this._fControl) {
-      this._fControl = new FormControl();
+      this._fControl = new OFormControl();
     }
     return this._fControl;
   }
 
-  public getFormControl(): FormControl {
+  public getFormControl(): OFormControl {
     return this._fControl;
   }
 
@@ -371,30 +455,12 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     return this._fControl && this._fControl.hasError(error);
   }
 
-  private _searchElement(id, array: ArrayList<OComponentData>) {
-    let r;
-    for (let i = 0; i < array.length; i++) {
-      if (id === array[i].getComponentAttr()) {
-        return array[i];
-      }
-      if (array[i].children && array[i].children.length > 0) {
-        if ((r = this._searchElement(id, array[i].children)) !== null) {
-          return r;
-        }
-      }
-    }
-    return null;
+  private _searchElement(id: string, array: OComponentData[]): OComponentData {
+    return ODynamicFormBuidlerUtils.searchElement(id, array, (comp: OComponentData) => comp.getComponentAttr());
   }
 
-  private _removeElement(id, array): void {
-    for (let i = 0; i < array.length; i++) {
-      if (id === array[i].getComponentAttr()) {
-        array.splice(i, 1);
-      }
-      if (array[i] && array[i].children) {
-        this._removeElement(id, array[i].children);
-      }
-    }
+  private _removeElement(id: string, array: OComponentData[]): void {
+    ODynamicFormBuidlerUtils.removeElement(id, array, (comp: OComponentData) => comp.getComponentAttr());
   }
 
   onDrop() {
@@ -402,7 +468,12 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   }
 
   public save() {
-    if (this.parentForm) {
+    if (!this.parentForm) {
+      return;
+    }
+    if (this.parentForm.isInInsertMode()) {
+      this.parentForm.insert();
+    } else {
       this.parentForm.update();
     }
   }
