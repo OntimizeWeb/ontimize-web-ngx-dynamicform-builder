@@ -17,13 +17,13 @@ export class ODynamicFormBuilderTranslatePipe extends OTranslatePipe {
     let res: string;
     const args = Util.isDefined(this.lastParams) ? this.lastParams.values || [] : [];
     const bundle = ODFB_TRANSLATIONS[this.oTranslateService.getCurrentLang()];
-    if (bundle && bundle[key]) {
-      res = bundle[key];
-    } else {
+    if (bundle) {
+      res = key.split('.').reduce((p, prop) => p[prop], bundle);
+    }
+    if (!bundle || !res) {
       res = this.oTranslateService.get(key, args);
     }
-
-    this.value = res !== undefined ? res : key;
+    this.value = res != null ? res : key;
     this.lastKey = key;
     this._ref.markForCheck();
   }

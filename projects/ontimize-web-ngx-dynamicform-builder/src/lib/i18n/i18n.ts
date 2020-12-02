@@ -22,7 +22,22 @@ export const ODFB_TRANSLATIONS = {
     'o-table': 'Table',
     'SAVE': 'Save',
     'COMPONENTS': 'Components',
-    'PREVIEW': 'Preview'
+    'PREVIEW': 'Preview',
+    'LAYOUTS': {
+      'PREDEFINED_LAYOUT': 'Predefined layout',
+      'DIALOG_TITLE': 'Choose layout',
+      'TITLES' : {
+        'THREE_COLUMNS' : 'Three columns',
+        'TWO_COLUMS_AND_INPUTS': 'Two columns and inputs'
+      }
+    },
+    'CHANGE_SELECTOR': {
+      'DIALOG_TITLE': 'Choose component'
+    },
+    'COMPONENT_PROPERTIES': {
+      'BASIC': 'Basic properties',
+      'ADVANCED': 'Advanced properties',
+    }
   },
 
   // Spanish
@@ -48,6 +63,21 @@ export const ODFB_TRANSLATIONS = {
     'o-table': 'Tabla',
     'SAVE': 'Guardar',
     'COMPONENTS': 'Componentes',
-    'PREVIEW': 'Previsualización'
+    'PREVIEW': 'Previsualización',
+    'LAYOUTS': {
+      'PREDEFINED_LAYOUT': 'Layout predefinido',
+      'DIALOG_TITLE': 'Selección de layout',
+      'TITLES' : {
+        'THREE_COLUMNS' : 'Tres columnas',
+        'TWO_COLUMS_AND_INPUTS': 'Dos columnas e inputs'
+      }
+    },
+    'CHANGE_SELECTOR': {
+      'DIALOG_TITLE': 'Selección de componente'
+    },
+    'COMPONENT_PROPERTIES': {
+      'BASIC': 'Propiedades básicas',
+      'ADVANCED': 'Propiedades avanzadas',
+    }
   }
 };
