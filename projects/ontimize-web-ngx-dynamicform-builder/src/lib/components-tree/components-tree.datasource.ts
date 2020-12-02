@@ -20,9 +20,9 @@ export class ComponentsTreeDatabase {
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
    * The return value is the list of `ComponentNode`.
    */
-  buildFileTree(data: any, level: number): ComponentNode[] {
+  buildFileTree(data: any[], level: number): ComponentNode[] {
     const result: ComponentNode[] = [];
-    (data || []).forEach(element => {
+    (data || []).forEach((element: any) => {
       const node = new ComponentNode(element);
       if (element.children) {
         node.children = this.buildFileTree(element.children, level + 1);

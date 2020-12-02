@@ -1,11 +1,12 @@
-import { CdkDragDrop, CdkDragEnd, CdkDragStart } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragStart } from '@angular/cdk/drag-drop';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, EventEmitter, Injector, Input, Output, ViewEncapsulation } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { combineLatest, Observable, of, Subject } from 'rxjs';
 import * as uuid from 'uuid';
 
-import { AppMenuService } from '../services/app-menu.service';
+import { AppDataService } from '../services/app-data.service';
+import { ODynamicFormBuidlerUtils } from '../utils/o-dynamic-form-builder-utils';
 import { ComponentFlatNode, ComponentNode } from './component-node';
 import { ComponentsTreeDatabase } from './components-tree.datasource';
 
@@ -26,6 +27,8 @@ export class ComponentsTreeComponent {
   @Output() public onMoveComponent: EventEmitter<any> = new EventEmitter();
   @Output() public onDrop: EventEmitter<Object> = new EventEmitter<Object>();
   @Output() public componentSelected: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() public onChangeComponentSelector: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public onAddPredefinedLayout: EventEmitter<any> = new EventEmitter<any>();
 
   protected formDefinitionChange = new Subject<any>();
   protected componentsInfoChange = new Subject<any>();
@@ -36,7 +39,7 @@ export class ComponentsTreeComponent {
   protected expandedNodesSet = new Set<string>();
 
   protected dropListActive: boolean;
-  protected dragging: boolean;
+  public dragging: boolean;
   protected expandTimeout: any;
   protected expandDelay = 200;
 
@@ -55,7 +58,7 @@ export class ComponentsTreeComponent {
 
   constructor(
     protected injector: Injector,
-    protected appMenuService: AppMenuService,
+    protected appDataService: AppDataService,
     protected database: ComponentsTreeDatabase
   ) {
 
@@ -80,9 +83,9 @@ export class ComponentsTreeComponent {
   private _getLevel = (node: ComponentFlatNode) => node.level;
   private _isExpandable = (node: ComponentFlatNode) => node.expandable;
   private _getChildren = (node: ComponentNode): Observable<ComponentNode[]> => of(node.children);
-  hasChild = (_: number, _nodeData: ComponentFlatNode) => _nodeData.expandable;
+  // hasChild = (_: number, _nodeData: ComponentFlatNode) => _nodeData.expandable;
 
-  rebuildTreeForData(data: any) {
+  rebuildTreeForData(data: ComponentNode[]) {
     this.updateExpandedTreeNodes(this.treeControl, this.expandedNodesSet);
     this.dataSource.data = data;
     this.deleteMissingExpandedNodes(this.treeControl, this.expandedNodesSet);
@@ -93,12 +96,70 @@ export class ComponentsTreeComponent {
     }
   }
 
+  private getDestinationNode(
+    index: number,
+    visibleNodes: ComponentNode[],
+    expandedNodesAttrs: Set<string>,
+    originParent: ComponentFlatNode): ComponentNode {
+    let nodeAtDest = visibleNodes[index];
+    if (!nodeAtDest || !nodeAtDest.children || nodeAtDest.children.length === 0 || !expandedNodesAttrs.has(nodeAtDest.attr)) {
+      return nodeAtDest;
+    }
+    const originParentAttr = originParent ? originParent.attr : null;
+    if (nodeAtDest.attr !== originParentAttr) {
+      nodeAtDest = visibleNodes[index + 1];
+    }
+    return nodeAtDest;
+  }
+
+  private calculateRelativeIndex(
+    initialValue: number,
+    nodeUId: string,
+    visibleNodes: ComponentNode[],
+    expandedNodesAttrs: Set<string>,
+    originParent: ComponentFlatNode,
+    destinationParent: ComponentFlatNode): number {
+
+    let result = initialValue;
+    if (destinationParent) {
+      const parentIndex = visibleNodes.findIndex(n => n.uId === destinationParent.uId);
+      const nodeIndex = visibleNodes.findIndex(n => n.uId === nodeUId);
+      const sameLevel = this.areAtSameLevel(originParent, destinationParent) || nodeIndex > initialValue;
+      result = initialValue - parentIndex - (sameLevel ? 1 : 0);
+    } else {
+      visibleNodes.forEach((visibleNode, index) => {
+        if (index < result && expandedNodesAttrs.has(visibleNode.attr)) {
+          const diff = (originParent && originParent.attr === visibleNode.attr) ? 1 : 0;
+          result -= (visibleNode.children.length - diff);
+        }
+      });
+    }
+    return result;
+  }
+
+  private dropNewNode(node: ComponentFlatNode, destinationParent: ComponentFlatNode, index: number) {
+    delete node['new'];
+
+    this.onAddComponent.emit({
+      component: node,
+      parent: destinationParent,
+      index: index
+    });
+
+    this.onDrop.emit();
+    this.componentSelected.emit((node as any).configuredInputs.attr);
+  }
+
   drop(event: CdkDragDrop<string[]>) {
     // ignore drops outside of the tree
     if (!event.isPointerOverContainer) {
       return;
     }
-    const node: ComponentNode = event.item.data;
+    const expandedNodesAttrs = new Set<string>();
+    this.updateExpandedTreeNodes(this.treeControl, expandedNodesAttrs);
+
+    const node: ComponentFlatNode = event.item.data;
+    const originParent: ComponentFlatNode = this.getParentNode(node);
 
     // construct a list of visible nodes, this will match the DOM.
     // the cdkDragDrop event.currentIndex gives with visible nodes.
@@ -106,66 +167,52 @@ export class ComponentsTreeComponent {
     const visibleNodes = this.visibleNodes();
 
     // determine where to insert the node
-    const nodeAtDest = visibleNodes[event.currentIndex];
+    const nodeAtDest = this.getDestinationNode(event.currentIndex, visibleNodes, expandedNodesAttrs, originParent);
+    let nodeAtDestUId = nodeAtDest && nodeAtDest.uId;
+    const nodeAtDestFlat: ComponentFlatNode = nodeAtDest && this.treeControl.dataNodes.find(n => nodeAtDest.uId === n.uId);
+    let destinationParent: ComponentFlatNode = nodeAtDestFlat && this.getParentNode(nodeAtDestFlat);
+    if (nodeAtDestFlat && nodeAtDestFlat.hover && nodeAtDestFlat.empty) {
+      destinationParent = nodeAtDestFlat;
+      nodeAtDestUId = null;
+    }
+
+    // determine drop index relative to destination array
+    const relativeIndex = this.calculateRelativeIndex(event.currentIndex, node.uId, visibleNodes, expandedNodesAttrs, originParent, destinationParent);
+
+    if ((node as any).new) {
+      this.dropNewNode(node, destinationParent, relativeIndex);
+      return;
+    }
+
+    if ((node as any).action) {
+      this.onAddPredefinedLayout.emit({
+        mode: 'new',
+        component: node,
+        parent: destinationParent,
+        index: relativeIndex
+      });
+      this.onDrop.emit();
+      return;
+    }
+
 
     // deep clone the data source so we can mutate it
     const changedData: ComponentNode[] = JSON.parse(JSON.stringify(this.dataSource.data));
-
-    // determine drop index relative to destination array
-    let relativeIndex = event.currentIndex; // default if no parent
-    let destinationParentFlatNode: ComponentFlatNode;
-    if (nodeAtDest) {
-      const nodeAtDestFlatNode = this.treeControl.dataNodes.find(n => nodeAtDest.uId === n.uId);
-      destinationParentFlatNode = this.getParentNode(nodeAtDestFlatNode);
-    }
-
-    if (destinationParentFlatNode) {
-      const parentIndex = visibleNodes.findIndex(n => n.uId === destinationParentFlatNode.uId) + 1;
-      relativeIndex = event.currentIndex - parentIndex;
-    } else {
-      const expandedNodesAttrs = new Set<string>();
-      this.updateExpandedTreeNodes(this.treeControl, expandedNodesAttrs);
-
-      visibleNodes.forEach((visibleNode, index) => {
-        if (index < relativeIndex && expandedNodesAttrs.has(visibleNode.attr)) {
-          const diff = (originParentFlatNode && originParentFlatNode.attr === visibleNode.attr) ? 1 : 0;
-          relativeIndex -= (visibleNode.children.length - diff);
-        }
-      });
-    }
-
-    if ((node as any).new) {
-      delete node['new'];
-
-      this.onAddComponent.emit({
-        component: node,
-        parent: destinationParentFlatNode,
-        index: relativeIndex
-      });
-
-      this.onDrop.emit();
-      this.componentSelected.emit((node as any).configuredInputs.attr);
-      return;
-    }
 
     // remove the node from its old place
     const siblings: ComponentNode[] = this.findNodeSiblings(changedData, node.uId);
     const previousIndex = siblings.findIndex(n => n.uId === node.uId);
     const nodeToInsert: ComponentNode = siblings.splice(previousIndex, 1)[0];
 
-    if (nodeAtDest.uId === nodeToInsert.uId) {
+    if (nodeAtDestUId === nodeToInsert.uId) {
       return;
     }
 
-    const nodeFlatNode = this.treeControl.dataNodes.find(n => node.uId === n.uId);
-    const originParentFlatNode: ComponentFlatNode = this.getParentNode(nodeFlatNode);
-
     // insert node 
-    const newSiblings = this.findNodeSiblings(changedData, nodeAtDest.uId);
+    const newSiblings = nodeAtDestUId ? this.findNodeSiblings(changedData, nodeAtDestUId) : nodeAtDest.children;
     if (!newSiblings) {
       return;
     }
-
     newSiblings.splice(relativeIndex, 0, nodeToInsert);
 
     // rebuild tree with mutated data
@@ -173,11 +220,48 @@ export class ComponentsTreeComponent {
 
     this.triggerMoveEvent(
       changedData,
-      originParentFlatNode,
-      destinationParentFlatNode,
+      originParent,
+      destinationParent,
       previousIndex,
       relativeIndex
     );
+  }
+
+  private triggerMoveEvent(
+    changedData: ComponentNode[],
+    originFlatNode: ComponentFlatNode,
+    destinationFlatNode: ComponentFlatNode,
+    previousIndex: number,
+    relativeIndex: number
+  ) {
+    const originParent: ComponentNode = originFlatNode ? changedData.find(el => el.uId === originFlatNode.uId) : null;
+
+    if (this.areAtSameLevel(originFlatNode, destinationFlatNode)) {
+      const attrsArray = originParent ? originParent.children : changedData;
+      const orderedAttrs = attrsArray.map(child => child.attr);
+      this.onMoveComponent.emit({
+        type: 'move',
+        parent: originParent ? originParent.data : null,
+        attrs: orderedAttrs
+      });
+    } else {
+      const destinationParent = destinationFlatNode ? this.searchInArray(destinationFlatNode.uId, changedData) : null;
+      this.onMoveComponent.emit({
+        type: 'transfer',
+        previousContainer: originParent ? originParent.data : null,
+        container: destinationParent ? destinationParent.data : null,
+        previousIndex: previousIndex,
+        currentIndex: relativeIndex
+      });
+    }
+  }
+
+  private areAtSameLevel(a: ComponentFlatNode, b: ComponentFlatNode) {
+    return a === b || (a && b && a.uId === b.uId);
+  }
+
+  private searchInArray(uId: string, array: ComponentNode[]) {
+    return ODynamicFormBuidlerUtils.searchElement(uId, array, (comp: ComponentNode) => comp.uId);
   }
 
   dragStart(event: CdkDragStart<any>) {
@@ -185,17 +269,12 @@ export class ComponentsTreeComponent {
     this.dragging = true;
   }
 
-  dragEnd(event: CdkDragEnd<any>) {
+  dragEnd() {
     this.dragging = false;
   }
 
   dragHover(node: ComponentFlatNode) {
-    if (!this.dragging) {
-      return;
-    }
-    if (node.expandable && node.empty) {
-      node.hover = true;
-    }
+    node.hover = true;
     // possible feature that is not currently working-> Expand node when hovering it
     // if (node.expandable && !this.treeControl.isExpanded(node)) {
     //   clearTimeout(this.expandTimeout);
@@ -206,12 +285,7 @@ export class ComponentsTreeComponent {
   }
 
   dragHoverEnd(node: ComponentFlatNode) {
-    if (!this.dragging) {
-      return;
-    }
-    if (node.expandable && node.empty && node.hover) {
-      node.hover = false;
-    }
+    node.hover = false;
     // possible feature that is not currently working-> Expand node when hovering it
     // if (this.dragging) {
     //   clearTimeout(this.expandTimeout);
@@ -220,6 +294,17 @@ export class ComponentsTreeComponent {
 
   deleteNode(attr: string) {
     this.onDeleteComponent.emit(attr);
+  }
+
+  changeComponentSelector(attr: string) {
+    this.onChangeComponentSelector.emit(attr);
+  }
+
+  addPredefinedLayout(attr: string) {
+    this.onAddPredefinedLayout.emit({
+      mode: 'existingContainer',
+      attr: attr
+    });
   }
 
   clickLeaf(node: ComponentFlatNode) {
@@ -240,7 +325,7 @@ export class ComponentsTreeComponent {
   }
 
   private getComponentsInfo() {
-    this.appMenuService.getMenu().subscribe((items: any) => {
+    this.appDataService.getMenu().subscribe((items: any) => {
       const allComponentsInfo = {};
       const allComponentsArray = items.reduce((a, b) => {
         a.push(...(b.elements || []));
@@ -360,36 +445,4 @@ export class ComponentsTreeComponent {
     return null;
   }
 
-  private triggerMoveEvent(
-    changedData: ComponentNode[],
-    originFlatNode: ComponentFlatNode,
-    destinationFlatNode: ComponentFlatNode,
-    previousIndex: number,
-    relativeIndex: number
-  ) {
-    const originParent: ComponentNode = originFlatNode ? changedData.find(el => el.uId === originFlatNode.uId) : null;
-
-    if (this.areAtSameLevel(originFlatNode, destinationFlatNode)) {
-      const attrsArray = originParent ? originParent.children : changedData;
-      const orderedAttrs = attrsArray.map(child => child.attr);
-      this.onMoveComponent.emit({
-        type: 'move',
-        parent: originParent ? originParent.data : null,
-        attrs: orderedAttrs
-      });
-    } else {
-      const destinationParent: ComponentNode = destinationFlatNode ? changedData.find(el => el.uId === destinationFlatNode.uId) : null;
-      this.onMoveComponent.emit({
-        type: 'transfer',
-        previousContainer: originParent ? originParent.data : null,
-        container: destinationParent ? destinationParent.data : null,
-        previousIndex: previousIndex,
-        currentIndex: relativeIndex
-      });
-    }
-  }
-
-  private areAtSameLevel(a: ComponentFlatNode, b: ComponentFlatNode) {
-    return a === b || (a && b && a.uId === b.uId);
-  }
 }

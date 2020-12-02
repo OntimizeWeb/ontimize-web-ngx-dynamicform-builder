@@ -1,42 +1,22 @@
 <mat-tree fxFlex
-  [dataSource]="dataSource" [treeControl]="treeControl" 
+  [dataSource]="dataSource" 
+  [treeControl]="treeControl" 
   [id]="uId"  
   cdkDropList 
   (cdkDropListDropped)="drop($event)">
 
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
+  <mat-tree-node *matTreeNodeDef="let node"
     cdkDrag 
     [cdkDragData]="node"
     (mouseenter)="dragHover(node)" 
     (mouseleave)="dragHoverEnd(node)" 
     (cdkDragStarted)="dragStart($event)"
-    (cdkDragReleased)="dragEnd($event)">
+    (cdkDragReleased)="dragEnd()">
     
     <div class="components-tree-drag-preview" *cdkDragPreview></div>
 
-    <tree-leaf [node]="node"
-      [treeControl]="treeControl" 
-      (deleteLeaf)="deleteNode($event)" 
-      (click)="clickLeaf(node)">
-    </tree-leaf>
-    
-  </mat-tree-node>
-
-  <mat-tree-node *matTreeNodeDef="let node;when: hasChild"
-    cdkDrag 
-    [cdkDragData]="node"
-    (mouseenter)="dragHover(node)" 
-    (mouseleave)="dragHoverEnd(node)" 
-    (cdkDragStarted)="dragStart($event)"
-    (cdkDragReleased)="dragEnd($event)">
-
-    <div class="components-tree-drag-preview" *cdkDragPreview></div>
-
-    <tree-leaf [node]="node"
-      [treeControl]="treeControl" 
-      (deleteLeaf)="deleteNode($event)" 
-      (click)="clickLeaf(node)">
-    </tree-leaf>
+    <tree-leaf [node]="node" (click)="clickLeaf(node)"></tree-leaf>
 
   </mat-tree-node>
+
 </mat-tree>

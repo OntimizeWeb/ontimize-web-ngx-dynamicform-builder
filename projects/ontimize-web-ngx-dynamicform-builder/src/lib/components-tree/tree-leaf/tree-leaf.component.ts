@@ -1,8 +1,8 @@
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, EventEmitter, HostBinding, HostListener, Injector, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, HostBinding, HostListener, Inject, Injector, Input, ViewEncapsulation } from '@angular/core';
 import { DialogService } from 'ontimize-web-ngx';
 
 import { ComponentFlatNode } from '../component-node';
+import { ComponentsTreeComponent } from '../components-tree.component';
 
 @Component({
   selector: 'tree-leaf',
@@ -13,12 +13,12 @@ import { ComponentFlatNode } from '../component-node';
 export class TreeLeafComponent {
 
   @Input() node: ComponentFlatNode;
-  @Input() treeControl: FlatTreeControl<ComponentFlatNode>;
-
-  @Output() deleteLeaf: EventEmitter<any> = new EventEmitter();
 
   @HostBinding('class') get cssClass() { return `tree-leaf node-level-${this.node.level}`; }
   @HostBinding('class.selected') get isSelected() { return this.node.selected; }
+  @HostBinding('class.hover') get hoverClass() { return this.node.hover; }
+  @HostBinding('class.empty') get emptyClass() { return this.node.empty; }
+  @HostBinding('class.dragging') get draggingClass() { return this.componentsTree.dragging; }
 
   protected hovering: boolean = false;
   @HostListener('mouseenter') onMouseEnter() { this.hovering = true; }
@@ -30,25 +30,41 @@ export class TreeLeafComponent {
 
   constructor(
     protected injector: Injector,
+    @Inject(forwardRef(() => ComponentsTreeComponent)) public componentsTree: ComponentsTreeComponent
   ) {
     this.dialogService = this.injector.get(DialogService);
   }
 
-  get visibleDeleteButton(): boolean {
-    return this.hovering || this.visibleDelete;
+  get visibleComponentActions(): boolean {
+    return !this.componentsTree.dragging && (this.hovering || this.visibleDelete);
   }
 
-  deleteNode(event: any) {
+  get visibleContainerActions(): boolean {
+    return !this.componentsTree.dragging && this.hovering && this.node.expandable;
+  }
+
+  deleteNode(event: MouseEvent) {
     this.visibleDelete = true;
     event.preventDefault();
     event.stopPropagation();
     this.dialogService.confirm('CONFIRM', 'MESSAGES.CONFIRM_DELETE').then(res => {
       this.visibleDelete = false;
       if (res === true) {
-        this.deleteLeaf.emit(this.node.attr);
+        this.componentsTree.deleteNode(this.node.attr);
       }
     });
   }
 
+  public changeComponentSelector(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.componentsTree.changeComponentSelector(this.node.attr);
+  }
+
+  public addPredefinedLayout(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.componentsTree.addPredefinedLayout(this.node.attr);
+  }
 }
 

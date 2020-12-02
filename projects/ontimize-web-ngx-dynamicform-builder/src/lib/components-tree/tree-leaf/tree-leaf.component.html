@@ -1,23 +1,35 @@
-<div fxLayout="row" fxLayoutAlign="start center" 
-  [class.hover]="node?.hover"
-  [class.empty]="node?.empty">
+<div fxLayout="row" fxLayoutAlign="space-between center">
 
-  <button *ngIf="node.expandable" matTreeNodeToggle [disabled]="node.empty">
-    <mat-icon class="mat-icon-rtl-mirror">
-      {{treeControl.isExpanded(node) && !node.empty ? 'expand_more' : 'chevron_right'}}
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <button *ngIf="node.expandable" matTreeNodeToggle [disabled]="node.empty">
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{componentsTree.treeControl.isExpanded(node) && !node.empty ? 'expand_more' : 'chevron_right'}}
+      </mat-icon>
+    </button>
+
+    <mat-icon *ngIf="node?.display?.svgIcon; else icon" 
+      svgIcon="{{ node.display.svgIcon }}" 
+      class="component-icon">
     </mat-icon>
-  </button>
 
-  <mat-icon *ngIf="node?.display?.svgIcon; else icon" svgIcon="{{ node.display.svgIcon }}" class="material-icons component-icon">
-  </mat-icon>
-
-  <ng-template #icon>
-    <mat-icon *ngIf="node?.display?.icon" class="material-icons component-icon">
-      {{ node.display.icon }}
-    </mat-icon>
-  </ng-template>
-
-  {{node.attr}}
-
-  <mat-icon *ngIf="visibleDeleteButton" (click)="deleteNode($event)" class="delete-icon">delete_outline</mat-icon>
+    <ng-template #icon>
+      <mat-icon *ngIf="node?.display?.icon" 
+        class="component-icon">
+        {{ node.display.icon }}
+      </mat-icon>
+    </ng-template>
+  
+    {{node.attr}}
+  </div>
+  <div fxLayout="row" fxLayoutGap="4px">
+    <mat-icon *ngIf="visibleContainerActions" 
+      (click)="addPredefinedLayout($event)"
+      class="action-icon">grid_on</mat-icon>
+    <mat-icon *ngIf="visibleComponentActions" 
+      (click)="changeComponentSelector($event)"
+      class="action-icon">{{ node.expandable ? 'crop_rotate' : 'edit'}}</mat-icon>
+    <mat-icon *ngIf="visibleComponentActions" 
+      (click)="deleteNode($event)" 
+      class="action-icon">delete_outline</mat-icon>
+  </div>
 </div>
