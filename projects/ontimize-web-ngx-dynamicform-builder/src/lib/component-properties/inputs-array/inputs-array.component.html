@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div fxLayout="column" fxLayoutGap="8px">
   <ng-container *ngFor="let metadata of inputsMetadata">
     <ng-container [ngSwitch]="metadata.editionType">
       <text-metadata fxFlex *ngSwitchCase="'text'" [metadata]="metadata">

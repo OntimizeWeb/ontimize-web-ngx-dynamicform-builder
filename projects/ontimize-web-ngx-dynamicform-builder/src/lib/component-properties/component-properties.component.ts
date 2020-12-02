@@ -10,10 +10,9 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { PropertyMetadataClass } from '../components-metadata/property.metadata.class';
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
 import { InputMetadata } from '../types/inputs-metadata.type';
-
+import { PropertyMetadataClass } from './components-metadata/property.metadata.class';
 
 @Component({
   selector: 'component-properties',

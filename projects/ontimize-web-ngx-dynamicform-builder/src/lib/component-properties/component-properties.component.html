@@ -1,7 +1,8 @@
-<form *ngIf="formGroup && component" #settingsForm [formGroup]="formGroup" fxLayout="column" fxFlex>
+<form *ngIf="formGroup && component" #settingsForm [formGroup]="formGroup" 
+  fxLayout="column" fxLayoutAlign="start centen" fxFlex>
 
   <span>
-    {{ 'COMPONENT_PROPERTIES' | odfbTranslate }}
+    {{ 'COMPONENT_PROPERTIES.BASIC' | odfbTranslate }}
   </span>
 
   <inputs-array [inputsMetadata]="basicInputsMetadata"> </inputs-array>
@@ -9,7 +10,7 @@
   <mat-expansion-panel *ngIf="advancedInputsMetadata.length > 0">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ 'ADVANCED_PROPERTIES' | odfbTranslate }}
+        {{ 'COMPONENT_PROPERTIES.ADVANCED' | odfbTranslate }}
       </mat-panel-title>
     </mat-expansion-panel-header>
 
