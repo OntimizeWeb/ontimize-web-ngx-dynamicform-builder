@@ -1,4 +1,4 @@
-<div fxLayout="row" [formGroup]="getFormGroup()">
+<div fxLayout="row" fxLayoutAlign="start center" [formGroup]="getFormGroup()">
   <mat-form-field fxFlex floatLabel="always">
     <mat-select 
       [name]="metadata.label" 
@@ -9,5 +9,5 @@
       <mat-option *ngFor="let value of metadata.values" [value]="value">{{ value }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-icon fxFlex="10" *ngIf="metadata.tooltip" [matTooltip]="metadata.tooltip" matTooltipPosition="right" class="material-icons">info</mat-icon>
+  <mat-icon fxFlex="10" *ngIf="metadata.tooltip" [matTooltip]="metadata.tooltip" matTooltipPosition="right" class="tootlip-icon">info</mat-icon>
 </div>

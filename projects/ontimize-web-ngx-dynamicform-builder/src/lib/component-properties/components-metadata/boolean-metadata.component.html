@@ -1,0 +1,8 @@
+<div fxLayout="row" fxLayoutAlign="start center" [formGroup]="getFormGroup()" fxFill>
+  <mat-slide-toggle
+    [formControlName]="getPropertyName()"
+    (change)="change($event)">
+    {{ metadata.label }}
+  </mat-slide-toggle>
+  <mat-icon fxFlex="10" *ngIf="metadata.tooltip" [matTooltip]="metadata.tooltip" matTooltipPosition="right" class="tootlip-icon">info</mat-icon>
+</div>

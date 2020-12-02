@@ -1,10 +1,10 @@
-import { forwardRef, Inject, OnDestroy, OnInit } from '@angular/core';
+import { forwardRef, HostBinding, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 
-import { ComponentPropertiesComponent } from '../component-properties/component-properties.component';
-import { ComponentsAttrsService } from '../services/components-attrs.service';
-import { InputMetadata } from '../types/inputs-metadata.type';
+import { ComponentsAttrsService } from '../../services/components-attrs.service';
+import { InputMetadata } from '../../types/inputs-metadata.type';
+import { ComponentPropertiesComponent } from '../component-properties.component';
 
 export const DEFAULT_INPUTS_METADATA = [
   'metadata'
@@ -16,6 +16,8 @@ export class PropertyMetadataClass implements OnInit, OnDestroy {
   public fControl: FormControl;
 
   protected subscriptions: Subscription = new Subscription();
+
+  @HostBinding('class.property-metadata') get propertyMetadataClass() { return true; }
 
   constructor(
     @Inject(forwardRef(() => ComponentPropertiesComponent))

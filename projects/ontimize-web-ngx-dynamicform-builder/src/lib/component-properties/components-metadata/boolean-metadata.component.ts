@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Observable, Subject } from 'rxjs';
 

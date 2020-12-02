@@ -1,0 +1,35 @@
+.property-metadata {
+  mat-form-field {
+    &.ng-invalid.ng-touched .mat-input-wrapper {
+      .mat-hint,
+      .mat-input-placeholder.mat-focused {
+        color: #f44336;
+      }
+
+      .mat-input-underline {
+        border-top-color: #f44336;
+
+        .mat-input-ripple {
+          background-color: #f44336;
+        }
+      }
+    }
+  }
+
+  .tootlip-icon {
+    height: 16px;
+    width: 16px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  // .mat-slide-toggle-bar {
+  //   // height: 7px;
+  //   width: 26px;
+  // }
+
+  // .mat-slide-toggle-thumb {
+  //   // height: 10px;
+  //   // width: 10px;
+  // }
+}

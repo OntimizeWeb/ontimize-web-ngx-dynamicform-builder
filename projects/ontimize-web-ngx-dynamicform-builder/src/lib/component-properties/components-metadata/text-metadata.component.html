@@ -1,4 +1,4 @@
-<div fxLayout="row" [formGroup]="getFormGroup()">
+<div fxLayout="row" fxLayoutAlign="start center" [formGroup]="getFormGroup()">
   <mat-form-field fxFlex floatLabel="always">
     <input matInput 
       [attr.type]="metadata.type === 'number' ? 'number' : 'text'" 
@@ -14,5 +14,5 @@
       <span *ngIf="fControl.errors?.maxlength">{{ 'FORM_VALIDATION.MAX_LENGTH' | oTranslate }}: {{ fControl.errors?.maxlength.requiredLength }}</span>
     </mat-hint>
   </mat-form-field>
-  <mat-icon fxFlex="10" *ngIf="metadata.tooltip" [matTooltip]="metadata.tooltip" matTooltipPosition="right" class="material-icons">info</mat-icon>
+  <mat-icon fxFlex="10" *ngIf="metadata.tooltip" [matTooltip]="metadata.tooltip" matTooltipPosition="right" class="tootlip-icon">info</mat-icon>
 </div>
