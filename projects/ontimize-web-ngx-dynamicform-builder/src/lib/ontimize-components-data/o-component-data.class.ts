@@ -1,15 +1,15 @@
 import { InputMetadata } from '../types/inputs-metadata.type';
-import { ArrayList } from '../utils/collections/ArrayList';
 
 export class OComponentData {
 
   public configuredInputs: any = {};
-  public children: ArrayList<OComponentData>;
+  public children: OComponentData[];
+  protected overridedDirective: string;
 
   constructor(arg: any) {
     Object.assign(this, arg);
     if (this.isContainer()) {
-      this.children = new ArrayList<OComponentData>();
+      this.children = [];
     }
     // TODO we need to find a better way to create a random string
     const randomId = Math.random().toString(36).substring(9);
@@ -43,7 +43,7 @@ export class OComponentData {
       input: 'attr',
       type: 'string',
       label: 'attr',
-      tooltip: '',
+      tooltip: 'Unique component identifier (TEST: translate)',
       default: null,
       required: true
     }];
@@ -77,8 +77,19 @@ export class OComponentData {
     }
   }
 
-  public getChildren(): ArrayList<OComponentData> {
+  public getChildren(): OComponentData[] { //ArrayList<OComponentData> {
     return this.children;
   }
 
+  public getOverridedDirective(): string {
+    return this.overridedDirective;
+  }
+
+  public changeSelector(selector?: string) {
+    this.overridedDirective = selector;
+  }
+
+  getAvailableSelectorsToChange(): string[] {
+    return null;
+  }
 }

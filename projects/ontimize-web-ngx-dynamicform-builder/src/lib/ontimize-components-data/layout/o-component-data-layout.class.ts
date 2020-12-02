@@ -77,4 +77,7 @@ export class OComponentDataLayout extends OComponentData {
     return inputsMetadata;
   }
 
+  public changeSelector(selector?: string) {
+    this.overridedDirective = (this.getDirective() === 'o-row') ? 'o-column' : 'o-row';
+  }
 }

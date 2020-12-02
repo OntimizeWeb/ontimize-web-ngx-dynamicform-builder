@@ -6,7 +6,7 @@ import { ORealInputData } from './o-real-input.data';
 export class OCurrencyInputData extends ORealInputData {
 
   public getDirective(): string {
-    return 'o-currency-input';
+    return super.getOverridedDirective() || 'o-currency-input';
   }
 
   public getInputsProperties(): string[] {

@@ -6,7 +6,7 @@ import { OTextInputData } from './o-text-input.data';
 export class ODateInputData extends OTextInputData {
 
   public getDirective(): string {
-    return 'o-date-input';
+    return super.getOverridedDirective() || 'o-date-input';
   }
 
   public getInputsProperties(): string[] {

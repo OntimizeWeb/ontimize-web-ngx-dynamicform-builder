@@ -106,4 +106,8 @@ export class OComponentFormDataService extends OComponenetDataInput {
     inputsMetadata.push(...metadata);
     return inputsMetadata;
   }
+
+  public getAvailableSelectorsToChange(): string[] {
+    return null;
+  }
 }

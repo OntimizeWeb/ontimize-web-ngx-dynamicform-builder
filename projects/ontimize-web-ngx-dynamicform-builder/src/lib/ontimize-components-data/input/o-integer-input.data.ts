@@ -6,7 +6,7 @@ import { OTextInputData } from './o-text-input.data';
 export class OIntegerInputData extends OTextInputData {
 
   public getDirective(): string {
-    return 'o-integer-input';
+    return super.getOverridedDirective() || 'o-integer-input';
   }
 
   public getInputsProperties(): string[] {

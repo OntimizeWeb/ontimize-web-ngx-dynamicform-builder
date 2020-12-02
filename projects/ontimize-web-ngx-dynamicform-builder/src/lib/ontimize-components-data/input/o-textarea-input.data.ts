@@ -6,7 +6,7 @@ import { OTextInputData } from './o-text-input.data';
 export class OTextareaInputData extends OTextInputData {
 
   public getDirective(): string {
-    return 'o-textarea-input';
+    return super.getOverridedDirective() || 'o-textarea-input';
   }
 
   public getInputsProperties(): string[] {

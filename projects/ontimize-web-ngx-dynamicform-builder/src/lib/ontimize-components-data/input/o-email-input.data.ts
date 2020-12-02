@@ -5,7 +5,7 @@ import { OTextInputData } from './o-text-input.data';
 export class OEmailInputData extends OTextInputData {
 
   public getDirective(): string {
-    return 'o-email-input';
+    return super.getOverridedDirective() || 'o-email-input';
   }
 
   public getInputsProperties(): string[] {

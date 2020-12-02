@@ -44,7 +44,7 @@ export class OComponenetDataInput extends OComponentData {
       input: 'tooltip-position',
       type: 'combo',
       label: 'tooltip-position',
-      tooltip: '',
+      tooltip: 'Tooltip position (TEST: translate)',
       default: 'below',
       required: false,
       values: ['before', 'after', 'above', 'below', 'left', 'right']
@@ -94,7 +94,7 @@ export class OComponenetDataInput extends OComponentData {
       input: 'required',
       type: 'boolean',
       label: 'required',
-      tooltip: '',
+      tooltip: 'Requided attribute (TEST: translate)',
       default: false,
       required: false
     }, {
@@ -151,6 +151,21 @@ export class OComponenetDataInput extends OComponentData {
     }];
     inputsMetadata.push(...metadata);
     return inputsMetadata;
+  }
+
+  public getAvailableSelectorsToChange(): string[] {
+    return [
+      'o-text-input',
+      'o-integer-input',
+      'o-real-input',
+      'o-percent-input',
+      'o-currency-input',
+      'o-nif-input',
+      'o-email-input',
+      'o-password-input',
+      'o-textarea-input',
+      'o-date-input'
+    ];
   }
 
 }

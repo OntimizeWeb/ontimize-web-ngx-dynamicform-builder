@@ -5,7 +5,7 @@ import { OComponentDataLayout } from './o-component-data-layout.class';
 export class ORowData extends OComponentDataLayout {
 
   public getDirective(): string {
-    return 'o-row';
+    return super.getOverridedDirective() || 'o-row';
   }
 
   public getInputsProperties(): string[] {

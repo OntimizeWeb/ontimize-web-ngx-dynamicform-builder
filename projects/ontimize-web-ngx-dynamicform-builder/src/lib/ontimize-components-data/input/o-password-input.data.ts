@@ -5,7 +5,7 @@ import { OTextInputData } from './o-text-input.data';
 export class OPasswordInputData extends OTextInputData {
 
   public getDirective(): string {
-    return 'o-password-input';
+    return super.getOverridedDirective() || 'o-password-input';
   }
 
   public getInputsProperties(): string[] {

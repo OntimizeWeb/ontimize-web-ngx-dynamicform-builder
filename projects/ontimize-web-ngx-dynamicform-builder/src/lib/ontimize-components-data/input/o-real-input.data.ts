@@ -6,7 +6,7 @@ import { OIntegerInputData } from './o-integer-input.data';
 export class ORealInputData extends OIntegerInputData {
 
   public getDirective(): string {
-    return 'o-real-input';
+    return super.getOverridedDirective() || 'o-real-input';
   }
 
   public getInputsProperties(): string[] {

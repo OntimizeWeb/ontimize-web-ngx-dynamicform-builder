@@ -5,7 +5,7 @@ import { OTextInputData } from './o-text-input.data';
 export class ONifInputData extends OTextInputData {
 
   public getDirective(): string {
-    return 'o-nif-input';
+    return super.getOverridedDirective() || 'o-nif-input';
   }
 
   public getInputsProperties(): string[] {

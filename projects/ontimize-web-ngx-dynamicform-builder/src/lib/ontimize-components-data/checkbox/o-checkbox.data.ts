@@ -59,4 +59,7 @@ export class OCheckboxData extends OComponenetDataInput {
     return inputsMetadata;
   }
 
+  public getAvailableSelectorsToChange(): string[] {
+    return null;
+  }
 }

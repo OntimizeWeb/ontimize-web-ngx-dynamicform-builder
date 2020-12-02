@@ -6,7 +6,7 @@ import { OComponenetDataInput } from './o-component-data-input.class';
 export class OTextInputData extends OComponenetDataInput {
 
   public getDirective(): string {
-    return 'o-text-input';
+    return super.getOverridedDirective() || 'o-text-input';
   }
 
   public getInputsProperties(): string[] {
