@@ -26,24 +26,21 @@ export const MENU_JSON_DATA: any = [
     label: 'BASIC_FIELDS',
     parent: '',
     elements: [{
-      icon: 'text_fields',
+      svgIcon: 'odfb:o-text-input-icon',
       'ontimize-component': 'o-text-input',
       label: 'o-text'
     },
     {
-      icon: null,
-      svgIcon: 'odfb:integer',
+      svgIcon: 'odfb:o-integer-input-icon',
       'ontimize-component': 'o-integer-input',
       label: 'o-integer'
     },
     {
-      icon: null,
-      svgIcon: 'odfb:real',
+      svgIcon: 'odfb:o-real-input-icon',
       'ontimize-component': 'o-real-input',
       label: 'o-real'
     },
     {
-      icon: null,
       svgIcon: 'ontimize:PERCENT',
       'ontimize-component': 'o-percent-input',
       label: 'o-percent'
@@ -54,23 +51,22 @@ export const MENU_JSON_DATA: any = [
       label: 'o-currency'
     },
     {
-      icon: 'person',
+      svgIcon: 'odfb:o-nif-input-icon',
       'ontimize-component': 'o-nif-input',
       label: 'o-nif'
     },
     {
-      icon: 'alternate_email',
+      svgIcon: 'odfb:o-email-input-icon',
       'ontimize-component': 'o-email-input',
       label: 'o-email'
     },
     {
-      icon: 'enhanced_encryption',
+      svgIcon: 'odfb:o-password-input-icon',
       'ontimize-component': 'o-password-input',
       label: 'o-password'
     },
     {
-      icon: null,
-      svgIcon: 'odfb:textarea',
+      svgIcon: 'odfb:o-textarea-input-icon',
       'ontimize-component': 'o-textarea-input',
       label: 'o-textarea'
     },
@@ -79,7 +75,7 @@ export const MENU_JSON_DATA: any = [
       'ontimize-component': 'o-date-input',
       label: 'o-date'
     }, {
-      icon: 'check_box',
+      svgIcon: 'odfb:o-checkbox-input-icon',
       'ontimize-component': 'o-checkbox',
       label: 'o-checkbox'
     }]

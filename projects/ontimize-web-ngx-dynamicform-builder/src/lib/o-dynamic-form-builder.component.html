@@ -9,8 +9,126 @@
 
     <button mat-flat-button color="primary" (click)="save()">{{ 'SAVE' | odfbTranslate }}</button>
   </div>
-  
-  <mat-sidenav-container fxFlex fxLayout="row">
+
+  <div fxFlex fxLayout="row" class="content">
+    <div #leftSidenav class="left-sidenav" 
+      mwlResizable
+      [enableGhostResize]="true"
+      (resizeEnd)="onResizeEnd('width', $event, leftSidenav)">
+
+      <div
+        class="resize-handle horizontal right"
+        mwlResizeHandle
+        [resizeEdges]="{ right: true }"
+      ></div>
+
+      <div fxLayout="column" fxFlex>
+
+        <div class="left-sidenav-content" #leftSidenavContent
+          mwlResizable
+          [enableGhostResize]="true"
+          (resizeEnd)="onResizeEnd('height', $event, leftSidenavContent)">
+
+          <div
+            class="resize-handle vertical bottom"
+            mwlResizeHandle
+            [resizeEdges]="{ bottom: true }"
+          ></div>
+
+          <components-menu #appMenu fxFlex
+            (modeChange)="componentsMenuEditionChange($event)"
+            [connectedDropListIds]="componentsMenuConnectedDropListIds"
+            [dragEnabled]="isEditionActive">
+          </components-menu>
+        </div>
+
+        <components-tree fxFlex #componentsTree
+          [form-definition]="formDefinition$ | async"
+          (onAddComponent)="onAddComponent($event)"
+          (onMoveComponent)="onMoveComponent($event)"
+          (onDeleteComponent)="onDeleteComponent($event)"
+          (onDrop)="onDrop()"
+          (componentSelected)="setSelectedComponent($event)"
+          (componentHover)="setHoverComponent($event)"
+          (onChangeComponentSelector)="onChangeComponentSelector($event)"
+          (onAddPredefinedLayout)="onAddPredefinedLayout($event)">
+        </components-tree>
+      </div>
+    </div>
+
+    <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="dynamic-form-container">
+      <o-form #innerForm show-header="false" query-on-init="false" fxFlex>
+        <o-dynamic-form #dynamicForm 
+          query-on-init="false" 
+          register-in-parent-form="false"
+          [form-definition]="formDefinition$ | async" 
+          [edit-mode]="isEditionActive"
+
+          (onAddComponent)="onAddComponent($event)"
+          (onMoveComponent)="onMoveComponent($event)"
+          (onDeleteComponent)="onDeleteComponent($event)"
+          (onDrop)="onDrop()"
+          (onEditComponentSettings)="onEditComponentSettings($event)"
+          (onSelectComponent)="onEditComponentSettings($event)"
+          (onHoverComponent)="onHoverComponent($event)"
+          (onChangeComponentSelector)="onChangeComponentSelector($event)"
+          (onAddPredefinedLayout)="onAddPredefinedLayout($event)"
+
+          (render)="onDynamicFormRendered()">
+        </o-dynamic-form>
+      </o-form>
+    </div>
+
+    <div #rightSidenav class="right-sidenav" 
+      mwlResizable
+      [enableGhostResize]="true"
+      (resizeEnd)="onResizeEnd('width', $event, rightSidenav)">
+
+      <div
+        class="resize-handle horizontal left"
+        mwlResizeHandle
+        [resizeEdges]="{ left: true }"
+      ></div>
+
+      <div fxLayout="column" fxFlex>
+        <component-properties fxFlex #componentProperties 
+          (componentUpdate)="componentUpdated()"
+          (onChangeComponentSelector)="onChangeComponentSelector($event)"
+          (onAddPredefinedLayout)="onAddPredefinedLayout($event)"
+          (onDeleteComponent)="onDeleteComponent($event)"> 
+        </component-properties>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <mat-sidenav-container fxFlex fxLayout="row">
     <mat-sidenav #leftSidenav mode="side" opened class="left-sidenav">
       <div fxLayout="column" fxFlex fxLayoutGap="24px">
         <components-menu #appMenu fxFlex
@@ -32,7 +150,10 @@
       </div>
     </mat-sidenav>
 
-    <div fxFlex fxLayout="row" class="dynamic-form-container">
+    <div fxFlex fxLayout="row" fxLayoutAlign="start stretch" class="dynamic-form-container">
+
+      <sidenav-resizer [sidenav]="leftSidenavRef"></sidenav-resizer>
+
       <o-form #innerForm show-header="false" query-on-init="false" fxFlex>
         <o-dynamic-form #dynamicForm 
           query-on-init="false" 
@@ -52,14 +173,16 @@
           (render)="onDynamicFormRendered()">
         </o-dynamic-form>
       </o-form>
-    </div>
     
+      <sidenav-resizer [sidenav]="rightSidenavRef"></sidenav-resizer>
+
+    </div>
 
     <mat-sidenav #rightSidenav mode="side" opened position="end" class="right-sidenav">
       <div fxLayout="column" fxFlex>
         <component-properties fxFlex #componentProperties (componentUpdate)="componentUpdated()"></component-properties>
       </div>
     </mat-sidenav>
-  </mat-sidenav-container>
-  
+  </mat-sidenav-container> -->
+
 </div>

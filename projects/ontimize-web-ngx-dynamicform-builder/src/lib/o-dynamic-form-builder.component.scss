@@ -4,6 +4,19 @@ $background-color: #d5d5d5;
 .o-dynamic-form-builder {
   background-color: $background-color;
 
+  .content {
+    padding: 16px;
+  }
+
+  mwlResizable {
+    box-sizing: border-box; // required for the enableGhostResize option to work
+  }
+
+  .left-sidenav {
+    min-width: 220px;
+  }
+  
+  .resize-handle,
   .left-sidenav,
   .mat-sidenav-container {
     background-color: $background-color;
@@ -18,8 +31,22 @@ $background-color: #d5d5d5;
     margin-bottom: 0;
   }
 
-  .left-sidenav {
+  .left-sidenav,
+  .right-sidenav,
+  .left-sidenav-content {
+    position: relative;
+  }
+
+  .left-sidenav:not(.resized) {
     width: 10%;
+  }
+
+  .right-sidenav:not(.resized) {
+    width: 15%;
+  }
+
+  .left-sidenav-content:not(.resized) {
+    height: 50%;
   }
 
   .mat-sidenav {
@@ -30,23 +57,44 @@ $background-color: #d5d5d5;
     width: 100%;
   }
 
-  .right-sidenav {
-    width: 15%;
-  }
-
   .components-menu,
   .components-tree,
   .component-properties,
   .dynamic-form-container .o-form .o-form-content-wrapper {
-    // border: $border;
     background: #ffffff;
   }
 
   .dynamic-form-container {
     height: 100%;
-    padding: 0 16px;
+    padding: 0;
     .o-form ng-host form .o-form-content-wrapper {
       padding: 8px;
+    }
+  }
+
+  .resize-handle {
+    &.right {
+      right: 0;
+    }
+    &.left {
+      left: 0;
+    }
+    &.bottom {
+      bottom: 0;
+    }
+
+    position: absolute;
+    z-index: 1;
+
+    &.horizontal {
+      height: 100%;
+      width: 5px;
+      cursor: col-resize;
+    }
+    &.vertical {
+      height: 5px;
+      width: 100%;
+      cursor: row-resize;
     }
   }
 }

@@ -6,11 +6,14 @@ import {
   Inject,
   OnInit,
   Optional,
+  Renderer2,
   ViewChild,
+  ViewContainerRef,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { ResizeEvent } from 'angular-resizable-element';
 import {
   IComponent,
   IFormDataComponent,
@@ -102,13 +105,20 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
   @ViewChild('componentsTree', { static: false })
   protected componentsTree: ComponentsTreeComponent;
 
+  // @ViewChild('leftSidenav', { read: ViewContainerRef, static: false })
+  // leftSidenavRef: ViewContainerRef;
+
+  // @ViewChild('rightSidenav', { read: ViewContainerRef, static: false })
+  // rightSidenavRef: ViewContainerRef;
+
   protected subscriptions: Subscription = new Subscription();
 
   constructor(
     protected componentsDataService: ComponentsDataService,
     protected componentsAttrsService: ComponentsAttrsService,
     @Optional() @Inject(forwardRef(() => OFormComponent)) public parentForm: OFormComponent,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    public renderer: Renderer2
   ) {
     this.componentsAttrsService.setFormDefinitionListener(this.formDefinition$);
   }
@@ -395,14 +405,29 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     } else if (args.mode === 'new' && args.parent != null) {
       parentComponent = this.getOComponentData(args.parent);
     }
-    this.appMenu.openLayoutsDialog((layoutDefinition) => {
-      const randomId = Math.random().toString(36).substring(9);
-      const components = JSON.parse(layoutDefinition.components);
-      const componentsData = this.createComponentsData(components, randomId);
-      componentsData.forEach((comp, index) => {
-        this.addComponentDataToParent(comp, parentComponent, args.index + index);
-      });
-      this.onUpdateComponents();
+
+    this.appMenu.openLayoutsDialog((result) => {
+      if (result == null) {
+        return;
+      }
+      if (result.type === 'predefined-layout') {
+        const randomId = Math.random().toString(36).substring(9);
+        const components = JSON.parse(result.data.components);
+        const componentsData = this.createComponentsData(components, randomId);
+        componentsData.forEach((comp, index) => {
+          this.addComponentDataToParent(comp, parentComponent, args.index + index);
+        });
+        this.onUpdateComponents();
+      } else if (result.type === 'component') {
+        const compData = this.componentsDataService.getOntimizeComponentData(result.data['ontimize-component']);
+        if (compData != null) {
+          this.onAddComponent({
+            component: compData,
+            parent: parentComponent,
+            index: args.index || parentComponent.children.length || 0
+          });
+        }
+      }
     });
   }
 
@@ -423,9 +448,9 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     return result;
   }
 
-  public getOComponentData(fieldComponent: BaseComponent<any> | any) {
-    if (!fieldComponent) {
-      return undefined;
+  public getOComponentData(fieldComponent: BaseComponent<any> | OComponentData | any) {
+    if (fieldComponent == null || fieldComponent instanceof OComponentData) {
+      return fieldComponent;
     }
     const attr = fieldComponent instanceof BaseComponent ? fieldComponent.getComponentAttr() : fieldComponent.attr;
     const component = this._searchElement(attr, this.componentsArray);
@@ -528,7 +553,22 @@ export class ODynamicFormBuilderComponent implements OnInit, IComponent, IFormDa
     this.setComponentPropertiesByAttr(attr);
   }
 
+  setHoverComponent(attr: string) {
+    this.dynamicForm.setHoverComponent(attr);
+  }
+
   changeEditionMode(val: MatSlideToggleChange) {
     this.forcedEditionMode = !val.checked;
+  }
+
+  onResizeEnd(property: string, event: ResizeEvent, el: any): void {
+    this.renderer.addClass(el, 'resized');
+    this.renderer.setStyle(el, property, `${event.rectangle[property]}px`);
+  }
+
+  onHoverComponent(attr: string) {
+    if (this.componentsTree) {
+      this.componentsTree.setHoverNodeByAttr(attr);
+    }
   }
 }

@@ -3,6 +3,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { MatTreeModule } from '@angular/material';
+import { ResizableModule } from 'angular-resizable-element';
 import { OntimizeWebModule } from 'ontimize-web-ngx';
 import { DynamicFormModule } from 'ontimize-web-ngx-dynamicform';
 
@@ -24,7 +25,8 @@ export * from './services/index';
     CommonModule,
     DragDropModule,
     DynamicFormModule,
-    ODynamicFormBuilderTranslateModule
+    ODynamicFormBuilderTranslateModule,
+    ResizableModule
   ],
   declarations: O_DYNAMICFORM_BUILDER_COMPONENTS,
   exports: O_DYNAMICFORM_BUILDER_COMPONENTS,
