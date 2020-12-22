@@ -1,13 +1,15 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist",
+  
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "uuid": "uuid",
       "ontimize-web-ngx": "ontimizeWebNgx",
       "ontimize-web-ngx-dynamicform": "ontimizeWebNgxDynamicform",
-      "ontimize-web-ngx-nvd3": "ontimizeWebNgxNvd3"
+      "ontimize-web-ngx-nvd3": "ontimizeWebNgxNvd3",
+      "angular-resizable-element": "angularResizableElement"
     }
   },
   "whitelistedNonPeerDependencies": [
