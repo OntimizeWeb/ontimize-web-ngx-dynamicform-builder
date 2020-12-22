@@ -6,10 +6,6 @@
     height: 100%;
   }
 
-  &.selected {
-    background: #dadada;
-  }
-
   &.dragging.empty.hover {
     height: 48px;
     border: 1px dashed black;

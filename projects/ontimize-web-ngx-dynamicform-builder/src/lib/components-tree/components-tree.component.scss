@@ -1,10 +1,25 @@
 .components-tree {
-  .mat-tree {
+  .left-div {
+    width: 32px;
+    background-color: #f5f5f5;
+  }
+
+  span {
     padding: 8px;
+  }
+
+  .mat-tree {
+    padding-right: 5px;
   }
 
   .mat-tree-node {
     min-height: 24px;
+    &.selected {
+      background: #dadada;
+    }
+    &.hoverSelected {
+      color: #99d1ff;
+    }
   }
 
   li.app-menu-item {

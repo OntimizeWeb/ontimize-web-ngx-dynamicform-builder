@@ -20,6 +20,7 @@ export class ComponentFlatNode {
   public display: any;
   public selected: boolean;
   public temp: boolean;
+  public hoverSelected: boolean;
 
   constructor(node: ComponentNode, public level: number) {
     this.attr = node.attr;

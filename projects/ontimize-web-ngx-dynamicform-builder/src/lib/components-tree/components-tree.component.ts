@@ -23,11 +23,12 @@ import { ComponentsTreeDatabase } from './components-tree.datasource';
 export class ComponentsTreeComponent {
 
   @Output() public onAddComponent: EventEmitter<any> = new EventEmitter();
-  @Output() public onDeleteComponent: EventEmitter<any> = new EventEmitter();
+  @Output() public onDeleteComponent: EventEmitter<string> = new EventEmitter<string>();
   @Output() public onMoveComponent: EventEmitter<any> = new EventEmitter();
   @Output() public onDrop: EventEmitter<Object> = new EventEmitter<Object>();
-  @Output() public componentSelected: EventEmitter<Object> = new EventEmitter<Object>();
-  @Output() public onChangeComponentSelector: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public componentSelected: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public componentHover: EventEmitter<string> = new EventEmitter<string>();
+  @Output() public onChangeComponentSelector: EventEmitter<string> = new EventEmitter<string>();
   @Output() public onAddPredefinedLayout: EventEmitter<any> = new EventEmitter<any>();
 
   protected formDefinitionChange = new Subject<any>();
@@ -313,11 +314,23 @@ export class ComponentsTreeComponent {
     this.componentSelected.emit(node.attr);
   }
 
+  hoverLeaf(node: ComponentFlatNode) {
+    this.componentHover.emit(node.attr);
+  }
+
   setSelectedNodeByAttr(attr: string) {
     if (!this.treeControl.dataNodes.find(dataNode => dataNode.attr === attr)) {
       this.pendingSelectedAttr = attr;
     }
     this.treeControl.dataNodes.forEach(dataNode => dataNode.selected = (dataNode.attr === attr));
+    // expand parent nodes in case where collapsed
+    const attrs = new Set<string>();
+    attrs.add(attr);
+    this.expandNodesByAttr(this.treeControl.dataNodes, attrs);
+  }
+
+  setHoverNodeByAttr(attr: string) {
+    this.treeControl.dataNodes.forEach(dataNode => dataNode.hoverSelected = (dataNode.attr === attr));
     // expand parent nodes in case where collapsed
     const attrs = new Set<string>();
     attrs.add(attr);

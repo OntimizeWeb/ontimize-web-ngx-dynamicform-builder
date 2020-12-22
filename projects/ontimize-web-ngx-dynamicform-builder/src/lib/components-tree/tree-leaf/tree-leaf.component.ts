@@ -15,7 +15,6 @@ export class TreeLeafComponent {
   @Input() node: ComponentFlatNode;
 
   @HostBinding('class') get cssClass() { return `tree-leaf node-level-${this.node.level}`; }
-  @HostBinding('class.selected') get isSelected() { return this.node.selected; }
   @HostBinding('class.hover') get hoverClass() { return this.node.hover; }
   @HostBinding('class.empty') get emptyClass() { return this.node.empty; }
   @HostBinding('class.dragging') get draggingClass() { return this.componentsTree.dragging; }
