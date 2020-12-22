@@ -12,17 +12,31 @@ import { AppDataService } from '../../services/app-data.service';
   }
 })
 export class LayoutsDialogComponent {
-  layoutItems: any[];
+  predefinedLayouts: any[];
+  basicComponents: any[];
+  layoutComponents: any[];
 
   constructor(
     public dialogRef: MatDialogRef<LayoutsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: any,
     private appDataService: AppDataService
   ) {
-    this.appDataService.getLayouts().subscribe((items: any) => this.layoutItems = items);
+    this.appDataService.getLayouts().subscribe((items: any) => this.predefinedLayouts = items);
+    this.basicComponents = data.basicComponents;
+    this.layoutComponents = data.layoutComponents;
   }
 
-  chooseLayout(layoutItem:any) {
-    this.dialogRef.close(layoutItem);
+  chooseLayout(layoutItem: any) {
+    this.dialogRef.close({
+      type: 'predefined-layout',
+      data: layoutItem
+    });
+  }
+
+  chooseComponent(componentItem: any) {
+    this.dialogRef.close({
+      type: 'component',
+      data: componentItem
+    });
   }
 }

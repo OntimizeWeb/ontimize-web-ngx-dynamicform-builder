@@ -1,12 +1,29 @@
-<span mat-dialog-title>{{ 'LAYOUTS.DIALOG_TITLE' | odfbTranslate }}</span>
-<div mat-dialog-content fxLayout="row" fxLayoutGap="16px">
-  <button class="layout-selector" 
-    fxLayout="column" fxLayoutAlign="space-between center"  
-    *ngFor="let item of layoutItems" (click)="chooseLayout(item)">
-    <mat-icon>{{ item.icon }}</mat-icon>
-    <div fxLayout="row" fxLayoutAlign="center center">{{ item.title | odfbTranslate }}</div>
-  </button>
-</div>
+<mat-dialog-title>{{ 'LAYOUTS.DIALOG_TITLE' | odfbTranslate }}</mat-dialog-title>
+<span>{{ 'LAYOUTS.DIALOG_DESCRIPTION' | odfbTranslate }}</span>
+
+<mat-dialog-content>
+  <mat-tab-group fxFlex mat-align-tabs="start">
+    <mat-tab fxFlex label="{{ 'LAYOUTS.LAYOUT_TAB' | odfbTranslate }}">
+
+      <ng-container *ngTemplateOutlet="categoryTemplate;context:{categories: layoutComponents}"></ng-container>
+
+      <div fxLayout="column" class="category">
+        {{ 'LAYOUTS.COMPLEX_LAYOUTS' | odfbTranslate }}
+        <div fxLayout="row" fxLayoutGap="16px">
+          <button class="selector" fxLayout="column" fxLayoutAlign="center center"
+            *ngFor="let item of predefinedLayouts" (click)="chooseLayout(item)">
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <div fxLayout="row" fxLayoutAlign="center center">{{ item.title | odfbTranslate }}</div>
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab fxFlex label="{{ 'LAYOUTS.COMPONENT_TAB' | odfbTranslate }}">
+      <ng-container *ngTemplateOutlet="categoryTemplate;context:{categories: basicComponents}"></ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button type="button" mat-stroked-button class="mat-primary" mat-dialog-close>
@@ -14,3 +31,16 @@
 </mat-dialog-actions>
 
 
+<ng-template #categoryTemplate let-categories="categories">
+  <div fxLayout="column" class="category" *ngFor="let category of categories">
+    {{ category.label | odfbTranslate }}
+    <div fxLayout="row">
+      <button class="selector" fxLayout="column" fxLayoutAlign="center center" *ngFor="let item of category.elements"
+        (click)="chooseComponent(item)">
+        <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
+        <mat-icon *ngIf="item.svgIcon" svgIcon="{{ item.svgIcon }}"></mat-icon>
+        <div fxLayout="row" fxLayoutAlign="center center">{{ item.label | odfbTranslate }}</div>
+      </button>
+    </div>
+  </div>
+</ng-template>

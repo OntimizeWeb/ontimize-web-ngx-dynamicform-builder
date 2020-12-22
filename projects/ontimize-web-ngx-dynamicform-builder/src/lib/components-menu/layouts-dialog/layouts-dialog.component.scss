@@ -5,11 +5,29 @@
 
   .mat-dialog-content {
     height: 100%;
+    margin-top: 16px;
   }
 
-  .layout-selector {
+  .selector {
     height: 88px;
     width: 88px;
     padding: 8px;
+    .mat-icon {
+      margin-bottom: 8px;
+    }
+  }
+
+  .category {
+    padding: 8px 0;
+    > div {
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .selector {
+      height: 68px;
+      width: 68px;
+      margin: 4px;
+      padding: 0;
+    }
   }
 }
