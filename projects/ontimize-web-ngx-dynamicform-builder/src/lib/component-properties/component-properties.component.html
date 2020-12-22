@@ -1,20 +1,29 @@
-<form *ngIf="formGroup && component" #settingsForm [formGroup]="formGroup" 
-  fxLayout="column" fxLayoutAlign="start centen" fxFlex>
+<div fxFlex fxLayout="column">
 
-  <span>
-    {{ 'COMPONENT_PROPERTIES.BASIC' | odfbTranslate }}
-  </span>
+  <div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="component" class="component-actions">
+    <span>{{ 'COMPONENT_PROPERTIES.TITLE' | odfbTranslate }}</span>
+    <div class="actions">
+      <mat-icon *ngIf="component.isContainer()" (click)="addPredefinedLayout()">grid_on</mat-icon>
+      <mat-icon (click)="changeComponentSelector()">{{ component.isContainer() ? 'crop_rotate' : 'edit'}}</mat-icon>
+      <mat-icon (click)="deleteComponent()">delete_outline</mat-icon>
+    </div>
+  </div>
 
-  <inputs-array [inputsMetadata]="basicInputsMetadata"> </inputs-array>
+  <form #parent *ngIf="formGroup && component" #settingsForm [formGroup]="formGroup" fxLayout="row" fxFlex>
 
-  <mat-expansion-panel *ngIf="advancedInputsMetadata.length > 0">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
+    <div #selectorContainer fxLayout="row" fxLayoutAlign="end center" class="selector-container"
+      [ngStyle]="{'width.px': parent.offsetHeight, 'bottom.px': -selectorContainer.offsetHeight }">
+      <div class="selector" [class.selected]="isActiveIndex(1)" (click)="setActiveComponentsSelectors(1)">
         {{ 'COMPONENT_PROPERTIES.ADVANCED' | odfbTranslate }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
+      </div>
+      <div class="selector" [class.selected]="isActiveIndex(0)" (click)="setActiveComponentsSelectors(0)">
+        {{ 'COMPONENT_PROPERTIES.BASIC' | odfbTranslate }}
+      </div>
+    </div>
 
-    <inputs-array [inputsMetadata]="advancedInputsMetadata"></inputs-array>
-
-  </mat-expansion-panel>
-</form>
+    <div fxFlex fxLayout="column" class="content">
+      <inputs-array [inputsMetadata]="basicInputsMetadata" *ngIf="isActiveIndex(0)"> </inputs-array>
+      <inputs-array [inputsMetadata]="advancedInputsMetadata" *ngIf="isActiveIndex(1)"></inputs-array>
+    </div>
+  </form>
+</div>

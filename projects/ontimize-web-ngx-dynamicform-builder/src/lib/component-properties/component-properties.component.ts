@@ -3,12 +3,14 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Injector,
   OnDestroy,
   OnInit,
   Output,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { DialogService } from 'ontimize-web-ngx';
 
 import { OComponentData } from '../ontimize-components-data/o-component-data.class';
 import { InputMetadata } from '../types/inputs-metadata.type';
@@ -36,9 +38,20 @@ export class ComponentPropertiesComponent implements OnInit, OnDestroy {
   public advancedInputsMetadata: InputMetadata[] = [];
 
   @Output() componentUpdate: EventEmitter<any> = new EventEmitter();
+  @Output() onAddPredefinedLayout: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onChangeComponentSelector: EventEmitter<string> = new EventEmitter<string>();
+  @Output() onDeleteComponent: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(protected cd: ChangeDetectorRef) {
+  protected selectedIndex: number = 0;
+
+  protected dialogService: DialogService;
+
+  constructor(
+    protected injector: Injector,
+    protected cd: ChangeDetectorRef
+  ) {
     this.createFormGroup();
+    this.dialogService = this.injector.get(DialogService);
   }
 
   ngOnInit(): void { }
@@ -160,6 +173,35 @@ export class ComponentPropertiesComponent implements OnInit, OnDestroy {
 
       this.componentUpdate.emit();
     }
+  }
+
+
+  addPredefinedLayout() {
+    this.onAddPredefinedLayout.emit({
+      mode: 'existingContainer',
+      attr: this.component.getComponentAttr()
+    });
+  }
+
+  changeComponentSelector() {
+    this.onChangeComponentSelector.emit(this.component.getComponentAttr());
+  }
+
+  deleteComponent() {
+    this.dialogService.confirm('CONFIRM', 'MESSAGES.CONFIRM_DELETE').then(res => {
+      if (res === true) {
+        this.onDeleteComponent.emit(this.component.getComponentAttr());
+      }
+    });
+
+  }
+
+  setActiveComponentsSelectors(index: number) {
+    this.selectedIndex = index;
+  }
+
+  isActiveIndex(index: number): boolean {
+    return this.selectedIndex === index;
   }
 
 }

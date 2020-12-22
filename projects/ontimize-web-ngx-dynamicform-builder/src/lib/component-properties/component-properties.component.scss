@@ -1,16 +1,47 @@
 .component-properties {
-  > div {
-    height: 100%;
-  }
+  padding-left: 5px;
   overflow: auto;
-  form {
-    padding-bottom: 16px;
-    > :not(.mat-expansion-panel) {
-      padding: 16px;
+
+  .component-actions {
+    height: 80px;
+    padding: 16px;
+    .mat-icon {
+      cursor: pointer;
     }
   }
-  .mat-expansion-panel {
-    padding-top: 16px;
-    box-shadow: none;
+
+  form {
+    padding-bottom: 16px;
+    position: relative;
+  }
+
+  .selector-container {
+    transform: rotate(270deg);
+    transform-origin: 0 0;
+    height: 32px;
+    position: absolute;
+    left: 0;
+    background-color: #f5f5f5;
+    padding: 8px 0 0 16px;
+
+    .selector {
+      cursor: pointer;
+      padding: 2px 16px 0px 24px;
+      &.selected {
+        border-bottom: 2px solid #ffcc00;
+      }
+      &:not(.selected) {
+        color: #929292;
+      }
+    }
+  }
+
+  .content {
+    overflow: auto;
+    padding: 0 16px 8px 32px;
+
+    inputs-array {
+      padding-left: 8px;
+    }
   }
 }
