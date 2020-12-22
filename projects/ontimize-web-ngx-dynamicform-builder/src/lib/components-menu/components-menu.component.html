@@ -1,44 +1,44 @@
-<div fxLayout="row" fxLayoutGap="24px" class="selector-container">
-  <div #componentsSelector 
-    class="components-selector"
-    [class.selected]="isActiveIndex(0)" 
-    (click)="setActiveComponentsSelectors(0)">
-    {{ 'COMPONENTS' | odfbTranslate }}
+<div #parent fxFlex fxLayout="row">
+
+  <div #selectorContainer fxLayout="row" class="selector-container" 
+    [ngStyle]="{'width.px': parent.offsetHeight, 'bottom.px': -selectorContainer.offsetHeight }">
+    <div #componentsSelector class="components-selector" [class.selected]="isActiveIndex(0)"
+      (click)="setActiveComponentsSelectors(0)">
+      {{ 'COMPONENTS' | odfbTranslate }}
+    </div>
+    <div #layoutsSelector class="components-selector" [class.selected]="isActiveIndex(1)"
+      (click)="setActiveComponentsSelectors(1)">
+      {{ 'LAYOUT' | odfbTranslate }}
+    </div>
   </div>
-  <div #layoutsSelector 
-    class="components-selector" 
-    [class.selected]="isActiveIndex(1)" 
-    (click)="setActiveComponentsSelectors(1)">
-    {{ 'LAYOUT' | odfbTranslate }}
+
+  <div class="menu-content">
+    <div #componentItemsDiv class="components-list" [class.visible]="isActiveIndex(0)">
+      <ng-container *ngFor="let category of componentItems; first as isFirst">
+        <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category, expanded: isFirst}">
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div #layoutItemsDiv class="components-list" [class.visible]="isActiveIndex(1)">
+      <ng-container *ngFor="let category of layoutItems; first as isFirst">
+        <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category, expanded: isFirst}">
+        </ng-container>
+      </ng-container>
+    </div>
   </div>
 </div>
 
-<div class="menu-content">
-  <div #componentItemsDiv class="components-list" [class.visible]="isActiveIndex(0)">
-    <ng-container *ngFor="let category of componentItems; first as isFirst">
-      <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category, expanded: isFirst}"></ng-container>
-    </ng-container>
-  </div>
 
-  <div #layoutItemsDiv class="components-list" [class.visible]="isActiveIndex(1)">
-    <ng-container *ngFor="let category of layoutItems; first as isFirst">
-      <ng-container *ngTemplateOutlet="categoryTemplate;context:{category: category, expanded: isFirst}"></ng-container>
-    </ng-container>
-  </div>
-</div>
 
 <ng-template #categoryTemplate let-category="category" let-expanded="expanded">
-  <nav cdkDropList 
-    [cdkDropListConnectedTo]="connectedDropListIds" 
-    cdkDropListSortingDisabled
-    [cdkDropListData]="category.elements" 
-    (cdkDropListEntered)="entered()" 
-    (cdkDropListExited)="exited($event)">
+  <nav cdkDropList [cdkDropListConnectedTo]="connectedDropListIds" cdkDropListSortingDisabled
+    [cdkDropListData]="category.elements" (cdkDropListEntered)="entered()" (cdkDropListExited)="exited($event)">
 
     <button cdkAccordionItem #panel="cdkAccordionItem" (click)="panel.toggle()" [expanded]="expanded" fxLayout="row"
       fxLayoutAlign="space-between center" class="group-btn">
       {{ category.label | odfbTranslate }}
-      <mat-icon>{{ panel.expanded ? 'keyboard_arrow_up' :  'keyboard_arrow_down' }}</mat-icon>
+      <mat-icon>{{ panel.expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</mat-icon>
     </button>
     <ul [@bodyExpansion]="panel.expanded ? 'expanded' : 'collapsed'" id="panel-{{category.id}}">
       <ng-container *ngFor="let component of category.elements">
